@@ -219,13 +219,13 @@
     "SiteName": "S Waiehu Str US of ditch at alt. 315 ft, Maui, HI",
     "SiteCode": "16611500",
     "VariableDescription": "Gage height, feet",
-    "Value": 2.82,
-    "Timestamp": "2026-03-13T18:40:00+00:00",
+    "Value": 3.98,
+    "Timestamp": "2026-03-13T19:40:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.91071944,
     "Longitude": -156.5094417,
-    "Trend": "↑ 0.07"
+    "Trend": "↑ 1.00"
   },
   {
     "SiteName": "Waihee Rv abv Waihee Dtch intk nr Waihee, Maui, HI",
