@@ -100,33 +100,9 @@ Set-Content -Path $outputPath -Value $json
 # Convert your results to JSON and write to file
 $results | ConvertTo-Json -Depth 10 | Out-File -FilePath $outputPath -Encoding utf8
 
-- name: Email latest.json
-  shell: pwsh
-  run: |
-    $smtpServer = "${{ secrets.SMTP_SERVER }}"
-    $smtpPort   = "${{ secrets.SMTP_PORT }}"
-    $username   = "${{ secrets.SMTP_USERNAME }}"
-    $password   = "${{ secrets.SMTP_THROW }}"
-    $to         = "${{ secrets.EMAIL_TO }}"
-
-    $secure = ConvertTo-SecureString $password -AsPlainText -Force
-    $creds  = New-Object System.Management.Automation.PSCredential ($username, $secure)
-
-    $jsonBody = Get-Content "./latest.json" -Raw
-
-    Send-MailMessage `
-      -From $username `
-      -To $to `
-      -Subject "USGS Update" `
-      -Body $jsonBody `
-      -Attachments "./latest.json" `
-      -SmtpServer $smtpServer `
-      -Port $smtpPort `
-      -UseSsl `
-      -Credential $creds
-
 Write-Output "Working directory: $PWD"
 Write-Host "Dashboard JSON written to GitHub repo."
+
 
 
 
