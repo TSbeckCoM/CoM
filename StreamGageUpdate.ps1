@@ -105,33 +105,7 @@ Write-Host "Dashboard JSON written to GitHub repo."
 
 $json = Get-Content latest.json -Raw
 
-$html = @"
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Stream Gage Dashboard</title>
-  <style>
-    body { font-family: Arial; padding: 20px; }
-    pre { background: #f4f4f4; padding: 20px; border-radius: 8px; }
-  </style>
-</head>
-<body>
-  <h1>Stream Gage Dashboard</h1>
-  <pre id="output">Loading...</pre>
 
-  <script>
-    fetch("latest.json")
-      .then(r => r.json())
-      .then(data => {
-        document.getElementById("output").textContent =
-          JSON.stringify(data, null, 2);
-      });
-  </script>
-</body>
-</html>
-"@
-
-Set-Content -Path "index.html" -Value $html
 
 
 
