@@ -100,20 +100,29 @@ foreach ($item in $latest) {
         # Tolerance to avoid jitter
         $tolerance = 0.02
 
+        # Determine arrow
         if ([math]::Abs($delta) -lt $tolerance) {
-            $trend = "Steady"
+            $arrow = "→"
         }
         elseif ($delta -gt 0) {
-            $trend = "Rising"
+            $arrow = "↑"
         }
         else {
-            $trend = "Falling"
+            $arrow = "↓"
         }
+
+        # Absolute numeric change, 2 decimals
+        $absDelta = [math]::Abs($delta)
+        $formattedDelta = "{0:0.00}" -f $absDelta
+
+        # Combine arrow + numeric change (no sign, no units)
+        $trend = "$arrow $formattedDelta"
     }
 
     # Add Trend to the item
     $item | Add-Member -NotePropertyName Trend -NotePropertyValue $trend -Force
 }
+
 
 # ------------------------------------------------------------
 # Save updated JSON with Trend
