@@ -116,6 +116,7 @@ foreach ($item in $latest) {
         $formattedDelta = "{0:0.00}" -f $absDelta
 
         # Combine arrow + numeric change (no sign, no units)
+        # This format NEVER collapses whitespace
         $trend = "$arrow $formattedDelta"
     }
 
