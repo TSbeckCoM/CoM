@@ -84,7 +84,9 @@ fetch("latest.json?cache=" + Date.now())
     const newest = data.reduce((a, b) =>
       new Date(a.Timestamp) > new Date(b.Timestamp) ? a : b
     );
-
+    console.log("RAW Timestamp:", newest.Timestamp);
+    console.log("Hawaii Time:", toHawaiiTime(newest.Timestamp));
+    
     document.getElementById("updated").textContent =
       "Updated (HST): " + toHawaiiTime(newest.Timestamp);
 
