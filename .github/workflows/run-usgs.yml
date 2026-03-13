@@ -33,7 +33,7 @@ jobs:
           $smtpServer = "${{ secrets.SMTP_SERVER }}"
           $smtpPort   = "${{ secrets.SMTP_PORT }}"
           $username   = "${{ secrets.SMTP_USERNAME }}"
-          $password   = "${{ secrets.SMTP_PASSWORD }}"
+          $password   = "${{ secrets.SMTP_THROW }}"
           $to         = "${{ secrets.EMAIL_TO }}"
       
           $secure = ConvertTo-SecureString $password -AsPlainText -Force
