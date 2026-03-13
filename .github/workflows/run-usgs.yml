@@ -1,1 +1,19 @@
+name: Run USGS Script
 
+on:
+  schedule:
+    - cron: "*/15 * * * *"   # every 15 minutes
+  workflow_dispatch:         # manual trigger
+
+jobs:
+  run-script:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Run PowerShell script
+        shell: pwsh
+        run: |
+          ./usgs.ps1
