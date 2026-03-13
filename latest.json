@@ -40,7 +40,7 @@
     "SiteCode": "16415600",
     "VariableDescription": "Gage height, feet",
     "Value": 9.2,
-    "Timestamp": "2026-03-13T11:20:00+00:00",
+    "Timestamp": "2026-03-13T11:25:00+00:00",
     "MinorFlood": 10,
     "MajorFlood": null
   },
@@ -75,8 +75,8 @@
     "SiteName": "West Wailuaiki Stream near Keanae, Maui, HI",
     "SiteCode": "16518000",
     "VariableDescription": "Gage height, feet",
-    "Value": 1.46,
-    "Timestamp": "2026-03-13T11:20:00+00:00",
+    "Value": 1.51,
+    "Timestamp": "2026-03-13T11:25:00+00:00",
     "MinorFlood": 10,
     "MajorFlood": 13.5
   },
@@ -120,8 +120,8 @@
     "SiteName": "Waikamoi Str abv Kula PL intake nr Olinda, Maui,HI",
     "SiteCode": "16552800",
     "VariableDescription": "Gage height, feet",
-    "Value": 0.67,
-    "Timestamp": "2026-03-13T10:25:00+00:00",
+    "Value": 0.66,
+    "Timestamp": "2026-03-13T11:25:00+00:00",
     "MinorFlood": 5.4,
     "MajorFlood": 8.2
   },
@@ -147,8 +147,8 @@
     "SiteName": "Wailuku River at Kepaniwai Park, Maui, HI",
     "SiteCode": "16604500",
     "VariableDescription": "Gage height, feet",
-    "Value": 1.65,
-    "Timestamp": "2026-03-13T11:05:00+00:00",
+    "Value": 1.66,
+    "Timestamp": "2026-03-13T11:20:00+00:00",
     "MinorFlood": 8.5,
     "MajorFlood": null
   },
@@ -201,8 +201,8 @@
     "SiteName": "Honokahua Stream at Honoapiilani Highway, Maui, HI",
     "SiteCode": "16623300",
     "VariableDescription": "Gage height, feet",
-    "Value": -1.74,
-    "Timestamp": "2026-03-13T10:25:00+00:00",
+    "Value": -1.77,
+    "Timestamp": "2026-03-13T11:25:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null
   },
