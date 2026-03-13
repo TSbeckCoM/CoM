@@ -24,6 +24,8 @@ $latest = Get-Content $latestPath | ConvertFrom-Json
 # Fetch 3-hour USGS history for Maui County (15009)
 # ------------------------------------------------------------
 $historyUrl = "https://waterservices.usgs.gov/nwis/iv/?format=json&countyCd=15009&period=PT3H&siteStatus=active"
+$history24Url = "https://waterservices.usgs.gov/nwis/iv/?format=json&countyCd=15009&period=P1D&siteStatus=active"
+$usgsHistory24 = Invoke-RestMethod -Uri $history24Url -TimeoutSec 30
 
 try {
     $usgsHistory = Invoke-RestMethod -Uri $historyUrl -TimeoutSec 30
@@ -57,11 +59,30 @@ foreach ($ts in $usgsHistory.value.timeSeries) {
     $historyBySite[$siteCode] = $entries
 }
 
+$history24BySite = @{}
+
+foreach ($ts in $usgsHistory24.value.timeSeries) {
+    $param = $ts.variable.variableCode[0].value
+    if ($param -ne "00065") { continue }
+
+    $siteCode = $ts.sourceInfo.siteCode[0].value
+
+    $entries = @()
+    foreach ($v in $ts.values[0].value) {
+        $entries += [PSCustomObject]@{
+            Timestamp = $v.dateTime
+            Value     = [double]$v.value
+        }
+    }
+
+    $history24BySite[$siteCode] = $entries
+}
 
 # ------------------------------------------------------------
 # Save history.json (for your inspection)
 # ------------------------------------------------------------
 $historyBySite | ConvertTo-Json -Depth 10 | Out-File $historyOut -Encoding utf8
+$history24BySite | ConvertTo-Json -Depth 10 | Out-File "$PSScriptRoot/history24.json" -Encoding utf8
 
 # ------------------------------------------------------------
 # Compute moving-average trend for each site
