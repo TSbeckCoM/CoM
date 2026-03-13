@@ -23,5 +23,31 @@ jobs:
           git config user.name "github-actions"
           git config user.email "actions@github.com"
           git add latest.json
+          
           git commit -m "Update latest.json" || echo "No changes to commit"
           git push
+
+      - name: Email latest.json
+        shell: pwsh
+        run: |
+          $smtpServer = "${{ secrets.SMTP_SERVER }}"
+          $smtpPort   = "${{ secrets.SMTP_PORT }}"
+          $username   = "${{ secrets.SMTP_USERNAME }}"
+          $password   = "${{ secrets.SMTP_PASSWORD }}"
+          $to         = "${{ secrets.EMAIL_TO }}"
+      
+          $secure = ConvertTo-SecureString $password -AsPlainText -Force
+          $creds  = New-Object System.Management.Automation.PSCredential ($username, $secure)
+      
+          $jsonBody = Get-Content "./latest.json" -Raw
+      
+          Send-MailMessage `
+            -From $username `
+            -To $to `
+            -Subject "USGS Update" `
+            -Body $jsonBody `
+            -Attachments "./latest.json" `
+            -SmtpServer $smtpServer `
+            -Port $smtpPort `
+            -UseSsl `
+            -Credential $creds
