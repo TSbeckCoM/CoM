@@ -60,7 +60,7 @@ function getStatusInfo(status) {
   }
 }
 
-fetch("latest.json")
+fetch("latest.json?cache=" + Date.now())
   .then(r => r.json())
   .then(data => {
     // Find newest timestamp and convert to HST
