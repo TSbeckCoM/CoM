@@ -149,7 +149,7 @@ fetch("buildinfo.json?cache=" + Date.now())
 
 let historyData = {};
 // load histord data
-fetch("history.json?cache=" + Date.now())
+fetch("history24.json?cache=" + Date.now())
   .then(r => r.json())
   .then(h => {
     historyData = h;
