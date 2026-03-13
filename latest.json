@@ -39,8 +39,8 @@
     "SiteName": "Kawela Gulch near Moku, Molokai, HI",
     "SiteCode": "16415600",
     "VariableDescription": "Gage height, feet",
-    "Value": 9.24,
-    "Timestamp": "2026-03-13T10:00:00+00:00",
+    "Value": 9.23,
+    "Timestamp": "2026-03-13T10:05:00+00:00",
     "MinorFlood": 10,
     "MajorFlood": null
   },
@@ -111,8 +111,8 @@
     "SiteName": "Puohokamoa Str ab Spreckels Ditch, Maui, HI",
     "SiteCode": "16545000",
     "VariableDescription": "Gage height, feet",
-    "Value": 2.36,
-    "Timestamp": "2026-03-13T09:10:00+00:00",
+    "Value": 2.34,
+    "Timestamp": "2026-03-13T10:10:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null
   },
@@ -211,7 +211,7 @@
     "SiteCode": "16638500",
     "VariableDescription": "Gage height, feet",
     "Value": 0.66,
-    "Timestamp": "2026-03-13T09:50:00+00:00",
+    "Timestamp": "2026-03-13T10:05:00+00:00",
     "MinorFlood": 6,
     "MajorFlood": 8.61
   },
@@ -219,8 +219,8 @@
     "SiteName": "Kauaula Stream US of ditch diversion, Maui, HI",
     "SiteCode": "16641000",
     "VariableDescription": "Gage height, feet",
-    "Value": 5.14,
-    "Timestamp": "2026-03-13T09:50:00+00:00",
+    "Value": 5.13,
+    "Timestamp": "2026-03-13T10:05:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null
   },
