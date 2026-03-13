@@ -44,9 +44,8 @@ function getIsland(name) {
 // Convert UTC timestamp → Hawaii Standard Time (UTC-10)
 function toHawaiiTime(utcString) {
   const utcDate = new Date(utcString);
-  const hstDate = new Date(utcDate.getTime() - 10 * 60 * 60 * 1000);
 
-  return hstDate.toLocaleString("en-US", {
+  return utcDate.toLocaleString("en-US", {
     timeZone: "Pacific/Honolulu",
     year: "numeric",
     month: "short",
