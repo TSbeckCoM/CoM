@@ -94,9 +94,10 @@ foreach ($r in $results | Sort-Object SiteCode) {
 
 # Path to your synced SharePoint folder
 # C:\Users\tmschi\OneDrive - County of Maui\Documents
-$dashboardPath = "C:\Users\tmschi\OneDrive - County of Maui\Documents\StreamGage\latest.json"
+Set-Content -Path "./latest.json" -Value $json
 
 # Convert your results to JSON and write to file
 $results | ConvertTo-Json -Depth 10 | Out-File -FilePath $dashboardPath -Encoding utf8
 
-Write-Host "Dashboard JSON written to SharePoint sync folder."
+
+Write-Host "Dashboard JSON written to GitHub repo."
