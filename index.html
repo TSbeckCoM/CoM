@@ -1,23 +1,103 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Stream Gage Dashboard</title>
-  <style>
-    body { font-family: Arial; padding: 20px; }
-    pre { background: #f4f4f4; padding: 20px; border-radius: 8px; }
-  </style>
-</head>
-<body>
-  <h1>Stream Gage Dashboard</h1>
-  <pre id="output">Loading...</pre>
+<meta charset="UTF-8">
+<title>Stream Gage Dashboard</title>
 
-  <script>
-    fetch("latest.json")
-      .then(r => r.json())
-      .then(data => {
-        document.getElementById("output").textContent =
-          JSON.stringify(data, null, 2);
-      });
-  </script>
+<style>
+body { font-family: Arial, sans-serif; padding: 20px; }
+h1 { color: #004578; }
+table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+th { background-color: #f3f2f1; }
+
+/* Status color classes */
+.default { background-color: #ffffff; }
+.near    { background-color: #fff8c6; }
+.minor   { background-color: #ffd8b1; }
+.normal  { background-color: #e6f4ea; }
+.major   { background-color: #fde7e9; }
+</style>
+</head>
+
+<body>
+
+<h1>Stream Gage Dashboard</h1>
+<p id="updated">Updated: loading…</p>
+
+<table id="gage-table">
+<thead>
+<tr>
+  <th>Site</th>
+  <th>Code</th>
+  <th>Value (ft)</th>
+  <th>Minor Flood</th>
+  <th>Major Flood</th>
+  <th>Status</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+
+<script>
+// Compute status from value + thresholds
+function computeStatus(value, minor, major) {
+  if (major !== null && value >= major) return "Major Flood";
+  if (minor !== null && value >= minor) return "Minor Flood";
+  if (minor !== null && value >= minor * 0.9) return "Near"; // 90% threshold
+  if (minor === null && major === null) return "No Threshold";
+  return "Normal";
+}
+
+// Map status → emoji + class
+function getStatusInfo(status) {
+  switch (status) {
+    case "Normal":       return { icon: "🟢", cls: "normal" };
+    case "Near":         return { icon: "🟡", cls: "near" };
+    case "Minor Flood":  return { icon: "🟠", cls: "minor" };
+    case "Major Flood":  return { icon: "🔴", cls: "major" };
+    case "No Threshold": return { icon: "⚫", cls: "default" };
+    default:             return { icon: "⚫", cls: "default" };
+  }
+}
+
+fetch("latest.json")
+  .then(r => r.json())
+  .then(data => {
+    // Update timestamp using newest reading
+    const newest = data.reduce((a, b) =>
+      new Date(a.Timestamp) > new Date(b.Timestamp) ? a : b
+    );
+    document.getElementById("updated").textContent =
+      "Updated: " + newest.Timestamp;
+
+    const tbody = document.querySelector("#gage-table tbody");
+    tbody.innerHTML = "";
+
+    data.forEach(site => {
+      const status = computeStatus(site.Value, site.MinorFlood, site.MajorFlood);
+      const statusInfo = getStatusInfo(status);
+
+      const row = document.createElement("tr");
+      row.className = statusInfo.cls;
+
+      row.innerHTML = `
+        <td>${site.SiteName}</td>
+        <td>${site.SiteCode}</td>
+        <td>${site.Value}</td>
+        <td>${site.MinorFlood ?? ""}</td>
+        <td>${site.MajorFlood ?? ""}</td>
+        <td>${statusInfo.icon} ${status}</td>
+      `;
+
+      tbody.appendChild(row);
+    });
+  })
+  .catch(err => {
+    document.getElementById("updated").textContent =
+      "Error loading latest.json: " + err;
+  });
+</script>
+
 </body>
 </html>
