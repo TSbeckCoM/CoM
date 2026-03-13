@@ -11,13 +11,96 @@
   <h1>Stream Gage Dashboard</h1>
   <pre id="output">Loading...</pre>
 
-  <script>
-    fetch("latest.json")
-      .then(r => r.json())
-      .then(data => {
-        document.getElementById("output").textContent =
-          JSON.stringify(data, null, 2);
+<script>
+// Determine island from SiteName
+function getIsland(name) {
+  name = name.toLowerCase();
+  if (name.includes("molokai")) return "Molokai";
+  if (name.includes("maui")) return "Maui";
+  if (name.includes("hawaii")) return "Hawaii";
+  if (name.includes("oahu")) return "Oahu";
+  if (name.includes("kauai")) return "Kauai";
+  return "Other";
+}
+
+// Compute status from value + thresholds
+function computeStatus(value, minor, major) {
+  if (major !== null && value >= major) return "Major Flood";
+  if (minor !== null && value >= minor) return "Minor Flood";
+  if (minor !== null && value >= minor * 0.9) return "Near";
+  if (minor === null && major === null) return "No Threshold";
+  return "Normal";
+}
+
+// Map status → emoji + class
+function getStatusInfo(status) {
+  switch (status) {
+    case "Normal":       return { icon: "🟢", cls: "" };
+    case "Near":         return { icon: "🟡", cls: "" };
+    case "Minor Flood":  return { icon: "🟠", cls: "" };
+    case "Major Flood":  return { icon: "🔴", cls: "" };
+    case "No Threshold": return { icon: "⚫", cls: "" };
+    default:             return { icon: "⚫", cls: "" };
+  }
+}
+
+fetch("latest.json")
+  .then(r => r.json())
+  .then(data => {
+    // Update timestamp using newest reading
+    const newest = data.reduce((a, b) =>
+      new Date(a.Timestamp) > new Date(b.Timestamp) ? a : b
+    );
+    document.getElementById("updated").textContent =
+      "Updated: " + newest.Timestamp;
+
+    const tbody = document.querySelector("#gage-table tbody");
+    tbody.innerHTML = "";
+
+    // Group by island
+    const groups = {};
+    data.forEach(site => {
+      const island = getIsland(site.SiteName);
+      if (!groups[island]) groups[island] = [];
+      groups[island].push(site);
+    });
+
+    // Render each island group
+    Object.keys(groups).forEach(island => {
+      // Insert island header row
+      const headerRow = document.createElement("tr");
+      headerRow.innerHTML = `
+        <td colspan="6" style="
+          background:#004578;
+          color:white;
+          font-weight:bold;
+          font-size:18px;
+        ">${island}</td>
+      `;
+      tbody.appendChild(headerRow);
+
+      // Insert each site row
+      groups[island].forEach(site => {
+        const status = computeStatus(site.Value, site.MinorFlood, site.MajorFlood);
+        const statusInfo = getStatusInfo(status);
+
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${site.SiteName}</td>
+          <td>${site.SiteCode}</td>
+          <td>${site.Value}</td>
+          <td>${site.MinorFlood ?? ""}</td>
+          <td>${site.MajorFlood ?? ""}</td>
+          <td>${statusInfo.icon} ${status}</td>
+        `;
+        tbody.appendChild(row);
       });
-  </script>
+    });
+  })
+  .catch(err => {
+    document.getElementById("updated").textContent =
+      "Error loading latest.json: " + err;
+  });
+</script>
 </body>
 </html>
