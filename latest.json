@@ -75,8 +75,8 @@
     "SiteName": "West Wailuaiki Stream near Keanae, Maui, HI",
     "SiteCode": "16518000",
     "VariableDescription": "Gage height, feet",
-    "Value": 1.52,
-    "Timestamp": "2026-03-13T09:25:00+00:00",
+    "Value": 1.47,
+    "Timestamp": "2026-03-13T10:05:00+00:00",
     "MinorFlood": 10,
     "MajorFlood": 13.5
   },
@@ -147,8 +147,8 @@
     "SiteName": "Wailuku River at Kepaniwai Park, Maui, HI",
     "SiteCode": "16604500",
     "VariableDescription": "Gage height, feet",
-    "Value": 1.73,
-    "Timestamp": "2026-03-13T09:50:00+00:00",
+    "Value": 1.7,
+    "Timestamp": "2026-03-13T10:05:00+00:00",
     "MinorFlood": 8.5,
     "MajorFlood": null
   },
@@ -156,8 +156,8 @@
     "SiteName": "Wailuku River at Iao Valley Road, Maui, HI",
     "SiteCode": "16605500",
     "VariableDescription": "Gage height, feet",
-    "Value": 3.87,
-    "Timestamp": "2026-03-13T09:50:00+00:00",
+    "Value": 3.84,
+    "Timestamp": "2026-03-13T10:05:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null
   },
