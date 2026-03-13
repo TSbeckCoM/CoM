@@ -117,25 +117,27 @@ fetch("latest.json?cache=" + Date.now())
       `;
       tbody.appendChild(headerRow);
 
-      groups[island].forEach(site => 
+      groups[island].forEach(site => {
         const siteTime = new Date(site.Timestamp).getTime();
         const age = now - siteTime;
+      
         let status;
         let displayValue = site.Value;
+      
         if (age > twentyFourHours) {
           status = "Out of Date";
           displayValue = "n/a";
         } else {
           status = computeStatus(site.Value, site.MinorFlood, site.MajorFlood);
         }
-
+      
         const statusInfo = getStatusInfo(status);
-
+      
         const row = document.createElement("tr");
         row.innerHTML = `
           <td>${site.SiteName}</td>
           <td>${site.SiteCode}</td>
-          <td>${site.Value}</td>
+          <td>${displayValue}</td>
           <td>${site.MinorFlood ?? ""}</td>
           <td>${site.MajorFlood ?? ""}</td>
           <td>${statusInfo.icon} ${status}</td>
