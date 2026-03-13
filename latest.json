@@ -4,7 +4,7 @@
     "SiteCode": "16400000",
     "VariableDescription": "Gage height, feet",
     "Value": 2.69,
-    "Timestamp": "2026-03-13T10:20:00+00:00",
+    "Timestamp": "2026-03-13T10:35:00+00:00",
     "MinorFlood": 9.5,
     "MajorFlood": 19.9
   },
@@ -165,8 +165,8 @@
     "SiteName": "S Waiehu Str US of ditch at alt. 315 ft, Maui, HI",
     "SiteCode": "16611500",
     "VariableDescription": "Gage height, feet",
-    "Value": 2.75,
-    "Timestamp": "2026-03-13T09:40:00+00:00",
+    "Value": 2.74,
+    "Timestamp": "2026-03-13T10:40:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null
   },
@@ -219,8 +219,8 @@
     "SiteName": "Kauaula Stream US of ditch diversion, Maui, HI",
     "SiteCode": "16641000",
     "VariableDescription": "Gage height, feet",
-    "Value": 5.12,
-    "Timestamp": "2026-03-13T10:20:00+00:00",
+    "Value": 5.11,
+    "Timestamp": "2026-03-13T10:35:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null
   },
@@ -247,7 +247,7 @@
     "SiteCode": "16647900",
     "VariableDescription": "Gage height, feet",
     "Value": 2.24,
-    "Timestamp": "2026-03-13T10:20:00+00:00",
+    "Timestamp": "2026-03-13T10:35:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null
   }
