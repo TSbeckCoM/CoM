@@ -17,8 +17,11 @@ jobs:
         run: ./StreamGageUpdate.ps1
       
       - name: Write build timestamp
+        shell: pwsh
         run: |
-          echo "{ \"buildTime\": \"$(date -u +"%Y-%m-%dT%H:%M:%SZ")\" }" > buildinfo.json
+          $ts = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ")
+          $json = @{ buildTime = $ts } | ConvertTo-Json
+          Set-Content -Path buildinfo.json -Value $json -Encoding UTF8
 
       - name: Commit dashboard files
         run: |
