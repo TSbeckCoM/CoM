@@ -98,9 +98,10 @@ $outputPath = Join-Path -Path $PWD -ChildPath "latest.json"
 Set-Content -Path $outputPath -Value $json
 
 # Convert your results to JSON and write to file
-$results | ConvertTo-Json -Depth 10 | Out-File -FilePath $dashboardPath -Encoding utf8
+$results | ConvertTo-Json -Depth 10 | Out-File -FilePath $outputPath -Encoding utf8
 
 Write-Output "Working directory: $PWD"
 Write-Host "Dashboard JSON written to GitHub repo."
+
 
 
