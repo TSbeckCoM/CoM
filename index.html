@@ -36,6 +36,15 @@
         <th>Station ID</th>
         <th>Gage Height (ft)</th>
         <th>3-Hr Trend</th>
+        <td>
+          <svg width="100" height="20">
+            <polyline 
+              fill="none" 
+              stroke="#0074d9" 
+              stroke-width="2"
+              points="${sparklinePoints}" />
+          </svg>
+        </td>
         <th>Minor Flood</th>
         <th>Major Flood</th>
         <th>Status</th>
@@ -82,6 +91,23 @@ function getTrendArrow(trend) {
     case "Steady":  return "--";
     default:        return "•"; // for N/A
   }
+}
+  
+// Generate sparkline chart
+function makeSparkline(values, width = 100, height = 20) {
+  if (!values || values.length === 0) return "";
+
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const range = max - min || 1;
+
+  return values
+    .map((v, i) => {
+      const x = (i / (values.length - 1)) * width;
+      const y = height - ((v - min) / range) * height;
+      return `${x},${y}`;
+    })
+    .join(" ");
 }
   
 // Compute status from value + thresholds
@@ -168,6 +194,7 @@ fetch("latest_with_trend.json?cache=" + Date.now())
         }
 
         const statusInfo = getStatusInfo(status);
+        const spark = makeSparkline(historyValues);
 
         const row = document.createElement("tr");
         row.innerHTML = `
@@ -175,6 +202,13 @@ fetch("latest_with_trend.json?cache=" + Date.now())
           <td>${site.SiteCode}</td>
           <td>${displayValue}</td>
           <td style="white-space: pre;">${site.Trend}</td>
+          <td>
+            <svg width="100" height="20">
+              <polyline fill="none" stroke="#0074d9" stroke-width="2"
+                points="${spark}">
+              </polyline>
+            </svg>
+          </td>
           <td>${site.MinorFlood ?? ""}</td>
           <td>${site.MajorFlood ?? ""}</td>
           <td>${statusInfo.icon} ${status}</td>
