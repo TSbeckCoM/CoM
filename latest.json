@@ -40,7 +40,7 @@
     "SiteCode": "16415600",
     "VariableDescription": "Gage height, feet",
     "Value": 9.23,
-    "Timestamp": "2026-03-13T10:05:00+00:00",
+    "Timestamp": "2026-03-13T10:10:00+00:00",
     "MinorFlood": 10,
     "MajorFlood": null
   },
@@ -76,7 +76,7 @@
     "SiteCode": "16518000",
     "VariableDescription": "Gage height, feet",
     "Value": 1.47,
-    "Timestamp": "2026-03-13T10:05:00+00:00",
+    "Timestamp": "2026-03-13T10:20:00+00:00",
     "MinorFlood": 10,
     "MajorFlood": 13.5
   },
@@ -211,7 +211,7 @@
     "SiteCode": "16638500",
     "VariableDescription": "Gage height, feet",
     "Value": 0.66,
-    "Timestamp": "2026-03-13T10:05:00+00:00",
+    "Timestamp": "2026-03-13T10:20:00+00:00",
     "MinorFlood": 6,
     "MajorFlood": 8.61
   },
@@ -237,8 +237,8 @@
     "SiteName": "Ukumehame Gulch nr Olowalu, Maui, HI",
     "SiteCode": "16647000",
     "VariableDescription": "Gage height, feet",
-    "Value": 9.65,
-    "Timestamp": "2026-03-13T09:15:00+00:00",
+    "Value": 9.6,
+    "Timestamp": "2026-03-13T10:15:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null
   },
