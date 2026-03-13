@@ -1,89 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Stream Gage Dashboard</title>
-
-<style>
-body { font-family: Arial, sans-serif; padding: 20px; }
-h1 { color: #004578; }
-table { border-collapse: collapse; width: 100%; margin-top: 20px; }
-th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-th { background-color: #f3f2f1; }
-
-/* Status color classes */
-.default { background-color: #ffffff; }
-.near    { background-color: #fff8c6; }
-.minor   { background-color: #ffd8b1; }
-.normal  { background-color: #e6f4ea; }
-.major   { background-color: #fde7e9; }
-</style>
+  <title>Stream Gage Dashboard</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    pre { background: #f4f4f4; padding: 20px; border-radius: 8px; }
+  </style>
 </head>
-
 <body>
+  <h1>Stream Gage Dashboard</h1>
+  <pre id="output">Loading...</pre>
 
-<h1>Stream Gage Dashboard</h1>
-<p id="updated">Updated: loading…</p>
-
-<table id="gage-table">
-<thead>
-<tr>
-  <th>Site</th>
-  <th>Code</th>
-  <th>Value (ft)</th>
-  <th>Minor Flood</th>
-  <th>Major Flood</th>
-  <th>Status</th>
-</tr>
-</thead>
-<tbody></tbody>
-</table>
-
-<script>
-// Map status → emoji + class
-function getStatusInfo(status) {
-  switch (status) {
-    case "Normal":       return { icon: "🟢", cls: "normal" };
-    case "Near":         return { icon: "🟡", cls: "near" };
-    case "Minor Flood":  return { icon: "🟠", cls: "minor" };
-    case "Major Flood":  return { icon: "🔴", cls: "major" };
-    default:             return { icon: "⚫", cls: "default" };
-  }
-}
-
-fetch("latest.json")
-  .then(r => r.json())
-  .then(data => {
-    // Update timestamp
-    document.getElementById("updated").textContent =
-      "Updated: " + (data.updated || new Date().toISOString());
-
-    const tbody = document.querySelector("#gage-table tbody");
-    tbody.innerHTML = "";
-
-    data.sites.forEach(site => {
-      const statusInfo = getStatusInfo(site.status);
-
-      const row = document.createElement("tr");
-      row.className = statusInfo.cls;
-
-      row.innerHTML = `
-        <td>${site.name}</td>
-        <td>${site.code}</td>
-        <td>${site.value}</td>
-        <td>${site.minor || ""}</td>
-        <td>${site.major || ""}</td>
-        <td>${statusInfo.icon} ${site.status}</td>
-      `;
-
-      tbody.appendChild(row);
-    });
-  })
-  .catch(err => {
-    document.getElementById("updated").textContent =
-      "Error loading latest.json: " + err;
-  });
-</script>
-
+  <script>
+    fetch("latest.json")
+      .then(r => r.json())
+      .then(data => {
+        document.getElementById("output").textContent =
+          JSON.stringify(data, null, 2);
+      });
+  </script>
 </body>
 </html>

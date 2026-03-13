@@ -22,7 +22,7 @@
     "SiteCode": "16414200",
     "VariableDescription": "Gage height, feet",
     "Value": 3.54,
-    "Timestamp": "2026-03-13T08:55:00+00:00",
+    "Timestamp": "2026-03-13T09:55:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null
   },
@@ -40,7 +40,7 @@
     "SiteCode": "16415600",
     "VariableDescription": "Gage height, feet",
     "Value": 9.24,
-    "Timestamp": "2026-03-13T09:55:00+00:00",
+    "Timestamp": "2026-03-13T10:00:00+00:00",
     "MinorFlood": 10,
     "MajorFlood": null
   },
@@ -84,8 +84,8 @@
     "SiteName": "Honomanu Stream near Keanae, Maui, HI",
     "SiteCode": "16527000",
     "VariableDescription": "Gage height, feet",
-    "Value": 3.41,
-    "Timestamp": "2026-03-13T08:55:00+00:00",
+    "Value": 3.39,
+    "Timestamp": "2026-03-13T09:55:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null
   },
