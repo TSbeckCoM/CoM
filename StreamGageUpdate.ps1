@@ -32,12 +32,14 @@ $stations = $response.value.timeSeries |
 # ---------------------------------------------
 $results = foreach ($ts in $stations) {
 
-    $siteCode = $ts.sourceInfo.siteCode[0].value
-    $siteName = $ts.sourceInfo.siteName
-    $value    = $ts.values[0].value[0].value
-    $dateTime = $ts.values[0].value[0].dateTime
-    $varDesc  = $ts.variable.variableDescription
-
+    $siteCode  = $ts.sourceInfo.siteCode[0].value
+    $siteName  = $ts.sourceInfo.siteName
+    $value     = $ts.values[0].value[0].value
+    $dateTime  = $ts.values[0].value[0].dateTime
+    $varDesc   = $ts.variable.variableDescription
+    $latitude  = $ts.sourceInfo.geoLocation.geogLocation.latitude
+    #longitude = $ts.sourceInfo.geoLocation.geogLocation.longitude
+    
     # Lookup Minor/Major thresholds
     $stages = $floodStages[$siteCode]
 
@@ -53,8 +55,8 @@ $results = foreach ($ts in $stations) {
         Timestamp           = $dateTime
         MinorFlood          = $minor
         MajorFlood          = $major
-        Latitude   = $_.geoLocation.geogLocation.latitude
-        Longitude  = $_.geoLocation.geogLocation.longitude
+        Latitude            = $latitude
+        Longitude           = $longitude
 
     }
 }
@@ -100,6 +102,7 @@ $outputPath = Join-Path -Path $PWD -ChildPath "latest.json"
 $results | ConvertTo-Json -Depth 10 | Out-File -FilePath $outputPath -Encoding utf8
 
 Write-Host "Dashboard JSON written to GitHub repo."
+
 
 
 
