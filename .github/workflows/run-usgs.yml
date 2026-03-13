@@ -20,6 +20,6 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git add latest.json index.html
+          git add latest.json 
           git commit -m "Update dashboard" || echo "No changes"
           git push
