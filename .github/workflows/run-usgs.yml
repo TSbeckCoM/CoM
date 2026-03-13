@@ -16,6 +16,9 @@ jobs:
         shell: pwsh
         run: ./StreamGageUpdate.ps1
 
+      # ---------------------------------------
+      # NEW STEP: Compute 2-hour moving-average trend
+      # ---------------------------------------
       - name: Compute Trend
         shell: pwsh
         run: ./compute-trend.ps1
@@ -31,6 +34,6 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git add latest.json latest_with_trend.json previous.json buildinfo.json
+          git add latest.json latest_with_trend.json history.json buildinfo.json
           git commit -m "Update dashboard" || echo "No changes"
           git push
