@@ -40,18 +40,23 @@ $historyBySite = @{}
 
 foreach ($ts in $usgsHistory.value.timeSeries) {
 
+    # Only use gage height (00065)
+    $param = $ts.variable.variableCode[0].value
+    if ($param -ne "00065") { continue }
+
     $siteCode = $ts.sourceInfo.siteCode[0].value
 
     $entries = @()
     foreach ($v in $ts.values[0].value) {
         $entries += [PSCustomObject]@{
             Timestamp = $v.dateTime
-            Value     = [double]$v.value   # <-- FIXED
+            Value     = [double]$v.value
         }
     }
 
     $historyBySite[$siteCode] = $entries
 }
+
 
 # ------------------------------------------------------------
 # Save history.json (for your inspection)
