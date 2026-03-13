@@ -80,6 +80,9 @@ function getStatusInfo(status) {
 
 let buildTimeHST = "loading...";
 
+// Load GitHub workflow timestamp
+let buildTimeHST = "loading...";
+
 fetch("buildinfo.json?cache=" + Date.now())
   .then(r => r.json())
   .then(info => {
@@ -91,7 +94,15 @@ fetch("buildinfo.json?cache=" + Date.now())
     document.getElementById("updated").textContent =
       "Updated: error loading timestamp";
   });
-  
+
+// Load USGS data
+fetch("latest.json?cache=" + Date.now())
+  .then(r => r.json())
+  .then(data => {
+
+    const now = Date.now();
+    const twentyFourHours = 24 * 60 * 60 * 1000;
+
     const tbody = document.querySelector("#gage-table tbody");
     tbody.innerHTML = "";
 
@@ -119,19 +130,19 @@ fetch("buildinfo.json?cache=" + Date.now())
       groups[island].forEach(site => {
         const siteTime = new Date(site.Timestamp).getTime();
         const age = now - siteTime;
-      
+
         let status;
         let displayValue = site.Value;
-      
+
         if (age > twentyFourHours) {
           status = "Out of Date";
           displayValue = "n/a";
         } else {
           status = computeStatus(site.Value, site.MinorFlood, site.MajorFlood);
         }
-      
+
         const statusInfo = getStatusInfo(status);
-      
+
         const row = document.createElement("tr");
         row.innerHTML = `
           <td>${site.SiteName}</td>
@@ -149,6 +160,3 @@ fetch("buildinfo.json?cache=" + Date.now())
     document.getElementById("updated").textContent =
       "Error loading latest.json: " + err;
   });
-</script>
-</body>
-</html>
