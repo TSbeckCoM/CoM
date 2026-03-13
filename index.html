@@ -23,6 +23,7 @@
         <th>Minor Flood</th>
         <th>Major Flood</th>
         <th>Status</th>
+        <th>Last Updated (HST)</th>
       </tr>
     </thead>
     <tbody></tbody>
@@ -149,6 +150,7 @@ fetch("latest.json?cache=" + Date.now())
           <td>${site.MinorFlood ?? ""}</td>
           <td>${site.MajorFlood ?? ""}</td>
           <td>${statusInfo.icon} ${status}</td>
+          <td>${toHawaiiTime(site.Timestamp)}</td>
         `;
         tbody.appendChild(row);
       });
