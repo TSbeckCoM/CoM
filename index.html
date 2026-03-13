@@ -78,21 +78,20 @@ function getStatusInfo(status) {
   }
 }
 
-fetch("latest.json?cache=" + Date.now())
-  .then(r => r.json())
-  .then(data => {
-    // Find newest timestamp and convert to HST
-    const newest = data.reduce((a, b) =>
-      new Date(a.Timestamp) > new Date(b.Timestamp) ? a : b
-    );
-    console.log("RAW Timestamp:", newest.Timestamp);
-    console.log("Hawaii Time:", toHawaiiTime(newest.Timestamp));
-    const now = Date.now();
-    const twentyFourHours = 24 * 60 * 60 * 1000;
-    
-    document.getElementById("updated").textContent =
-      "Updated (HST): " + toHawaiiTime(newest.Timestamp);
+let buildTimeHST = "loading...";
 
+fetch("buildinfo.json?cache=" + Date.now())
+  .then(r => r.json())
+  .then(info => {
+    buildTimeHST = toHawaiiTime(info.buildTime);
+    document.getElementById("updated").textContent =
+      "Updated (HST): " + buildTimeHST;
+  })
+  .catch(err => {
+    document.getElementById("updated").textContent =
+      "Updated: error loading timestamp";
+  });
+  
     const tbody = document.querySelector("#gage-table tbody");
     tbody.innerHTML = "";
 
