@@ -73,6 +73,7 @@ function getStatusInfo(status) {
     case "Minor Flood":  return { icon: "🟠", cls: "" };
     case "Major Flood":  return { icon: "🔴", cls: "" };
     case "No Threshold": return { icon: "⚫", cls: "" };
+    case "Out of Date": return { icon: "⚪", cls: "" };
     default:             return { icon: "⚫", cls: "" };
   }
 }
@@ -86,6 +87,8 @@ fetch("latest.json?cache=" + Date.now())
     );
     console.log("RAW Timestamp:", newest.Timestamp);
     console.log("Hawaii Time:", toHawaiiTime(newest.Timestamp));
+    const now = Date.now();
+    const twentyFourHours = 24 * 60 * 60 * 1000;
     
     document.getElementById("updated").textContent =
       "Updated (HST): " + toHawaiiTime(newest.Timestamp);
@@ -114,8 +117,18 @@ fetch("latest.json?cache=" + Date.now())
       `;
       tbody.appendChild(headerRow);
 
-      groups[island].forEach(site => {
-        const status = computeStatus(site.Value, site.MinorFlood, site.MajorFlood);
+      groups[island].forEach(site => 
+        const siteTime = new Date(site.Timestamp).getTime();
+        const age = now - siteTime;
+        let status;
+        let displayValue = site.Value;
+        if (age > twentyFourHours) {
+          status = "Out of Date";
+          displayValue = "n/a";
+        } else {
+          status = computeStatus(site.Value, site.MinorFlood, site.MajorFlood);
+        }
+
         const statusInfo = getStatusInfo(status);
 
         const row = document.createElement("tr");
