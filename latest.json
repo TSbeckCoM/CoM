@@ -7,7 +7,7 @@
     "Timestamp": "2026-03-13T11:35:00+00:00",
     "MinorFlood": 9.5,
     "MajorFlood": 19.9,
-    "Latitude": null,
+    "Latitude": 21.1555,
     "Longitude": null
   },
   {
@@ -18,7 +18,7 @@
     "Timestamp": "2025-12-10T00:38:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
-    "Latitude": null,
+    "Latitude": 21.15670833,
     "Longitude": null
   },
   {
@@ -29,7 +29,7 @@
     "Timestamp": "2026-03-13T11:55:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
-    "Latitude": null,
+    "Latitude": 21.09652778,
     "Longitude": null
   },
   {
@@ -40,7 +40,7 @@
     "Timestamp": "2026-06-02T07:20:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
-    "Latitude": null,
+    "Latitude": 21.1096361,
     "Longitude": null
   },
   {
@@ -48,10 +48,10 @@
     "SiteCode": "16415600",
     "VariableDescription": "Gage height, feet",
     "Value": 9.19,
-    "Timestamp": "2026-03-13T12:10:00+00:00",
+    "Timestamp": "2026-03-13T12:15:00+00:00",
     "MinorFlood": 10,
     "MajorFlood": null,
-    "Latitude": null,
+    "Latitude": 21.06997222,
     "Longitude": null
   },
   {
@@ -62,7 +62,7 @@
     "Timestamp": "2025-09-17T23:30:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
-    "Latitude": null,
+    "Latitude": 21.12803056,
     "Longitude": null
   },
   {
@@ -73,7 +73,7 @@
     "Timestamp": "2026-03-13T11:30:00+00:00",
     "MinorFlood": 7,
     "MajorFlood": 12.4,
-    "Latitude": null,
+    "Latitude": 20.6683611,
     "Longitude": null
   },
   {
@@ -84,7 +84,7 @@
     "Timestamp": "2026-03-13T11:35:00+00:00",
     "MinorFlood": 7.5,
     "MajorFlood": 12.1,
-    "Latitude": null,
+    "Latitude": 20.8068611,
     "Longitude": null
   },
   {
@@ -95,7 +95,7 @@
     "Timestamp": "2026-03-13T12:05:00+00:00",
     "MinorFlood": 10,
     "MajorFlood": 13.5,
-    "Latitude": null,
+    "Latitude": 20.8143611,
     "Longitude": null
   },
   {
@@ -106,7 +106,7 @@
     "Timestamp": "2026-03-13T11:55:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
-    "Latitude": null,
+    "Latitude": 20.831325,
     "Longitude": null
   },
   {
@@ -117,7 +117,7 @@
     "Timestamp": "2026-01-29T23:15:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
-    "Latitude": null,
+    "Latitude": 20.8533611,
     "Longitude": null
   },
   {
@@ -128,7 +128,7 @@
     "Timestamp": "2026-03-13T11:45:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
-    "Latitude": null,
+    "Latitude": 20.84808333,
     "Longitude": null
   },
   {
@@ -139,7 +139,7 @@
     "Timestamp": "2026-03-13T12:10:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
-    "Latitude": null,
+    "Latitude": 20.85263746,
     "Longitude": null
   },
   {
@@ -150,7 +150,7 @@
     "Timestamp": "2026-03-13T11:25:00+00:00",
     "MinorFlood": 5.4,
     "MajorFlood": 8.2,
-    "Latitude": null,
+    "Latitude": 20.80538889,
     "Longitude": null
   },
   {
@@ -161,7 +161,7 @@
     "Timestamp": "2026-03-13T11:45:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
-    "Latitude": null,
+    "Latitude": 20.8711111,
     "Longitude": null
   },
   {
@@ -172,7 +172,7 @@
     "Timestamp": "2026-03-13T12:10:00+00:00",
     "MinorFlood": 3.5,
     "MajorFlood": 7.3,
-    "Latitude": null,
+    "Latitude": 20.88563889,
     "Longitude": null
   },
   {
@@ -183,7 +183,7 @@
     "Timestamp": "2026-03-13T12:05:00+00:00",
     "MinorFlood": 8.5,
     "MajorFlood": null,
-    "Latitude": null,
+    "Latitude": 20.88238889,
     "Longitude": null
   },
   {
@@ -194,7 +194,7 @@
     "Timestamp": "2026-03-13T12:05:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
-    "Latitude": null,
+    "Latitude": 20.88297222,
     "Longitude": null
   },
   {
@@ -205,7 +205,7 @@
     "Timestamp": "2026-03-13T11:40:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
-    "Latitude": null,
+    "Latitude": 20.91071944,
     "Longitude": null
   },
   {
@@ -216,7 +216,7 @@
     "Timestamp": "2026-03-13T11:35:00+00:00",
     "MinorFlood": 6,
     "MajorFlood": 11,
-    "Latitude": null,
+    "Latitude": 20.9358611,
     "Longitude": null
   },
   {
@@ -227,7 +227,7 @@
     "Timestamp": "2026-03-13T11:35:00+00:00",
     "MinorFlood": 6,
     "MajorFlood": 12.4,
-    "Latitude": null,
+    "Latitude": 20.97869444,
     "Longitude": null
   },
   {
@@ -238,7 +238,7 @@
     "Timestamp": "2026-03-13T11:45:00+00:00",
     "MinorFlood": 6,
     "MajorFlood": 7.9,
-    "Latitude": null,
+    "Latitude": 20.95969444,
     "Longitude": null
   },
   {
@@ -249,7 +249,7 @@
     "Timestamp": "2026-03-13T11:25:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
-    "Latitude": null,
+    "Latitude": 20.9998111,
     "Longitude": null
   },
   {
@@ -260,7 +260,7 @@
     "Timestamp": "2026-03-13T12:05:00+00:00",
     "MinorFlood": 6,
     "MajorFlood": 8.61,
-    "Latitude": null,
+    "Latitude": 20.88313889,
     "Longitude": null
   },
   {
@@ -271,7 +271,7 @@
     "Timestamp": "2026-03-13T12:05:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
-    "Latitude": null,
+    "Latitude": 20.87763889,
     "Longitude": null
   },
   {
@@ -282,18 +282,18 @@
     "Timestamp": "2024-01-26T22:35:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
-    "Latitude": null,
+    "Latitude": 20.87768056,
     "Longitude": null
   },
   {
     "SiteName": "Ukumehame Gulch nr Olowalu, Maui, HI",
     "SiteCode": "16647000",
     "VariableDescription": "Gage height, feet",
-    "Value": 9.57,
-    "Timestamp": "2026-03-13T11:15:00+00:00",
+    "Value": 9.52,
+    "Timestamp": "2026-03-13T12:15:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
-    "Latitude": null,
+    "Latitude": 20.81854167,
     "Longitude": null
   },
   {
@@ -304,7 +304,7 @@
     "Timestamp": "2026-03-13T11:35:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
-    "Latitude": null,
+    "Latitude": 20.85577379,
     "Longitude": null
   }
 ]
