@@ -4,7 +4,7 @@
     "SiteCode": "16400000",
     "VariableDescription": "Gage height, feet",
     "Value": 2.68,
-    "Timestamp": "2026-03-13T11:20:00+00:00",
+    "Timestamp": "2026-03-13T11:35:00+00:00",
     "MinorFlood": 9.5,
     "MajorFlood": 19.9
   },
@@ -40,7 +40,7 @@
     "SiteCode": "16415600",
     "VariableDescription": "Gage height, feet",
     "Value": 9.2,
-    "Timestamp": "2026-03-13T11:25:00+00:00",
+    "Timestamp": "2026-03-13T11:40:00+00:00",
     "MinorFlood": 10,
     "MajorFlood": null
   },
@@ -57,8 +57,8 @@
     "SiteName": "Oheo Gulch at dam near Kipahulu, Maui, HI",
     "SiteCode": "16501200",
     "VariableDescription": "Gage height, feet",
-    "Value": 1.01,
-    "Timestamp": "2026-03-13T10:30:00+00:00",
+    "Value": 0.96,
+    "Timestamp": "2026-03-13T11:30:00+00:00",
     "MinorFlood": 7,
     "MajorFlood": 12.4
   },
@@ -67,7 +67,7 @@
     "SiteCode": "16508000",
     "VariableDescription": "Gage height, feet",
     "Value": 0.65,
-    "Timestamp": "2026-03-13T10:35:00+00:00",
+    "Timestamp": "2026-03-13T11:35:00+00:00",
     "MinorFlood": 7.5,
     "MajorFlood": 12.1
   },
@@ -147,8 +147,8 @@
     "SiteName": "Wailuku River at Kepaniwai Park, Maui, HI",
     "SiteCode": "16604500",
     "VariableDescription": "Gage height, feet",
-    "Value": 1.66,
-    "Timestamp": "2026-03-13T11:20:00+00:00",
+    "Value": 1.63,
+    "Timestamp": "2026-03-13T11:35:00+00:00",
     "MinorFlood": 8.5,
     "MajorFlood": null
   },
@@ -156,8 +156,8 @@
     "SiteName": "Wailuku River at Iao Valley Road, Maui, HI",
     "SiteCode": "16605500",
     "VariableDescription": "Gage height, feet",
-    "Value": 3.8,
-    "Timestamp": "2026-03-13T11:20:00+00:00",
+    "Value": 3.79,
+    "Timestamp": "2026-03-13T11:35:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null
   },
@@ -175,7 +175,7 @@
     "SiteCode": "16614000",
     "VariableDescription": "Gage height, feet",
     "Value": 1.91,
-    "Timestamp": "2026-03-13T11:20:00+00:00",
+    "Timestamp": "2026-03-13T11:35:00+00:00",
     "MinorFlood": 6,
     "MajorFlood": 11
   },
@@ -183,8 +183,8 @@
     "SiteName": "Kahakuloa Stream near Honokohau, Maui, HI",
     "SiteCode": "16618000",
     "VariableDescription": "Gage height, feet",
-    "Value": 0.69,
-    "Timestamp": "2026-03-13T10:35:00+00:00",
+    "Value": 0.66,
+    "Timestamp": "2026-03-13T11:35:00+00:00",
     "MinorFlood": 6,
     "MajorFlood": 12.4
   },
@@ -210,8 +210,8 @@
     "SiteName": "Kahoma Stream at Lahaina, Maui, HI",
     "SiteCode": "16638500",
     "VariableDescription": "Gage height, feet",
-    "Value": 0.6,
-    "Timestamp": "2026-03-13T11:20:00+00:00",
+    "Value": 0.59,
+    "Timestamp": "2026-03-13T11:35:00+00:00",
     "MinorFlood": 6,
     "MajorFlood": 8.61
   },
@@ -219,8 +219,8 @@
     "SiteName": "Kauaula Stream US of ditch diversion, Maui, HI",
     "SiteCode": "16641000",
     "VariableDescription": "Gage height, feet",
-    "Value": 5.1,
-    "Timestamp": "2026-03-13T11:20:00+00:00",
+    "Value": 5.09,
+    "Timestamp": "2026-03-13T11:35:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null
   },
@@ -246,8 +246,8 @@
     "SiteName": "Waikapu Str US of S Waikapu Dt intake, Maui, HI",
     "SiteCode": "16647900",
     "VariableDescription": "Gage height, feet",
-    "Value": 2.22,
-    "Timestamp": "2026-03-13T11:20:00+00:00",
+    "Value": 2.2,
+    "Timestamp": "2026-03-13T11:35:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null
   }
