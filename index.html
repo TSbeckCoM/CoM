@@ -147,6 +147,14 @@ fetch("buildinfo.json?cache=" + Date.now())
       "Updated: error loading timestamp";
   });
 
+let historyData = {};
+// load histord data
+fetch("history.json?cache=" + Date.now())
+  .then(r => r.json())
+  .then(h => {
+    historyData = h;
+  });
+
 // Load USGS data
 fetch("latest_with_trend.json?cache=" + Date.now())
   .then(r => r.json())
@@ -196,6 +204,10 @@ fetch("latest_with_trend.json?cache=" + Date.now())
         const statusInfo = getStatusInfo(status);
         const spark = makeSparkline(historyValues);
 
+        // --- SPARKLINE DATA (INSERTED HERE) ---
+        const historyValues = (historyData[site.SiteCode] || []).map(v => v.Value);
+        const spark = makeSparkline(historyValues);
+        
         const row = document.createElement("tr");
         row.innerHTML = `
           <td>${site.SiteName}</td>
