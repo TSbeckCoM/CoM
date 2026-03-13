@@ -46,7 +46,7 @@ foreach ($ts in $usgsHistory.value.timeSeries) {
     foreach ($v in $ts.values[0].value) {
         $entries += [PSCustomObject]@{
             Timestamp = $v.dateTime
-            Value     = [double]$v.'#text'
+            Value     = [double]$v.'#value'
         }
     }
 
