@@ -202,7 +202,6 @@ fetch("latest_with_trend.json?cache=" + Date.now())
         }
 
         const statusInfo = getStatusInfo(status);
-        const spark = makeSparkline(historyValues);
 
         // --- SPARKLINE DATA (INSERTED HERE) ---
         const historyValues = (historyData[site.SiteCode] || []).map(v => v.Value);
