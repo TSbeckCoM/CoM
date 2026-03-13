@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>All Stream Stations Map</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+  <style>
+    html, body { height: 100%; margin: 0; }
+    #map { height: 100%; width: 100%; }
+  </style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<script>
+  // Create map centered on Hawaii
+  const map = L.map("map").setView([20.8, -156.3], 7);
+
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 19
+  }).addTo(map);
+
+  // Load your latest.json
+  fetch("latest.json")
+    .then(response => response.json())
+    .then(data => {
+      data.forEach(site => {
+        if (!site.Latitude || !site.Longitude) return;
+
+        const marker = L.marker([site.Latitude, site.Longitude]).addTo(map);
+
+        marker.bindPopup(`
+          <strong>${site.SiteName}</strong><br>
+          Code: ${site.SiteCode}<br>
+          Value: ${site.Value ?? "n/a"} ft<br>
+          <a href="map.html?lat=${site.Latitude}&lon=${site.Longitude}&name=${encodeURIComponent(site.SiteName)}" target="_blank">
+            View Station Map
+          </a>
+        `);
+      });
+    });
+</script>
+
+</body>
+</html>
