@@ -1,6 +1,7 @@
 # ------------------------------------------------------------
 # compute-trend.ps1
 # Computes 2-hour moving-average trend for all stations
+# Stores only REAL USGS updates (no duplicates)
 # ------------------------------------------------------------
 
 # Paths
@@ -32,14 +33,31 @@ $historyList = New-Object System.Collections.Generic.List[Object]
 $historyList.AddRange($history)
 
 # ------------------------------------------------------------
-# Append current readings to history
+# Append ONLY NEW USGS readings to history
 # ------------------------------------------------------------
 foreach ($item in $latest) {
-    $historyList.Add([PSCustomObject]@{
-        SiteCode  = $item.SiteCode
-        Value     = [double]$item.Value
-        Timestamp = $item.Timestamp
-    })
+
+    $siteCode = $item.SiteCode
+    $currentValue = [double]$item.Value
+    $currentTimestamp = $item.Timestamp  # USGS timestamp
+
+    # Find the most recent history entry for this site
+    $lastEntry = $historyList |
+        Where-Object { $_.SiteCode -eq $siteCode } |
+        Sort-Object Timestamp -Descending |
+        Select-Object -First 1
+
+    # Only add if USGS timestamp OR value changed
+    if ($null -eq $lastEntry -or
+        $lastEntry.Timestamp -ne $currentTimestamp -or
+        [double]$lastEntry.Value -ne $currentValue) {
+
+        $historyList.Add([PSCustomObject]@{
+            SiteCode  = $siteCode
+            Value     = $currentValue
+            Timestamp = $currentTimestamp
+        })
+    }
 }
 
 # ------------------------------------------------------------
