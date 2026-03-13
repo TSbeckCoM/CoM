@@ -74,12 +74,12 @@ function toHawaiiTime(utcString) {
   });
 }
 
-// Compute gage height trend over last 2 hours
+// Compute gage height trend over last 3 hours
 function getTrendArrow(trend) {
   switch (trend) {
     case "Rising":  return "↑";
     case "Falling": return "↓";
-    case "Steady":  return "-";
+    case "Steady":  return "--";
     default:        return "•"; // for N/A
   }
 }
@@ -174,7 +174,7 @@ fetch("latest_with_trend.json?cache=" + Date.now())
           <td>${site.SiteName}</td>
           <td>${site.SiteCode}</td>
           <td>${displayValue}</td>
-          <td>${getTrendArrow(site.Trend)}</td>
+          <td style="white-space: pre;">${site.Trend}</td>
           <td>${site.MinorFlood ?? ""}</td>
           <td>${site.MajorFlood ?? ""}</td>
           <td>${statusInfo.icon} ${status}</td>
