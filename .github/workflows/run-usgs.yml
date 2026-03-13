@@ -16,7 +16,7 @@ jobs:
       - name: Run PowerShell script
         shell: pwsh
         run: |
-          ./usgs.ps1
+          ./StreamGageUpdate.ps1
 
       - name: Commit latest.json
         run: |
