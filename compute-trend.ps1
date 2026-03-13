@@ -102,7 +102,7 @@ foreach ($item in $latest) {
 
         # Determine arrow
         if ([math]::Abs($delta) -lt $tolerance) {
-            $arrow = "→"
+            $arrow = "-"
         }
         elseif ($delta -gt 0) {
             $arrow = "↑"
