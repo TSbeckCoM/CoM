@@ -3,8 +3,8 @@
     "SiteName": "Halawa Stream near Halawa, Molokai, HI",
     "SiteCode": "16400000",
     "VariableDescription": "Gage height, feet",
-    "Value": 2.69,
-    "Timestamp": "2026-03-13T10:50:00+00:00",
+    "Value": 2.68,
+    "Timestamp": "2026-03-13T11:05:00+00:00",
     "MinorFlood": 9.5,
     "MajorFlood": 19.9
   },
@@ -22,7 +22,7 @@
     "SiteCode": "16414200",
     "VariableDescription": "Gage height, feet",
     "Value": 3.54,
-    "Timestamp": "2026-03-13T09:55:00+00:00",
+    "Timestamp": "2026-03-13T10:55:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null
   },
@@ -39,8 +39,8 @@
     "SiteName": "Kawela Gulch near Moku, Molokai, HI",
     "SiteCode": "16415600",
     "VariableDescription": "Gage height, feet",
-    "Value": 9.22,
-    "Timestamp": "2026-03-13T10:45:00+00:00",
+    "Value": 9.21,
+    "Timestamp": "2026-03-13T11:05:00+00:00",
     "MinorFlood": 10,
     "MajorFlood": null
   },
@@ -76,7 +76,7 @@
     "SiteCode": "16518000",
     "VariableDescription": "Gage height, feet",
     "Value": 1.46,
-    "Timestamp": "2026-03-13T10:35:00+00:00",
+    "Timestamp": "2026-03-13T11:05:00+00:00",
     "MinorFlood": 10,
     "MajorFlood": 13.5
   },
@@ -84,8 +84,8 @@
     "SiteName": "Honomanu Stream near Keanae, Maui, HI",
     "SiteCode": "16527000",
     "VariableDescription": "Gage height, feet",
-    "Value": 3.39,
-    "Timestamp": "2026-03-13T09:55:00+00:00",
+    "Value": 3.38,
+    "Timestamp": "2026-03-13T10:55:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null
   },
@@ -111,8 +111,8 @@
     "SiteName": "Puohokamoa Str ab Spreckels Ditch, Maui, HI",
     "SiteCode": "16545000",
     "VariableDescription": "Gage height, feet",
-    "Value": 2.34,
-    "Timestamp": "2026-03-13T10:10:00+00:00",
+    "Value": 2.33,
+    "Timestamp": "2026-03-13T11:10:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null
   },
@@ -147,8 +147,8 @@
     "SiteName": "Wailuku River at Kepaniwai Park, Maui, HI",
     "SiteCode": "16604500",
     "VariableDescription": "Gage height, feet",
-    "Value": 1.71,
-    "Timestamp": "2026-03-13T10:35:00+00:00",
+    "Value": 1.65,
+    "Timestamp": "2026-03-13T11:05:00+00:00",
     "MinorFlood": 8.5,
     "MajorFlood": null
   },
@@ -156,8 +156,8 @@
     "SiteName": "Wailuku River at Iao Valley Road, Maui, HI",
     "SiteCode": "16605500",
     "VariableDescription": "Gage height, feet",
-    "Value": 3.8,
-    "Timestamp": "2026-03-13T10:35:00+00:00",
+    "Value": 3.77,
+    "Timestamp": "2026-03-13T11:05:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null
   },
@@ -174,8 +174,8 @@
     "SiteName": "Waihee Rv abv Waihee Dtch intk nr Waihee, Maui, HI",
     "SiteCode": "16614000",
     "VariableDescription": "Gage height, feet",
-    "Value": 1.91,
-    "Timestamp": "2026-03-13T10:50:00+00:00",
+    "Value": 1.9,
+    "Timestamp": "2026-03-13T11:05:00+00:00",
     "MinorFlood": 6,
     "MajorFlood": 11
   },
@@ -192,8 +192,8 @@
     "SiteName": "Honokohau Stream near Honokohau, Maui, HI",
     "SiteCode": "16620000",
     "VariableDescription": "Gage height, feet",
-    "Value": 2.28,
-    "Timestamp": "2026-03-13T09:45:00+00:00",
+    "Value": 2.27,
+    "Timestamp": "2026-03-13T10:45:00+00:00",
     "MinorFlood": 6,
     "MajorFlood": 7.9
   },
@@ -210,8 +210,8 @@
     "SiteName": "Kahoma Stream at Lahaina, Maui, HI",
     "SiteCode": "16638500",
     "VariableDescription": "Gage height, feet",
-    "Value": 0.67,
-    "Timestamp": "2026-03-13T10:35:00+00:00",
+    "Value": 0.66,
+    "Timestamp": "2026-03-13T11:05:00+00:00",
     "MinorFlood": 6,
     "MajorFlood": 8.61
   },
@@ -220,7 +220,7 @@
     "SiteCode": "16641000",
     "VariableDescription": "Gage height, feet",
     "Value": 5.11,
-    "Timestamp": "2026-03-13T10:35:00+00:00",
+    "Timestamp": "2026-03-13T11:05:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null
   },
@@ -246,8 +246,8 @@
     "SiteName": "Waikapu Str US of S Waikapu Dt intake, Maui, HI",
     "SiteCode": "16647900",
     "VariableDescription": "Gage height, feet",
-    "Value": 2.24,
-    "Timestamp": "2026-03-13T10:35:00+00:00",
+    "Value": 2.21,
+    "Timestamp": "2026-03-13T11:05:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null
   }
