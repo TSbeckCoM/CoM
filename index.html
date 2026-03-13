@@ -14,6 +14,21 @@
   <h1>Stream Gage Dashboard</h1>
   <p id="updated">Updated: loading...</p>
 
+  <table id="gage-table" style="width:100%; border-collapse: collapse; margin-top: 20px;">
+    <thead>
+      <tr>
+        <th>Site</th>
+        <th>Code</th>
+        <th>Value (ft)</th>
+        <th>Minor Flood</th>
+        <th>Major Flood</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+
 <script>
 // Determine island from SiteName
 function getIsland(name) {
