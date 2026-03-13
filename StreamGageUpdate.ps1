@@ -53,6 +53,9 @@ $results = foreach ($ts in $stations) {
         Timestamp           = $dateTime
         MinorFlood          = $minor
         MajorFlood          = $major
+        Latitude   = $_.geoLocation.geogLocation.latitude
+        Longitude  = $_.geoLocation.geogLocation.longitude
+
     }
 }
 
@@ -97,6 +100,7 @@ $outputPath = Join-Path -Path $PWD -ChildPath "latest.json"
 $results | ConvertTo-Json -Depth 10 | Out-File -FilePath $outputPath -Encoding utf8
 
 Write-Host "Dashboard JSON written to GitHub repo."
+
 
 
 
