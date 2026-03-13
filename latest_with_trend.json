@@ -30,7 +30,7 @@
     "SiteCode": "16414200",
     "VariableDescription": "Gage height, feet",
     "Value": 3.54,
-    "Timestamp": "2026-03-13T12:55:00+00:00",
+    "Timestamp": "2026-03-13T13:55:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 21.09652778,
@@ -55,14 +55,14 @@
     "SiteName": "Kawela Gulch near Moku, Molokai, HI",
     "SiteCode": "16415600",
     "VariableDescription": "Gage height, feet",
-    "Value": 9.24,
-    "Timestamp": "2026-03-13T13:45:00+00:00",
+    "Value": 9.27,
+    "Timestamp": "2026-03-13T14:00:00+00:00",
     "MinorFlood": 10,
     "MajorFlood": null,
     "Latitude": 21.06997222,
     "Longitude": -156.9483333,
     "PreviousValue": 9.24,
-    "Trend": "Steady"
+    "Trend": "Rising"
   },
   {
     "SiteName": "LB Honoulimaloo Str US diversion, Molokai, HI",
@@ -120,14 +120,14 @@
     "SiteName": "Honomanu Stream near Keanae, Maui, HI",
     "SiteCode": "16527000",
     "VariableDescription": "Gage height, feet",
-    "Value": 3.34,
-    "Timestamp": "2026-03-13T12:55:00+00:00",
+    "Value": 3.33,
+    "Timestamp": "2026-03-13T13:55:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.831325,
     "Longitude": -156.1872889,
     "PreviousValue": 3.34,
-    "Trend": "Steady"
+    "Trend": "Falling"
   },
   {
     "SiteName": "Honomanu Stream near Hana Hwy, Maui, HI",
@@ -224,14 +224,14 @@
     "SiteName": "Wailuku River at Iao Valley Road, Maui, HI",
     "SiteCode": "16605500",
     "VariableDescription": "Gage height, feet",
-    "Value": 3.69,
-    "Timestamp": "2026-03-13T13:50:00+00:00",
+    "Value": 3.67,
+    "Timestamp": "2026-03-13T14:05:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.88297222,
     "Longitude": -156.5338333,
     "PreviousValue": 3.69,
-    "Trend": "Steady"
+    "Trend": "Falling"
   },
   {
     "SiteName": "S Waiehu Str US of ditch at alt. 315 ft, Maui, HI",
@@ -302,14 +302,14 @@
     "SiteName": "Kahoma Stream at Lahaina, Maui, HI",
     "SiteCode": "16638500",
     "VariableDescription": "Gage height, feet",
-    "Value": 0.57,
-    "Timestamp": "2026-03-13T13:50:00+00:00",
+    "Value": 0.58,
+    "Timestamp": "2026-03-13T14:05:00+00:00",
     "MinorFlood": 6,
     "MajorFlood": 8.61,
     "Latitude": 20.88313889,
     "Longitude": -156.6770833,
     "PreviousValue": 0.57,
-    "Trend": "Steady"
+    "Trend": "Rising"
   },
   {
     "SiteName": "Kauaula Stream US of ditch diversion, Maui, HI",
