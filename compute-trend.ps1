@@ -1,7 +1,8 @@
 # ------------------------------------------------------------
 # compute-trend.ps1
-# Computes 2-hour moving-average trend for all stations
+# Computes 3-hour moving-average trend for all stations
 # Stores only REAL USGS updates (no duplicates)
+# Sorts history by SiteCode + Timestamp
 # ------------------------------------------------------------
 
 # Paths
@@ -61,13 +62,19 @@ foreach ($item in $latest) {
 }
 
 # ------------------------------------------------------------
-# Trim history to last 2 hours
+# Trim history to last 3 hours
 # ------------------------------------------------------------
-$cutoff = (Get-Date).ToUniversalTime().AddHours(-2)
+$cutoff = (Get-Date).ToUniversalTime().AddHours(-3)
 
 $historyList = $historyList | Where-Object {
     (Get-Date $_.Timestamp) -ge $cutoff
 }
+
+# ------------------------------------------------------------
+# Sort history by SiteCode, then Timestamp
+# ------------------------------------------------------------
+$historyList = $historyList |
+    Sort-Object SiteCode, Timestamp
 
 # ------------------------------------------------------------
 # Compute moving-average trend for each site
@@ -77,7 +84,7 @@ foreach ($item in $latest) {
     $current = [double]$item.Value
     $siteCode = $item.SiteCode
 
-    # Get all history entries for this site in last 2 hours
+    # Get all history entries for this site in last 3 hours
     $siteHistory = $historyList | Where-Object { $_.SiteCode -eq $siteCode }
 
     if ($siteHistory.Count -eq 0) {
@@ -114,7 +121,7 @@ foreach ($item in $latest) {
 $latest | ConvertTo-Json -Depth 10 | Out-File $outputPath -Encoding utf8
 
 # ------------------------------------------------------------
-# Save updated history.json
+# Save updated history.json (sorted)
 # ------------------------------------------------------------
 $historyList | ConvertTo-Json -Depth 10 | Out-File $historyPath -Encoding utf8
 
