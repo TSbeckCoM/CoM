@@ -45,19 +45,19 @@
     "MajorFlood": null,
     "Latitude": 21.1096361,
     "Longitude": -156.9033278,
-    "Trend": "↓ 1.95"
+    "Trend": "↓ 1.91"
   },
   {
     "SiteName": "Kawela Gulch near Moku, Molokai, HI",
     "SiteCode": "16415600",
     "VariableDescription": "Gage height, feet",
-    "Value": 11.08,
-    "Timestamp": "2026-03-14T11:35:00+00:00",
+    "Value": 11.09,
+    "Timestamp": "2026-03-14T11:40:00+00:00",
     "MinorFlood": 10,
     "MajorFlood": null,
     "Latitude": 21.06997222,
     "Longitude": -156.9483333,
-    "Trend": "↓ 0.14"
+    "Trend": "↓ 0.13"
   },
   {
     "SiteName": "LB Honoulimaloo Str US diversion, Molokai, HI",
@@ -75,13 +75,13 @@
     "SiteName": "Oheo Gulch at dam near Kipahulu, Maui, HI",
     "SiteCode": "16501200",
     "VariableDescription": "Gage height, feet",
-    "Value": 8.11,
-    "Timestamp": "2026-03-14T11:35:00+00:00",
+    "Value": 7.56,
+    "Timestamp": "2026-03-14T11:40:00+00:00",
     "MinorFlood": 7,
     "MajorFlood": 12.4,
     "Latitude": 20.6683611,
     "Longitude": -156.0522222,
-    "Trend": "↓ 0.10"
+    "Trend": "↓ 0.63"
   },
   {
     "SiteName": "Hanawi Stream near Nahiku, Maui, HI",
@@ -195,13 +195,13 @@
     "SiteName": "Wailuku River at Kepaniwai Park, Maui, HI",
     "SiteCode": "16604500",
     "VariableDescription": "Gage height, feet",
-    "Value": 4.86,
-    "Timestamp": "2026-03-14T11:20:00+00:00",
+    "Value": 4.33,
+    "Timestamp": "2026-03-14T11:35:00+00:00",
     "MinorFlood": 8.5,
     "MajorFlood": null,
     "Latitude": 20.88238889,
     "Longitude": -156.5392778,
-    "Trend": "↓ 0.64"
+    "Trend": "↓ 1.08"
   },
   {
     "SiteName": "Wailuku River at Iao Valley Road, Maui, HI",
@@ -219,13 +219,13 @@
     "SiteName": "S Waiehu Str US of ditch at alt. 315 ft, Maui, HI",
     "SiteCode": "16611500",
     "VariableDescription": "Gage height, feet",
-    "Value": 5.16,
-    "Timestamp": "2026-03-14T10:40:00+00:00",
+    "Value": 4.92,
+    "Timestamp": "2026-03-14T11:40:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.91071944,
     "Longitude": -156.5094417,
-    "Trend": "-- 0.00"
+    "Trend": "↓ 0.18"
   },
   {
     "SiteName": "Waihee Rv abv Waihee Dtch intk nr Waihee, Maui, HI",
