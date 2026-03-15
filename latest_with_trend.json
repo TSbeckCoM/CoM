@@ -291,13 +291,13 @@
     "SiteName": "Kauaula Stream US of ditch diversion, Maui, HI",
     "SiteCode": "16641000",
     "VariableDescription": "Gage height, feet",
-    "Value": 5.7,
-    "Timestamp": "2026-03-15T14:35:00+00:00",
+    "Value": 5.68,
+    "Timestamp": "2026-03-15T14:50:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.87763889,
     "Longitude": -156.6224167,
-    "Trend": "↑ 0.03"
+    "Trend": "-- 0.00"
   },
   {
     "SiteName": "Kauaula Stream DS of ditch diversion, Maui, HI",
