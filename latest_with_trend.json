@@ -28,7 +28,7 @@
     "SiteCode": "16414200",
     "VariableDescription": "Gage height, feet",
     "Value": 3.54,
-    "Timestamp": "2026-03-16T18:55:00+00:00",
+    "Timestamp": "2026-03-16T19:55:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 21.09652778,
@@ -99,13 +99,13 @@
     "SiteName": "West Wailuaiki Stream near Keanae, Maui, HI",
     "SiteCode": "16518000",
     "VariableDescription": "Gage height, feet",
-    "Value": 2.06,
-    "Timestamp": "2026-03-16T19:35:00+00:00",
+    "Value": 2.05,
+    "Timestamp": "2026-03-16T19:50:00+00:00",
     "MinorFlood": 10,
     "MajorFlood": 13.5,
     "Latitude": 20.8143611,
     "Longitude": -156.1429722,
-    "Trend": "-- 0.01"
+    "Trend": "-- 0.02"
   },
   {
     "SiteName": "Honomanu Stream near Keanae, Maui, HI",
