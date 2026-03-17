@@ -99,13 +99,13 @@
     "SiteName": "West Wailuaiki Stream near Keanae, Maui, HI",
     "SiteCode": "16518000",
     "VariableDescription": "Gage height, feet",
-    "Value": 1.89,
-    "Timestamp": "2026-03-17T19:25:00+00:00",
+    "Value": 1.9,
+    "Timestamp": "2026-03-17T19:50:00+00:00",
     "MinorFlood": 10,
     "MajorFlood": 13.5,
     "Latitude": 20.8143611,
     "Longitude": -156.1429722,
-    "Trend": "↓ 0.02"
+    "Trend": "-- 0.01"
   },
   {
     "SiteName": "Honomanu Stream near Keanae, Maui, HI",
@@ -196,12 +196,12 @@
     "SiteCode": "16604500",
     "VariableDescription": "Gage height, feet",
     "Value": 0.7,
-    "Timestamp": "2026-03-17T19:35:00+00:00",
+    "Timestamp": "2026-03-17T19:50:00+00:00",
     "MinorFlood": 8.5,
     "MajorFlood": null,
     "Latitude": 20.88238889,
     "Longitude": -156.5392778,
-    "Trend": "↓ 0.03"
+    "Trend": "↓ 0.02"
   },
   {
     "SiteName": "Wailuku River at Iao Valley Road, Maui, HI",
