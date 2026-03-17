@@ -196,12 +196,12 @@
     "SiteCode": "16604500",
     "VariableDescription": "Gage height, feet",
     "Value": 0.86,
-    "Timestamp": "2026-03-17T23:20:00+00:00",
+    "Timestamp": "2026-03-17T23:35:00+00:00",
     "MinorFlood": 8.5,
     "MajorFlood": null,
     "Latitude": 20.88238889,
     "Longitude": -156.5392778,
-    "Trend": "↑ 0.11"
+    "Trend": "↑ 0.10"
   },
   {
     "SiteName": "Wailuku River at Iao Valley Road, Maui, HI",
