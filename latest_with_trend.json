@@ -15,8 +15,8 @@
     "SiteName": "Waihanau Stream nr Kalaupapa, Molokai, HI",
     "SiteCode": "16409000",
     "VariableDescription": "Gage height, feet",
-    "Value": 2.48,
-    "Timestamp": "2025-12-10T00:38:00+00:00",
+    "Value": 2.86,
+    "Timestamp": "2026-02-26T23:55:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 21.15670833,
@@ -28,7 +28,7 @@
     "SiteCode": "16414200",
     "VariableDescription": "Gage height, feet",
     "Value": 3.54,
-    "Timestamp": "2026-03-17T00:55:00+00:00",
+    "Timestamp": "2026-03-17T01:55:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 21.09652778,
@@ -45,14 +45,14 @@
     "MajorFlood": null,
     "Latitude": 21.1096361,
     "Longitude": -156.9033278,
-    "Trend": "↑ 0.05"
+    "Trend": "↑ 0.06"
   },
   {
     "SiteName": "Kawela Gulch near Moku, Molokai, HI",
     "SiteCode": "16415600",
     "VariableDescription": "Gage height, feet",
-    "Value": 9.46,
-    "Timestamp": "2026-03-17T01:50:00+00:00",
+    "Value": 9.45,
+    "Timestamp": "2026-03-17T02:05:00+00:00",
     "MinorFlood": 10,
     "MajorFlood": null,
     "Latitude": 21.06997222,
@@ -111,8 +111,8 @@
     "SiteName": "Honomanu Stream near Keanae, Maui, HI",
     "SiteCode": "16527000",
     "VariableDescription": "Gage height, feet",
-    "Value": 3.69,
-    "Timestamp": "2026-03-17T00:55:00+00:00",
+    "Value": 3.68,
+    "Timestamp": "2026-03-17T01:55:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.831325,
@@ -189,26 +189,26 @@
     "MajorFlood": 7.3,
     "Latitude": 20.88563889,
     "Longitude": -156.2525556,
-    "Trend": "-- 0.01"
+    "Trend": "-- 0.00"
   },
   {
     "SiteName": "Wailuku River at Kepaniwai Park, Maui, HI",
     "SiteCode": "16604500",
     "VariableDescription": "Gage height, feet",
     "Value": 0.94,
-    "Timestamp": "2026-03-17T01:50:00+00:00",
+    "Timestamp": "2026-03-17T02:05:00+00:00",
     "MinorFlood": 8.5,
     "MajorFlood": null,
     "Latitude": 20.88238889,
     "Longitude": -156.5392778,
-    "Trend": "↓ 0.05"
+    "Trend": "↓ 0.04"
   },
   {
     "SiteName": "Wailuku River at Iao Valley Road, Maui, HI",
     "SiteCode": "16605500",
     "VariableDescription": "Gage height, feet",
-    "Value": 9.52,
-    "Timestamp": "2026-03-17T01:50:00+00:00",
+    "Value": 9.51,
+    "Timestamp": "2026-03-17T02:05:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.88297222,
@@ -225,7 +225,7 @@
     "MajorFlood": null,
     "Latitude": 20.91071944,
     "Longitude": -156.5094417,
-    "Trend": "↓ 0.06"
+    "Trend": "↓ 0.05"
   },
   {
     "SiteName": "Waihee Rv abv Waihee Dtch intk nr Waihee, Maui, HI",
@@ -237,7 +237,7 @@
     "MajorFlood": 11,
     "Latitude": 20.9358611,
     "Longitude": -156.5468333,
-    "Trend": "↓ 0.04"
+    "Trend": "↓ 0.03"
   },
   {
     "SiteName": "Kahakuloa Stream near Honokohau, Maui, HI",
@@ -261,7 +261,7 @@
     "MajorFlood": 7.9,
     "Latitude": 20.95969444,
     "Longitude": -156.5870556,
-    "Trend": "↓ 0.09"
+    "Trend": "↓ 0.08"
   },
   {
     "SiteName": "Honokahua Stream at Honoapiilani Highway, Maui, HI",
@@ -273,26 +273,26 @@
     "MajorFlood": null,
     "Latitude": 20.9998111,
     "Longitude": -156.6495306,
-    "Trend": "↓ 0.28"
+    "Trend": "↓ 0.16"
   },
   {
     "SiteName": "Kahoma Stream at Lahaina, Maui, HI",
     "SiteCode": "16638500",
     "VariableDescription": "Gage height, feet",
-    "Value": 0.82,
-    "Timestamp": "2026-03-17T01:50:00+00:00",
+    "Value": 0.74,
+    "Timestamp": "2026-03-17T02:05:00+00:00",
     "MinorFlood": 6,
     "MajorFlood": 8.61,
     "Latitude": 20.88313889,
     "Longitude": -156.6770833,
-    "Trend": "↓ 0.03"
+    "Trend": "↓ 0.10"
   },
   {
     "SiteName": "Kauaula Stream US of ditch diversion, Maui, HI",
     "SiteCode": "16641000",
     "VariableDescription": "Gage height, feet",
     "Value": -999999.0,
-    "Timestamp": "2026-03-17T01:50:00+00:00",
+    "Timestamp": "2026-03-17T02:05:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.87763889,
