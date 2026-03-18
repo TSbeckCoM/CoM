@@ -9,7 +9,7 @@
     "MajorFlood": 19.9,
     "Latitude": 21.1555,
     "Longitude": -156.7619722,
-    "Trend": "↓ 0.22"
+    "Trend": "↓ 0.21"
   },
   {
     "SiteName": "Waihanau Stream nr Kalaupapa, Molokai, HI",
@@ -52,7 +52,7 @@
     "SiteCode": "16415600",
     "VariableDescription": "Gage height, feet",
     "Value": 9.1,
-    "Timestamp": "2026-03-18T07:35:00+00:00",
+    "Timestamp": "2026-03-18T07:50:00+00:00",
     "MinorFlood": 10,
     "MajorFlood": null,
     "Latitude": 21.06997222,
@@ -93,7 +93,7 @@
     "MajorFlood": 12.1,
     "Latitude": 20.8068611,
     "Longitude": -156.1142222,
-    "Trend": "↑ 0.05"
+    "Trend": "↑ 0.02"
   },
   {
     "SiteName": "West Wailuaiki Stream near Keanae, Maui, HI",
@@ -105,7 +105,7 @@
     "MajorFlood": 13.5,
     "Latitude": 20.8143611,
     "Longitude": -156.1429722,
-    "Trend": "↓ 0.15"
+    "Trend": "↓ 0.14"
   },
   {
     "SiteName": "Honomanu Stream near Keanae, Maui, HI",
@@ -135,8 +135,8 @@
     "SiteName": "Haipuaena Stream abv Spreckels Ditch, Maui, HI",
     "SiteCode": "16536000",
     "VariableDescription": "Gage height, feet",
-    "Value": 2.27,
-    "Timestamp": "2026-03-18T06:45:00+00:00",
+    "Value": 2.26,
+    "Timestamp": "2026-03-18T07:45:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.84808333,
@@ -165,19 +165,19 @@
     "MajorFlood": 8.2,
     "Latitude": 20.80538889,
     "Longitude": -156.2312222,
-    "Trend": "↑ 0.04"
+    "Trend": "↑ 0.03"
   },
   {
     "SiteName": "Nailiilihaele Stream near Huelo, Maui, HI",
     "SiteCode": "16570000",
     "VariableDescription": "Gage height, feet",
-    "Value": 3.11,
-    "Timestamp": "2026-03-18T06:45:00+00:00",
+    "Value": 2.99,
+    "Timestamp": "2026-03-18T07:45:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.8711111,
     "Longitude": -156.2155556,
-    "Trend": "↓ 0.06"
+    "Trend": "↓ 0.14"
   },
   {
     "SiteName": "Honopou Stream near Huelo, Maui, HI",
@@ -189,50 +189,50 @@
     "MajorFlood": 7.3,
     "Latitude": 20.88563889,
     "Longitude": -156.2525556,
-    "Trend": "↓ 0.03"
+    "Trend": "↓ 0.02"
   },
   {
     "SiteName": "Wailuku River at Kepaniwai Park, Maui, HI",
     "SiteCode": "16604500",
     "VariableDescription": "Gage height, feet",
     "Value": 0.7,
-    "Timestamp": "2026-03-18T07:35:00+00:00",
+    "Timestamp": "2026-03-18T07:50:00+00:00",
     "MinorFlood": 8.5,
     "MajorFlood": null,
     "Latitude": 20.88238889,
     "Longitude": -156.5392778,
-    "Trend": "↓ 0.02"
+    "Trend": "-- 0.01"
   },
   {
     "SiteName": "Wailuku River at Iao Valley Road, Maui, HI",
     "SiteCode": "16605500",
     "VariableDescription": "Gage height, feet",
-    "Value": 9.23,
-    "Timestamp": "2026-03-18T07:35:00+00:00",
+    "Value": 9.22,
+    "Timestamp": "2026-03-18T07:50:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.88297222,
     "Longitude": -156.5338333,
-    "Trend": "↓ 0.02"
+    "Trend": "↓ 0.03"
   },
   {
     "SiteName": "S Waiehu Str US of ditch at alt. 315 ft, Maui, HI",
     "SiteCode": "16611500",
     "VariableDescription": "Gage height, feet",
-    "Value": 2.63,
-    "Timestamp": "2026-03-18T06:40:00+00:00",
+    "Value": 2.7,
+    "Timestamp": "2026-03-18T07:40:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.91071944,
     "Longitude": -156.5094417,
-    "Trend": "↓ 0.06"
+    "Trend": "↑ 0.03"
   },
   {
     "SiteName": "Waihee Rv abv Waihee Dtch intk nr Waihee, Maui, HI",
     "SiteCode": "16614000",
     "VariableDescription": "Gage height, feet",
-    "Value": 2.06,
-    "Timestamp": "2026-03-18T07:35:00+00:00",
+    "Value": 2.05,
+    "Timestamp": "2026-03-18T07:50:00+00:00",
     "MinorFlood": 6,
     "MajorFlood": 11,
     "Latitude": 20.9358611,
@@ -255,13 +255,13 @@
     "SiteName": "Honokohau Stream near Honokohau, Maui, HI",
     "SiteCode": "16620000",
     "VariableDescription": "Gage height, feet",
-    "Value": 2.38,
-    "Timestamp": "2026-03-18T06:45:00+00:00",
+    "Value": 2.33,
+    "Timestamp": "2026-03-18T07:45:00+00:00",
     "MinorFlood": 6,
     "MajorFlood": 7.9,
     "Latitude": 20.95969444,
     "Longitude": -156.5870556,
-    "Trend": "↑ 0.02"
+    "Trend": "↓ 0.03"
   },
   {
     "SiteName": "Honokahua Stream at Honoapiilani Highway, Maui, HI",
@@ -273,19 +273,19 @@
     "MajorFlood": null,
     "Latitude": 20.9998111,
     "Longitude": -156.6495306,
-    "Trend": "↓ 0.08"
+    "Trend": "↓ 0.07"
   },
   {
     "SiteName": "Kahoma Stream at Lahaina, Maui, HI",
     "SiteCode": "16638500",
     "VariableDescription": "Gage height, feet",
-    "Value": 0.63,
-    "Timestamp": "2026-03-18T07:35:00+00:00",
+    "Value": 0.61,
+    "Timestamp": "2026-03-18T07:50:00+00:00",
     "MinorFlood": 6,
     "MajorFlood": 8.61,
     "Latitude": 20.88313889,
     "Longitude": -156.6770833,
-    "Trend": "↑ 0.03"
+    "Trend": "-- 0.01"
   },
   {
     "SiteName": "Kauaula Stream US of ditch diversion, Maui, HI",
@@ -333,6 +333,6 @@
     "MajorFlood": null,
     "Latitude": 20.85577379,
     "Longitude": -156.53647699,
-    "Trend": "-- 0.00"
+    "Trend": "-- 0.01"
   }
 ]
