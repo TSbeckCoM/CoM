@@ -3,8 +3,8 @@
     "SiteName": "Halawa Stream near Halawa, Molokai, HI",
     "SiteCode": "16400000",
     "VariableDescription": "Gage height, feet",
-    "Value": 2.56,
-    "Timestamp": "2026-03-19T06:35:00+00:00",
+    "Value": 2.57,
+    "Timestamp": "2026-03-19T06:50:00+00:00",
     "MinorFlood": 9.5,
     "MajorFlood": 19.9,
     "Latitude": 21.1555,
@@ -28,7 +28,7 @@
     "SiteCode": "16414200",
     "VariableDescription": "Gage height, feet",
     "Value": 3.54,
-    "Timestamp": "2026-03-19T05:55:00+00:00",
+    "Timestamp": "2026-03-19T06:55:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 21.09652778,
@@ -81,7 +81,7 @@
     "MajorFlood": 12.4,
     "Latitude": 20.6683611,
     "Longitude": -156.0522222,
-    "Trend": "-- 0.01"
+    "Trend": "-- 0.02"
   },
   {
     "SiteName": "Hanawi Stream near Nahiku, Maui, HI",
@@ -99,20 +99,20 @@
     "SiteName": "West Wailuaiki Stream near Keanae, Maui, HI",
     "SiteCode": "16518000",
     "VariableDescription": "Gage height, feet",
-    "Value": 1.97,
-    "Timestamp": "2026-03-19T06:50:00+00:00",
+    "Value": 1.96,
+    "Timestamp": "2026-03-19T07:05:00+00:00",
     "MinorFlood": 10,
     "MajorFlood": 13.5,
     "Latitude": 20.8143611,
     "Longitude": -156.1429722,
-    "Trend": "-- 0.02"
+    "Trend": "↓ 0.02"
   },
   {
     "SiteName": "Honomanu Stream near Keanae, Maui, HI",
     "SiteCode": "16527000",
     "VariableDescription": "Gage height, feet",
     "Value": 3.69,
-    "Timestamp": "2026-03-19T05:55:00+00:00",
+    "Timestamp": "2026-03-19T06:55:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.831325,
@@ -207,13 +207,13 @@
     "SiteName": "Wailuku River at Iao Valley Road, Maui, HI",
     "SiteCode": "16605500",
     "VariableDescription": "Gage height, feet",
-    "Value": 9.03,
-    "Timestamp": "2026-03-19T06:50:00+00:00",
+    "Value": 9.02,
+    "Timestamp": "2026-03-19T07:05:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.88297222,
     "Longitude": -156.5338333,
-    "Trend": "-- 0.01"
+    "Trend": "-- 0.02"
   },
   {
     "SiteName": "S Waiehu Str US of ditch at alt. 315 ft, Maui, HI",
@@ -231,13 +231,13 @@
     "SiteName": "Waihee Rv abv Waihee Dtch intk nr Waihee, Maui, HI",
     "SiteCode": "16614000",
     "VariableDescription": "Gage height, feet",
-    "Value": 1.85,
-    "Timestamp": "2026-03-19T06:50:00+00:00",
+    "Value": 1.86,
+    "Timestamp": "2026-03-19T07:05:00+00:00",
     "MinorFlood": 6,
     "MajorFlood": 11,
     "Latitude": 20.9358611,
     "Longitude": -156.5468333,
-    "Trend": "-- 0.01"
+    "Trend": "-- 0.00"
   },
   {
     "SiteName": "Kahakuloa Stream near Honokohau, Maui, HI",
@@ -249,7 +249,7 @@
     "MajorFlood": 12.4,
     "Latitude": 20.97869444,
     "Longitude": -156.5545,
-    "Trend": "↑ 0.02"
+    "Trend": "-- 0.02"
   },
   {
     "SiteName": "Honokohau Stream near Honokohau, Maui, HI",
@@ -273,14 +273,14 @@
     "MajorFlood": null,
     "Latitude": 20.9998111,
     "Longitude": -156.6495306,
-    "Trend": "-- 0.02"
+    "Trend": "↑ 0.02"
   },
   {
     "SiteName": "Kahoma Stream at Lahaina, Maui, HI",
     "SiteCode": "16638500",
     "VariableDescription": "Gage height, feet",
-    "Value": 0.54,
-    "Timestamp": "2026-03-19T06:50:00+00:00",
+    "Value": 0.53,
+    "Timestamp": "2026-03-19T07:05:00+00:00",
     "MinorFlood": 6,
     "MajorFlood": 8.61,
     "Latitude": 20.88313889,
@@ -292,7 +292,7 @@
     "SiteCode": "16641000",
     "VariableDescription": "Gage height, feet",
     "Value": -999999.0,
-    "Timestamp": "2026-03-19T06:50:00+00:00",
+    "Timestamp": "2026-03-19T07:05:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.87763889,
@@ -327,8 +327,8 @@
     "SiteName": "Waikapu Str US of S Waikapu Dt intake, Maui, HI",
     "SiteCode": "16647900",
     "VariableDescription": "Gage height, feet",
-    "Value": 2.55,
-    "Timestamp": "2026-03-19T06:35:00+00:00",
+    "Value": 2.57,
+    "Timestamp": "2026-03-19T06:50:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.85577379,
