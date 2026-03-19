@@ -9,7 +9,7 @@
     "MajorFlood": 19.9,
     "Latitude": 21.1555,
     "Longitude": -156.7619722,
-    "Trend": "↑ 0.10"
+    "Trend": "↑ 0.06"
   },
   {
     "SiteName": "Waihanau Stream nr Kalaupapa, Molokai, HI",
@@ -99,8 +99,8 @@
     "SiteName": "West Wailuaiki Stream near Keanae, Maui, HI",
     "SiteCode": "16518000",
     "VariableDescription": "Gage height, feet",
-    "Value": 1.85,
-    "Timestamp": "2026-03-19T16:05:00+00:00",
+    "Value": 1.84,
+    "Timestamp": "2026-03-19T16:20:00+00:00",
     "MinorFlood": 10,
     "MajorFlood": 13.5,
     "Latitude": 20.8143611,
@@ -147,8 +147,8 @@
     "SiteName": "Puohokamoa Str ab Spreckels Ditch, Maui, HI",
     "SiteCode": "16545000",
     "VariableDescription": "Gage height, feet",
-    "Value": 2.64,
-    "Timestamp": "2026-03-19T15:10:00+00:00",
+    "Value": 2.63,
+    "Timestamp": "2026-03-19T16:10:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.85263746,
@@ -183,13 +183,13 @@
     "SiteName": "Honopou Stream near Huelo, Maui, HI",
     "SiteCode": "16587000",
     "VariableDescription": "Gage height, feet",
-    "Value": 1.1,
-    "Timestamp": "2026-03-19T15:10:00+00:00",
+    "Value": 1.09,
+    "Timestamp": "2026-03-19T16:10:00+00:00",
     "MinorFlood": 3.5,
     "MajorFlood": 7.3,
     "Latitude": 20.88563889,
     "Longitude": -156.2525556,
-    "Trend": "-- 0.00"
+    "Trend": "-- 0.01"
   },
   {
     "SiteName": "Wailuku River at Kepaniwai Park, Maui, HI",
@@ -279,13 +279,13 @@
     "SiteName": "Kahoma Stream at Lahaina, Maui, HI",
     "SiteCode": "16638500",
     "VariableDescription": "Gage height, feet",
-    "Value": 0.5,
-    "Timestamp": "2026-03-19T16:05:00+00:00",
+    "Value": 0.48,
+    "Timestamp": "2026-03-19T16:20:00+00:00",
     "MinorFlood": 6,
     "MajorFlood": 8.61,
     "Latitude": 20.88313889,
     "Longitude": -156.6770833,
-    "Trend": "-- 0.01"
+    "Trend": "↓ 0.03"
   },
   {
     "SiteName": "Kauaula Stream US of ditch diversion, Maui, HI",
@@ -316,7 +316,7 @@
     "SiteCode": "16647000",
     "VariableDescription": "Gage height, feet",
     "Value": -999999.0,
-    "Timestamp": "2026-03-19T15:15:00+00:00",
+    "Timestamp": "2026-03-19T16:15:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.81854167,
@@ -327,12 +327,12 @@
     "SiteName": "Waikapu Str US of S Waikapu Dt intake, Maui, HI",
     "SiteCode": "16647900",
     "VariableDescription": "Gage height, feet",
-    "Value": 2.55,
-    "Timestamp": "2026-03-19T14:50:00+00:00",
+    "Value": 2.54,
+    "Timestamp": "2026-03-19T16:05:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.85577379,
     "Longitude": -156.53647699,
-    "Trend": "-- 0.01"
+    "Trend": "-- 0.00"
   }
 ]
