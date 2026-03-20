@@ -9,7 +9,7 @@
     "MajorFlood": 19.9,
     "Latitude": 21.1555,
     "Longitude": -156.7619722,
-    "Trend": "↓ 0.11"
+    "Trend": "↓ 0.09"
   },
   {
     "SiteName": "Waihanau Stream nr Kalaupapa, Molokai, HI",
@@ -45,7 +45,7 @@
     "MajorFlood": null,
     "Latitude": 21.1096361,
     "Longitude": -156.9033278,
-    "Trend": "↓ 0.71"
+    "Trend": "↓ 0.72"
   },
   {
     "SiteName": "Kawela Gulch near Moku, Molokai, HI",
@@ -57,7 +57,7 @@
     "MajorFlood": null,
     "Latitude": 21.06997222,
     "Longitude": -156.9483333,
-    "Trend": "↑ 0.37"
+    "Trend": "↑ 0.36"
   },
   {
     "SiteName": "LB Honoulimaloo Str US diversion, Molokai, HI",
@@ -100,7 +100,7 @@
     "SiteCode": "16518000",
     "VariableDescription": "Gage height, feet",
     "Value": 1.76,
-    "Timestamp": "2026-03-20T14:05:00+00:00",
+    "Timestamp": "2026-03-20T14:20:00+00:00",
     "MinorFlood": 10,
     "MajorFlood": 13.5,
     "Latitude": 20.8143611,
@@ -201,7 +201,7 @@
     "MajorFlood": null,
     "Latitude": 20.88238889,
     "Longitude": -156.5392778,
-    "Trend": "↑ 0.62"
+    "Trend": "↑ 0.61"
   },
   {
     "SiteName": "Wailuku River at Iao Valley Road, Maui, HI",
@@ -237,7 +237,7 @@
     "MajorFlood": 11,
     "Latitude": 20.9358611,
     "Longitude": -156.5468333,
-    "Trend": "-- 0.01"
+    "Trend": "-- 0.00"
   },
   {
     "SiteName": "Kahakuloa Stream near Honokohau, Maui, HI",
@@ -273,7 +273,7 @@
     "MajorFlood": null,
     "Latitude": 20.9998111,
     "Longitude": -156.6495306,
-    "Trend": "↑ 0.86"
+    "Trend": "↑ 0.84"
   },
   {
     "SiteName": "Kahoma Stream at Lahaina, Maui, HI",
