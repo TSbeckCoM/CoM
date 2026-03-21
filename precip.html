@@ -37,7 +37,7 @@
     .controls {
       display: flex; gap: .5rem; flex-wrap: wrap; align-items: center; margin-bottom: .75rem;
     }
-    .controls button, .controls select {
+    .controls button, .controls select, .controls input[type="search"] {
       background: var(--panel); color: var(--text);
       border: 1px solid var(--border); padding: .5rem .75rem; border-radius: .5rem; cursor: pointer;
     }
@@ -121,9 +121,10 @@
   </main>
 
   <script>
-    // === CONFIG: update to your actual JSON file name/path ===
-    // If this HTML is at repo_root/precip/index.html and JSON is at repo_root/data/precip.json:
-    const DATA_URL = "../data/precip.json";  // <-- change to your file name
+    // === CONFIG: JSON path ===
+    // This assumes the HTML file is at repo_root/precip/index.html
+    // and the JSON file is at repo_root/data/latestPrecip.json
+    const DATA_URL = "../data/latestPrecip.json";
 
     const INCH_TO_MM = 25.4;
 
@@ -205,7 +206,7 @@
           station: s.name || "",
           stid: s.stid || "",
           elevation_m: toNumber(s.elevation_m),
-          // Optional, if you ever want to use them:
+          // Optional coordinates if needed later
           lat: toNumber(s.lat),
           lon: toNumber(s.lon),
           values: {}
