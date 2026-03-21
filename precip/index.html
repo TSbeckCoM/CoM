@@ -136,3 +136,119 @@
       </table>
     </main>
 
+    <footer>
+      Data source: Synoptic API (<code>stations/precip</code>, <code>pmode=last</code>). Values converted to inches at 3 decimal places.
+    </footer>
+
+    <!-- Single, hardened loader & renderer -->
+    <script type="module">
+      // ---- CONFIG / BASE URL -------------------------------------------------
+      // Option 1 (recommended): derive repo segment from URL (works on GitHub Project Pages).
+      function pagesRootBase() {
+        // pathname like: /CoM/precip/ --> repo segment is 'CoM'
+        const parts = location.pathname.split('/').filter(Boolean);
+        const repo = parts[0] || '';
+        return repo ? `/${repo}/` : '/';
+      }
+      const BASE = pagesRootBase(); // e.g., '/CoM/'
+
+      // Option 2 (fallback): hardcode repo if needed (uncomment to force)
+      // const BASE = '/CoM/';
+
+      // Final JSON URL (absolute to avoid ambiguity)
+      const ABS_JSON = new URL(`${BASE}data/latestPrecip.json`, location.origin).href;
+
+      const INTERVALS_DEFAULT = [1, 2, 3, 6, 24, 48];
+
+      // ---- DOM references ----------------------------------------------------
+      const $status  = document.getElementById('status');
+      const $debug   = document.getElementById('debug');
+      const $updated = document.getElementById('last-updated');
+      const $tbody   = document.getElementById('precip-body');
+      const $refresh = document.getElementById('refresh-btn');
+
+      // ---- Utils -------------------------------------------------------------
+      function setStatus(msg, isError = false) {
+        $status.textContent = msg;
+        $status.classList.toggle('error', !!isError);
+      }
+      function safeNumber(v, def = 0) {
+        const n = typeof v === 'string' ? Number(v) : v;
+        return Number.isFinite(n) ? n : def;
+      }
+      function getIntervals(data) {
+        const arr = Array.isArray(data?.intervals_hours) ? data.intervals_hours : INTERVALS_DEFAULT;
+        const nums = arr.map(h => Number(h)).filter(Number.isFinite);
+        return nums.length === 6 ? nums : INTERVALS_DEFAULT;
+      }
+      function getPrecipArray(station, intervals) {
+        // Prefer Option‑B array; fallback to mapping
+        if (Array.isArray(station.precip_in_arr)) {
+          return station.precip_in_arr.map(v => safeNumber(v, 0));
+        }
+        const m = station.precip_in || {};
+        return intervals.map(h => safeNumber(m[String(h)], 0));
+      }
+      function formatInches(v) {
+        return safeNumber(v, 0).toFixed(3);
+      }
+
+      // ---- Render ------------------------------------------------------------
+      function render(data) {
+        const intervals = getIntervals(data);
+        const stations  = Array.isArray(data?.stations) ? data.stations : [];
+
+        // Deterministic sort by STID (matches Python output)
+        stations.sort((a, b) => String(a?.stid || '').localeCompare(String(b?.stid || '')));
+
+        // Last updated
+        $updated.textContent = data?.generated_local || data?.generated_utc || '—';
+
+        // Rows
+        $tbody.innerHTML = '';
+        for (const s of stations) {
+          const totals = getPrecipArray(s, intervals);
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${s.stid ?? ''}</td>
+            <td>${s.display_name || s.name || s.stid || ''}</td>
+            <td>${s.island || ''}</td>
+            ${totals.map(v => `<td>${formatInches(v)}</td>`).join('')}
+          `;
+          $tbody.appendChild(tr);
+        }
+
+        setStatus(`Loaded ${stations.length} stations. Intervals: ${intervals.join(', ')}.`);
+      }
+
+      // ---- Fetch -------------------------------------------------------------
+      async function fetchLatest() {
+        // Build request URL with cache‑buster
+        const url = new URL(ABS_JSON);
+        url.searchParams.set('v', Date.now());
+
+        // Debug: show exactly what we’re requesting
+        $debug.textContent = `Request URL: ${url.href}`;
+
+        const res = await fetch(url.href, { cache: 'no-store' });
+        if (!res.ok) throw new Error(`Fetch failed: ${res.status} ${res.statusText} for ${url.href}`);
+        return res.json();
+      }
+
+      async function load() {
+        try {
+          setStatus('Loading data…');
+          const data = await fetchLatest();
+          render(data);
+        } catch (err) {
+          console.error(err);
+          setStatus(`Failed to load data: ${err.message || err}`, true);
+        }
+      }
+
+      // ---- Wire up -----------------------------------------------------------
+      $refresh.addEventListener('click', load);
+      load();
+    </script>
+  </body>
+</html>
