@@ -5,14 +5,14 @@ Synoptic precip fetcher (pmode=last), token sourced from environment (GitHub Act
 
 - Stations: TT917, TT918, AR247, 023HI
 - Intervals: 1, 2, 3, 6, 24, 48 (hours)
-- Output: data/latest.json
+- Output: data/latestPrecip.json
 - Token: expected in env var SYNOPTIC_TOKEN (provided by GitHub Actions secret)
 
 Environment variables:
   SYNOPTIC_TOKEN  - required (provided via GitHub Actions secret)
 Optional overrides:
   STATIONS        - comma-separated STIDs (default: TT917,TT918,AR247,023HI)
-  OUTPUT_JSON     - output path (default: data/latest.json)
+  OUTPUT_JSON     - output path (default: data/latestPrecip.json)
 
 Dependencies:
   pip install requests python-dateutil
