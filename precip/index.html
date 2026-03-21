@@ -159,5 +159,42 @@
       $refresh.addEventListener('click', load);
       load();
     </script>
+    <script type="module">
+      // Hardcode the absolute path to the JSON in your project pages
+      const ABS_JSON = 'https://tsbeckcom.github.io/CoM/data/latestPrecip.json';
+    
+      const $status = document.getElementById('status') || document.body.appendChild(Object.assign(document.createElement('div'), { id: 'status' }));
+      const $debug  = document.getElementById('debug')  || document.body.appendChild(Object.assign(document.createElement('div'), { id: 'debug' }));
+    
+      function setStatus(msg, isError = false) {
+        $status.textContent = msg;
+        $status.style.color = isError ? '#ff4d4f' : '#94a3b8';
+      }
+    
+      async function load() {
+        try {
+          // Build the final request URL (with cache-buster)
+          const url = new URL(ABS_JSON);
+          url.searchParams.set('v', Date.now());
+    
+          // Show exactly what we’re requesting
+          $debug.textContent = `Request URL: ${url.href}`;
+    
+          const res = await fetch(url.href, { cache: 'no-store' });
+          if (!res.ok) throw new Error(`Fetch failed: ${res.status} ${res.statusText}`);
+          const data = await res.json();
+    
+          setStatus(`Loaded ${data.stations?.length ?? 0} stations.`);
+          console.log('schema:', data.schema); // should log { version: "precip_v2", has_precip_in_arr: true } when Option‑B JSON is live
+    
+          // TODO: render your table or map here…
+        } catch (err) {
+          console.error(err);
+          setStatus(`Failed to load: ${err.message || err}`, true);
+        }
+      }
+    
+      load();
+    </script>
   </body>
 </html>
