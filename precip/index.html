@@ -5,44 +5,118 @@
   <title>Precipitation Readings</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    :root {
-      --bg: #0f172a;      /* slate-900 */
-      --panel: #111827;   /* gray-900 */
-      --text: #e5e7eb;    /* gray-200 */
-      --muted: #9ca3af;   /* gray-400 */
-      --accent: #22d3ee;  /* cyan-400 */
-      --border: #374151;  /* gray-700 */
-      --header: #0b1220;
-      --hover: #0d1a2b;
-    }
-    * { box-sizing: border-box }
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial; margin: 0; background: var(--bg); color: var(--text); line-height: 1.5; }
-    header { padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); position: sticky; top: 0; backdrop-filter: saturate(180%) blur(6px); background: color-mix(in oklab, var(--bg) 85%, transparent); }
-    header h1 { margin: 0 0 .25rem 0; font-size: 1.25rem }
-    header .sub { color: var(--muted); font-size: .95rem }
-
-    main { max-width: 1100px; margin: 1rem auto; padding: 0 1rem 2rem }
-    .controls { display: flex; gap: .5rem; flex-wrap: wrap; align-items: center; margin-bottom: .75rem; }
-    .controls button, .controls select, .controls input[type="search"] { background: var(--panel); color: var(--text); border: 1px solid var(--border); padding: .5rem .75rem; border-radius: .5rem; cursor: pointer; }
-    .controls button:hover { border-color: var(--accent); color: white }
-    .status { color: var(--muted); font-size: .9rem; margin-left: auto }
-    .error { border: 1px solid #ef4444; color: white; background: color-mix(in oklab, #ef4444 20%, transparent); padding: .75rem; border-radius: .5rem; margin: .75rem 0 1rem; }
-    .hidden { display: none }
-
-    table { width: 100%; border-collapse: collapse; background: var(--panel); border: 1px solid var(--border); border-radius: .5rem; overflow: hidden; }
-    thead th { text-align: left; padding: .6rem .75rem; background: var(--header); border-bottom: 1px solid var(--border); font-weight: 600; white-space: nowrap; }
-    tbody td { padding: .6rem .75rem; border-bottom: 1px solid var(--border); vertical-align: top; }
-    tbody tr:hover { background: var(--hover) }
-    .num { text-align: right; font-variant-numeric: tabular-nums }
-    .muted { color: var(--muted) }
-  </style>
+      :root {
+        --bg: #0f172a;      /* slate-900 */
+        --panel: #111827;   /* gray-900 */
+        --text: #e5e7eb;    /* gray-200 */
+        --muted: #9ca3af;   /* gray-400 */
+        --accent: #22d3ee;  /* cyan-400 */
+        --border: #374151;  /* gray-700 */
+        --header: #0b1220;
+        --hover: #0d1a2b;
+  
+        /* NEW: sticky offset for the table header, set by JS to match header height */
+        --sticky-offset: 0px;
+      }
+  
+      * { box-sizing: border-box }
+  
+      body {
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.5;
+      }
+  
+      /* Keep page header sticky at the top */
+      header {
+        padding: 1rem 1.25rem;
+        border-bottom: 1px solid var(--border);
+        position: sticky;
+        top: 0;
+        z-index: 10; /* ensure header sits above table header if they touch */
+        backdrop-filter: saturate(180%) blur(6px);
+              background: color-mix(in oklab, var(--bg) 85%, transparent);
+            }
+      header h1 { margin: 0 0 .25rem 0; font-size: 1.25rem }
+      header .sub { color: var(--muted); font-size: .95rem }
+  
+      main { max-width: 1100px; margin: 1rem auto; padding: 0 1rem 2rem }
+  
+      .controls {
+        display: flex;
+        gap: .5rem;
+        flex-wrap: wrap;
+        align-items: center;
+        margin-bottom: .75rem;
+      }
+      .controls button, .controls select, .controls input[type="search"] {
+        background: var(--panel);
+        color: var(--text);
+        border: 1px solid var(--border);
+        padding: .5rem .75rem;
+        border-radius: .5rem;
+        cursor: pointer;
+      }
+      .controls button:hover { border-color: var(--accent); color: white }
+      .status { color: var(--muted); font-size: .9rem; margin-left: auto }
+  
+      .error {
+        border: 1px solid #ef4444;
+        color: white;
+        background: color-mix(in oklab, #ef4444 20%, transparent);
+        padding: .75rem;
+        border-radius: .5rem;
+        margin: .75rem 0 1rem;
+      }
+      .hidden { display: none }
+        
+      /* WRAPPER: does the rounding/clipping so the table itself isn't clipped */
+      .table-wrap {
+        border: 1px solid var(--border);
+        border-radius: .5rem;
+        overflow: hidden;       /* clip the table content inside this wrapper */
+        background: var(--panel);
+      }
+  
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        /* no border, no overflow here; sticky header works better this way */
+      }
+  
+      /* Make table header sticky, with offset equal to page header height *            
+      thead th {
+        position: sticky;
+        top: var(--sticky-offset);
+        z-index: 5; /* below page header, above body rows */
+        text-align: left;
+        padding: .6rem .75rem;
+        background: var(--header); /* solid background to avoid visual bleed */
+        border-bottom: 1px solid var(--border);
+        font-weight: 600;
+        white-space: nowrap;
+      }
+  
+      tbody td {
+        padding: .6rem .75rem;
+        border-bottom: 1px solid var(--border);
+        vertical-align: top;
+        background: transparent; /* default row background */
+      }
+      tbody tr:hover { background: var(--hover) }
+  
+      .num { text-align: right; font-variant-numeric: tabular-nums }
+      .muted { color: var(--muted) }
+    </style>
 </head>
 <body>
   <header>
     <h1>Precipitation Readings</h1>
     <div class="sub" id="generatedInfo">Generated: —</div>
   </header>
-
+  
   <main>
     <div id="error" class="error hidden" role="alert"></div>
 
