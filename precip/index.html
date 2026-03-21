@@ -15,24 +15,101 @@
         --table-border: #334155;
         --row-alt: #0f172a;
       }
-      body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue",
-             Ubuntu, "Noto Sans", sans-serif; background:var(--bg); color:var(--fg); line-height:1.45; }
-      header { padding:1rem; border-bottom:1px solid var(--table-border); display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
-      header h1 { margin:0; font-size:1.25rem; }
-      .meta { font-size:0.95rem; color:var(--muted); }
-      .spacer { flex:1; }
-      button { padding:0.5rem 0.75rem; border-radius:6px; border:1px solid var(--table-border); background:transparent; color:var(--fg); cursor:pointer; }
-      button:hover { border-color:var(--accent); color:var(--accent); }
-      .status { margin:0.5rem 1rem; font-size:0.95rem; color:var(--muted); white-space:pre-wrap; }
-      .status.error { color:var(--error); }
-      .debug { margin:0.5rem 1rem; font-size:0.85rem; color:var(--muted); }
-      main { padding:1rem; overflow-x:auto; }
-      table { border-collapse:collapse; width:100%; min-width:760px; }
-      thead th { text-align:left; padding:0.5rem 0.75rem; border-bottom:2px solid var(--table-border); font-weight:600; white-space:nowrap; }
-      tbody td { padding:0.5rem 0.75rem; border-bottom:1px solid var(--table-border); vertical-align:top; white-space:nowrap; }
-      tbody tr:nth-child(even) { background:var(--row-alt); }
-      footer { padding:1rem; border-top:1px solid var(--table-border); color:var(--muted); font-size:0.9rem; }
-      code { background:#1f2937; padding:0 0.25rem; border-radius:4px; }
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue",
+                     Ubuntu, "Noto Sans", sans-serif;
+        background: var(--bg);
+        color: var(--fg);
+        line-height: 1.45;
+      }
+      header {
+        padding: 1rem;
+        border-bottom: 1px solid var(--table-border);
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      header h1 {
+        margin: 0;
+        font-size: 1.25rem;
+      }
+      .meta {
+        font-size: 0.95rem;
+        color: var(--muted);
+      }
+      .spacer {
+        flex: 1;
+      }
+      button {
+        padding: 0.5rem 0.75rem;
+        border-radius: 6px;
+        border: 1px solid var(--table-border);
+        background: transparent;
+        color: var(--fg);
+        cursor: pointer;
+      }
+      button:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+      .status {
+        margin: 0.5rem 1rem;
+        font-size: 0.95rem;
+        color: var(--muted);
+        white-space: pre-wrap;
+      }
+      .status.error {
+        color: var(--error);
+      }
+      .debug {
+        margin: 0.5rem 1rem;
+        font-size: 0.85rem;
+        color: var(--muted);
+        white-space: pre-wrap;
+      }
+      main {
+        padding: 1rem;
+        overflow-x: auto;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        min-width: 760px;
+      }
+      caption {
+        text-align: left;
+        padding: 0.25rem 0.75rem;
+        color: var(--muted);
+      }
+      thead th {
+        text-align: left;
+        padding: 0.5rem 0.75rem;
+        border-bottom: 2px solid var(--table-border);
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      tbody td {
+        padding: 0.5rem 0.75rem;
+        border-bottom: 1px solid var(--table-border);
+        vertical-align: top;
+        white-space: nowrap;
+      }
+      tbody tr:nth-child(even) {
+        background: var(--row-alt);
+      }
+      footer {
+        padding: 1rem;
+        border-top: 1px solid var(--table-border);
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+      code {
+        background: #1f2937;
+        padding: 0 0.25rem;
+        border-radius: 4px;
+      }
     </style>
   </head>
   <body>
@@ -48,6 +125,7 @@
 
     <main>
       <table id="precip-table" aria-describedby="status">
+        <caption>Values shown in inches (3 decimal places). Intervals: 1h, 2h, 3h, 6h, 24h, 48h.</caption>
         <thead>
           <tr>
             <th>STID</th><th>Name</th><th>Island</th>
@@ -58,143 +136,3 @@
       </table>
     </main>
 
-    <footer>
-      Data source: Synoptic API (<code>stations/precip</code>, <code>pmode=last</code>). Values converted to inches at 3 decimal places.
-    </footer>
-
-    <script type="module">
-      // ----- ABSOLUTE URL (no ambiguity) -----
-      const PROJECT = 'CoM'; // ← your repo name
-      const ABS_JSON = `https://tsbeckcom.github.io/${PROJECT}/data/latestPrecip.json`;
-
-      // You can switch to dynamic detection if you prefer:
-      // function pagesRootBase() {
-      //   const parts = location.pathname.split('/').filter(Boolean);
-      //   return parts.length ? `/${parts[0]}/` : '/';
-      // }
-      // const ABS_JSON = new URL(`${pagesRootBase()}data/latestPrecip.json`, location.origin).href;
-
-      const INTERVALS_DEFAULT = [1, 2, 3, 6, 24, 48];
-
-      const $status  = document.getElementById('status');
-      const $updated = document.getElementById('last-updated');
-      const $tbody   = document.getElementById('precip-body');
-      const $refresh = document.getElementById('refresh-btn');
-      const $debug   = document.getElementById('debug');
-
-      function setStatus(msg, isError = false) {
-        $status.textContent = msg;
-        $status.classList.toggle('error', !!isError);
-      }
-
-      function safeNumber(v, def = 0) {
-        const n = typeof v === 'string' ? Number(v) : v;
-        return Number.isFinite(n) ? n : def;
-      }
-
-      function getIntervals(data) {
-        const arr = Array.isArray(data?.intervals_hours) ? data.intervals_hours : INTERVALS_DEFAULT;
-        const nums = arr.map(h => Number(h)).filter(Number.isFinite);
-        return nums.length === 6 ? nums : INTERVALS_DEFAULT;
-      }
-
-      function getPrecipArray(station, intervals) {
-        if (Array.isArray(station.precip_in_arr)) {
-          return station.precip_in_arr.map(v => safeNumber(v, 0));
-        }
-        const m = station.precip_in || {};
-        return intervals.map(h => safeNumber(m[String(h)], 0));
-      }
-
-      function formatInches(v) {
-        return safeNumber(v, 0).toFixed(3);
-      }
-
-      function render(data) {
-        const intervals = getIntervals(data);
-        const stations  = Array.isArray(data?.stations) ? data.stations : [];
-        stations.sort((a, b) => String(a?.stid || '').localeCompare(String(b?.stid || '')));
-
-        $updated.textContent = data?.generated_local || data?.generated_utc || '—';
-
-        $tbody.innerHTML = '';
-        for (const s of stations) {
-          const totals = getPrecipArray(s, intervals);
-          const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td>${s.stid ?? ''}</td>
-            <td>${s.display_name || s.name || s.stid || ''}</td>
-            <td>${s.island || ''}</td>
-            ${totals.map(v => `<td>${formatInches(v)}</td>`).join('')}
-          `;
-          $tbody.appendChild(tr);
-        }
-
-        setStatus(`Loaded ${stations.length} stations. Intervals: ${intervals.join(', ')}.`);
-      }
-
-      async function fetchLatest() {
-        const url = new URL(ABS_JSON);
-        url.searchParams.set('v', Date.now()); // cache-buster while iterating
-
-        // Debug: show exactly what we’re requesting
-        $debug.textContent = `Request URL: ${url.href}`;
-
-        const res = await fetch(url.href, { cache: 'no-store' });
-        if (!res.ok) throw new Error(`Fetch failed: ${res.status} ${res.statusText} for ${url.href}`);
-        return res.json();
-      }
-
-      async function load() {
-        try {
-          setStatus('Loading data…');
-          const data = await fetchLatest();
-          render(data);
-        } catch (err) {
-          console.error(err);
-          setStatus(`Failed to load data: ${err.message || err}`, true);
-        }
-      }
-
-      $refresh.addEventListener('click', load);
-      load();
-    </script>
-    <script type="module">
-      // Hardcode the absolute path to the JSON in your project pages
-      const ABS_JSON = 'https://tsbeckcom.github.io/CoM/data/latestPrecip.json';
-    
-      const $status = document.getElementById('status') || document.body.appendChild(Object.assign(document.createElement('div'), { id: 'status' }));
-      const $debug  = document.getElementById('debug')  || document.body.appendChild(Object.assign(document.createElement('div'), { id: 'debug' }));
-    
-      function setStatus(msg, isError = false) {
-        $status.textContent = msg;
-        $status.style.color = isError ? '#ff4d4f' : '#94a3b8';
-      }
-    
-      async function load() {
-        try {
-          // Build the final request URL (with cache-buster)
-          const url = new URL(ABS_JSON);
-          url.searchParams.set('v', Date.now());
-    
-          // Show exactly what we’re requesting
-          $debug.textContent = `Request URL: ${url.href}`;
-    
-          const res = await fetch(url.href, { cache: 'no-store' });
-          if (!res.ok) throw new Error(`Fetch failed: ${res.status} ${res.statusText}`);
-          const data = await res.json();
-    
-          setStatus(`Loaded ${data.stations?.length ?? 0} stations.`);
-          console.log('schema:', data.schema); // should log { version: "precip_v2", has_precip_in_arr: true } when Option‑B JSON is live
-    
-          // TODO: render your table or map here…
-        } catch (err) {
-          console.error(err);
-          setStatus(`Failed to load: ${err.message || err}`, true);
-        }
-      }
-    
-      load();
-    </script>
-  </body>
-</html>
