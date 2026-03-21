@@ -43,34 +43,43 @@ jobs:
 
       - name: Stage changes (only if modified)
         run: |
+          # Stage your target(s)
           git add data/latestPrecip.json || true
+          git add latestPrecip.json || true
+
           echo "----- git status -----"
-          git status --porcelain
+          git status --porcelain || true
           echo "----------------------"
 
-      - name: Commit if staged
+      - name: Commit if staged (set COMMITTED flag)
         run: |
           if git diff --cached --quiet; then
             echo "No staged changes to commit."
+            echo "COMMITTED=false" >> "$GITHUB_ENV"
           else
             git commit -m "Update latest precip JSON [skip ci]"
+            echo "Committed changes."
+            echo "COMMITTED=true" >> "$GITHUB_ENV"
           fi
 
       - name: Pull with rebase to integrate remote changes
         run: |
-          # Only pull if we actually committed in this run
-          if git log -1 --pretty=%B | grep -q "Update latest precip JSON"; then
-            git pull --rebase origin main || (git rebase --abort && exit 1)
+          if [ "${COMMITTED}" = "true" ]; then
+            # Integrate remote updates to avoid 'fetch first'
+            git pull --rebase origin main || { git rebase --abort; exit 1; }
           else
             echo "No local commit created; skipping pull --rebase."
           fi
 
       - name: Push
         run: |
-          if git log -1 --pretty=%B | grep -q "Update latest precip JSON"; then
+          if [ "${COMMITTED}" = "true" ]; then
+            # Normal push (preferred)
             git push origin HEAD:main || {
-              echo "Normal push failed; attempting a safe force-with-lease."
+              echo "Normal push failed; attempting force-with-lease."
               git push --force-with-lease origin HEAD:main
             }
           else
             echo "No new commit; nothing to push."
+          fi
+
