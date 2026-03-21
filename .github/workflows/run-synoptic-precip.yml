@@ -31,7 +31,7 @@ jobs:
           STATIONS: "TT917,TT918,AR247,023HI"
           OUTPUT_JSON: "data/latestPrecip.json"
         run: |
-          python scripts/fetch_precip.py
+          python ./fetch_precip.py
 
       - name: Commit & push updated data
         run: |
