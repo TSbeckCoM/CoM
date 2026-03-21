@@ -49,22 +49,22 @@ HAWAII_TZ = tz.gettz("Pacific/Honolulu")
 # Hard-coded station metadata (provide one entry per STID above)
 # Islands: "Hawaiʻi", "Maui", "Oʻahu", "Kauaʻi", "Molokaʻi", "Lānaʻi" (or your naming)
 STATION_META: Dict[str, Dict[str, Optional[str]]] = {
-    "TT917": {"display_name": "",       "island": ""},
-    "PHMK": {"display_name": "",  "island": ""},
-    "TT919": {"display_name": "",        "island": ""},  
-    "031HI": {"display_name": "",        "island": ""},
-    "G4646": {"display_name": "",        "island": ""},
-    "TT912": {"display_name": "",        "island": ""},
-    "TT933": {"display_name": "",        "island": ""},
-    "AR427": {"display_name": "",        "island": ""},
-    "023HI": {"display_name": "",        "island": ""},
-    "PHOG": {"display_name": "",        "island": ""},
-    "TT910": {"display_name": "",        "island": ""},
-    "042HI": {"display_name": "",        "island": ""},
-    "TT925": {"display_name": "",        "island": ""},
-    "015HE": {"display_name": "",        "island": ""},
-    "017HI": {"display_name": "",        "island": ""},
-    "F4397": {"display_name": "",        "island": ""}       
+    "TT917": {"display_name": "West Molokai",       "island": "Molokai"},
+    "PHMK": {"display_name": "Molokai Airport",  "island": "Molokai"},
+    "TT919": {"display_name": "Kaunakakai",        "island": "Molokai"},  
+    "031HI": {"display_name": "East Molokai",        "island": "Molokai"},
+    "G4646": {"display_name": "Kihei",        "island": "Maui"},
+    "TT912": {"display_name": "Lahainaluna",        "island": "Maui"},
+    "TT933": {"display_name": "Kahana",        "island": "Maui"},
+    "AR427": {"display_name": "Wailuku Heights",        "island": "Maui"},
+    "023HI": {"display_name": "East Maui",        "island": "Maui"},
+    "PHOG": {"display_name": "Kahului Airport",        "island": "Maui"},
+    "TT910": {"display_name": "Kahakuloa",        "island": "Maui"},
+    "042HI": {"display_name": "Kula",        "island": "Maui"},
+    "TT925": {"display_name": "Olinda",        "island": "Maui"},
+    "015HE": {"display_name": "Pukalani",        "island": "Maui"},
+    "017HI": {"display_name": "Piiholo",        "island": "Maui"},
+    "F4397": {"display_name": "Haiku",        "island": "Maui"}       
 }
 
 # --- Helpers ------------------------------------------------------------------
