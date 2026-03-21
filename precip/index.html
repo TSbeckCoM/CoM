@@ -165,7 +165,7 @@
     <div id="error" class="error hidden" role="alert"></div>
 
     <div class="controls">
-      <button id="refresh">Refresh</button>
+
 
       <label>Sort by: <select id="sortInterval"></select></label>
       <select id="sortDir">
@@ -337,10 +337,7 @@
       } catch (err) { showError("Failed to load JSON", err?.message); }
     }
 
-    el("refresh").addEventListener("click", loadData);
-    sortIntervalSel.addEventListener("change", (e) => { state.sortInterval = e.target.value; render(); });
-    sortDirSel.addEventListener("change", (e) => { state.sortDir = e.target.value; render(); });
-    unitSel.addEventListener("change", (e) => { state.unit = e.target.value; render(); });
+
 
     // Search input & listener removed
     // el("search").addEventListener("input", (e) => { state.search = e.target.value; render(); });
