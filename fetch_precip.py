@@ -3,12 +3,9 @@
 Synoptic precip fetcher (raw timeseries → custom bins), token sourced from environment.
 
 Matches prior JSON schema but adds:
-- "3_hr_trend": numeric inches or "no data" (last 3h minus previous 3h)
+- "3 hr trend": numeric inches or "no data" (last 3h minus previous 3h)
 
-Differences vs prior pmode=last version:
-- Endpoint: /stations/timeseries (raw)
-- Time window: end=now (UTC), start=now-48h
-- Bins: 1, 2, 3, 6, 24, 48 hours
+Binning intervals: 1, 3, 6, 24, 48 hours
 
 Dependencies:
   pip install requests python-dateutil
@@ -30,8 +27,8 @@ DEFAULT_STATIONS: List[str] = [
     "023HI","PHOG","TT910","042HI","TT925","015HE","017HI","F4397"
 ]
 
-# Match sample intervals (includes 6h)
-DEFAULT_INTERVALS = (1, 2, 3, 6, 24, 48)
+# Updated intervals: 1, 3, 6, 24, 48
+DEFAULT_INTERVALS = (1, 3, 6, 24, 48)
 DEFAULT_OUTPUT = "data/latestPrecip.json"
 HAWAII_TZ = tz.gettz("Pacific/Honolulu")
 
@@ -237,7 +234,7 @@ def build_payload_timeseries_match_schema(
         precip_bins = bin_precip(increments, api_end_utc, intervals)
         trend_3h = compute_3hr_trend(increments, api_end_utc)
 
-        # Match your sample types: lat/lon/elevation as strings
+        # Match your sample types: lat/lon/elevation as strings; pmode and api_end_* as in sample
         row = {
             "stid": stid,
             "name": api_name,
@@ -246,13 +243,13 @@ def build_payload_timeseries_match_schema(
             "lat": None if lat is None else str(lat),
             "lon": None if lon is None else str(lon),
             "elevation_m": None if elev is None else str(elev),
-            "precip_in": precip_bins,            # {1: x, 2: y, 3: z, 6: a, 24: b, 48: c or "no data"}
-            "pmode": "raw",                      # metadata indicating raw/timeseries
-            "api_end_utc": api_end_utc.isoformat(),
-            "api_end_local": api_end_local,
+            "precip_in": precip_bins,            # {1: x, 3: y, 6: z, 24: a, 48: b or "no data"}
+            "pmode": "last",                     # keep for schema compatibility
+            "api_end_utc": None,                 # match sample (null); set to api_end_utc.isoformat() to populate
+            "api_end_local": None,               # match sample (null); set to api_end_local to populate
             "last_obs_utc": last_obs_dt_utc.isoformat() if last_obs_dt_utc else None,
             "last_obs_local": last_obs_local,
-            "3_hr_trend": trend_3h               # NEW FIELD (inches or "no data")
+            "3 hr trend": trend_3h               # NEW FIELD (inches or "no data")
         }
 
         rows.append(row)
@@ -292,3 +289,34 @@ def main() -> None:
     if not output_path:
         output_path = DEFAULT_OUTPUT
 
+    missing_meta = [s for s in DEFAULT_STATIONS if s not in STATION_META]
+    if missing_meta:
+        print(f"WARNING: Missing STATION_META entries for: {', '.join(missing_meta)}", file=sys.stderr)
+
+    print(f"[info] Requesting {len(DEFAULT_STATIONS)} STIDs: {', '.join(DEFAULT_STATIONS)}")
+
+    # Define window: now → last 48 hours (UTC)
+    end_utc = datetime.now(timezone.utc)
+    start_utc = end_utc - timedelta(hours=48)
+    start_iso = start_utc.isoformat()
+    end_iso = end_utc.isoformat()
+
+    # Fetch → transform → write
+    data = fetch_precip_timeseries(DEFAULT_STATIONS, token, start_iso, end_iso, timeout=45)
+
+    returned_stids = [st.get("STID") for st in (data.get("STATION") or [])]
+    missing = [s for s in DEFAULT_STATIONS if s not in returned_stids]
+    print(f"[info] API returned {len(returned_stids)} stations: {', '.join(returned_stids)}")
+    if missing:
+        print(f"[warn] Missing in API response: {', '.join(missing)}")
+        print("[hint] Check STID spelling/casing, token access, and whether station has precip in last 48h.")
+
+    payload = build_payload_timeseries_match_schema(data, list(DEFAULT_INTERVALS), end_utc)
+    write_json_atomic(payload, output_path)
+
+    print(f"Wrote {output_path} with {len(payload['stations'])} stations "
+          f"(timeseries window={start_iso} → {end_iso}, bins={list(DEFAULT_INTERVALS)}; includes '3 hr trend').")
+
+
+if __name__ == "__main__":
+    main()
