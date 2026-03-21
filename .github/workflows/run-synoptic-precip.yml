@@ -1,42 +1,76 @@
-name: Update precip data
+name: Fetch latest precip
 
 on:
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: "*/15 * * * *"       # every 30 minutes (adjust as needed)
   workflow_dispatch:
 
-permissions:
-  contents: write
+concurrency:
+  group: "update-precip-json"
+  cancel-in-progress: true
 
 jobs:
-  refresh:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
+      - name: Checkout (full history)
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+          persist-credentials: true
 
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install requests python-dateutil
+      - name: Install deps
+        run: pip install requests python-dateutil
 
-      - name: Fetch precip (pmode=last)
+      - name: Fetch precip
         env:
-          SYNOPTIC_TOKEN: ${{ secrets.SYNOPTIC_TOKEN }}   # <-- secret injected into env
-          STATIONS: "TT917,TT918,AR247,023HI"
-          OUTPUT_JSON: "latestPrecip.json"
-        run: |
-          python ./fetch_precip.py
+          SYNOPTIC_TOKEN: ${{ secrets.SYNOPTIC_TOKEN }}
+          OUTPUT_JSON: data/latestPrecip.json
+        run: python ./fetch_precip.py
 
-      - name: Commit & push updated data
+      - name: Configure git author
         run: |
           git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/latestPrecip.json
-          git commit -m "Update precip data [skip ci]" || echo "No changes to commit"
-          git push
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config pull.rebase true
+          git config rebase.autoStash true
+
+      - name: Stage changes (only if modified)
+        run: |
+          git add data/latestPrecip.json || true
+          echo "----- git status -----"
+          git status --porcelain
+          echo "----------------------"
+
+      - name: Commit if staged
+        run: |
+          if git diff --cached --quiet; then
+            echo "No staged changes to commit."
+          else
+            git commit -m "Update latest precip JSON [skip ci]"
+          fi
+
+      - name: Pull with rebase to integrate remote changes
+        run: |
+          # Only pull if we actually committed in this run
+          if git log -1 --pretty=%B | grep -q "Update latest precip JSON"; then
+            git pull --rebase origin main || (git rebase --abort && exit 1)
+          else
+            echo "No local commit created; skipping pull --rebase."
+          fi
+
+      - name: Push
+        run: |
+          if git log -1 --pretty=%B | grep -q "Update latest precip JSON"; then
+            git push origin HEAD:main || {
+              echo "Normal push failed; attempting a safe force-with-lease."
+              git push --force-with-lease origin HEAD:main
+            }
+          else
+            echo "No new commit; nothing to push."
