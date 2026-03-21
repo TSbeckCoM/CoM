@@ -232,3 +232,88 @@
       return Number.isFinite(n) ? n : null;
     }
 
+    function buildHeader() {
+      thead.innerHTML = "";
+      const tr = document.createElement("tr");
+      for (const h of ["Station", "STID"]) { const th = document.createElement("th"); th.textContent = h; tr.appendChild(th); }
+      for (const interval of state.intervals) { const th = document.createElement("th"); th.className = "num"; th.textContent = `${interval}h (${state.unit})`; tr.appendChild(th); }
+      thead.appendChild(tr);
+    }
+
+    function getRows() {
+      if (!state.json?.stations) return [];
+      const intervals = state.intervals;
+      return state.json.stations.map(s => {
+        const precip = s.precip_in || {};
+        const row = {
+          station: s.display_name || s.name || "", // use display_name if present
+          stid: s.stid || "",
+          values: {}
+        };
+        for (const iv of intervals) { row.values[iv] = getPrecipValue(precip, iv); }
+        return row;
+      });
+    }
+
+    function sortRows(rows) {
+      const iv = state.sortInterval, dir = state.sortDir, sign = dir === "asc" ? 1 : -1;
+      const byInterval = (a, b) => {
+        const na = Number.isFinite(Number(a.values?.[iv])) ? Number(a.values[iv]) : -Infinity;
+        const nb = Number.isFinite(Number(b.values?.[iv])) ? Number(b.values[iv]) : -Infinity;
+        return na === nb ? a.station.localeCompare(b.station) : (na - nb) * sign;
+      };
+      return [...rows].sort(byInterval);
+    }
+
+    function render() {
+      buildHeader();
+      const unit = state.unit;
+      let rows = sortRows(getRows());
+
+      tbody.innerHTML = "";
+      const frag = document.createDocumentFragment();
+      for (const r of rows) {
+        const tr = document.createElement("tr");
+        const tdStation = document.createElement("td"); tdStation.textContent = r.station; tr.appendChild(tdStation);
+        const tdStid = document.createElement("td"); tdStid.className = "muted"; tdStid.textContent = r.stid; tr.appendChild(tdStid);
+        for (const iv of state.intervals) { const td = document.createElement("td"); td.className = "num"; td.textContent = fmt(convert(r.values[iv], unit), unit); tr.appendChild(td); }
+        frag.appendChild(tr);
+      }
+      tbody.appendChild(frag);
+      statusText.textContent = `${rows.length} stations • unit: ${unit} • sorted by ${state.sortInterval}h (${state.sortDir})`;
+    }
+
+    function populateControls() {
+      sortIntervalSel.innerHTML = "";
+      for (const iv of state.intervals) { const opt = document.createElement("option"); opt.value = iv; opt.textContent = `${iv}h`; sortIntervalSel.appendChild(opt); }
+      sortIntervalSel.value = state.intervals.includes("24") ? "24" : state.intervals[state.intervals.length - 1];
+      state.sortInterval = sortIntervalSel.value;
+      unitSel.value = state.unit; sortDirSel.value = state.sortDir;
+    }
+
+    async function loadData() {
+      statusText.textContent = "Loading…"; clearError();
+      try {
+        const res = await fetch(DATA_URL, { cache: "no-cache" });
+        if (!res.ok) throw new Error(`HTTP ${res.status} — ${res.statusText}`);
+        const json = await res.json();
+        state.json = json;
+
+        // Intervals: keep as strings and DROP "2" if present
+        state.intervals = (json.intervals_hours || [])
+          .map(iv => String(iv))
+          .filter(iv => iv !== "2");
+
+        generatedInfo.textContent = `Generated: local ${json.generated_local ?? "—"} • UTC ${json.generated_utc ?? "—"}`;
+        populateControls(); render();
+      } catch (err) { showError("Failed to load JSON", err?.message); }
+    }
+
+    el("refresh").addEventListener("click", loadData);
+    sortIntervalSel.addEventListener("change", (e) => { state.sortInterval = e.target.value; render(); });
+    sortDirSel.addEventListener("change", (e) => { state.sortDir = e.target.value; render(); });
+    unitSel.addEventListener("change", (e) => { state.unit = e.target.value; render(); });
+
+    loadData();
+  </script>
+</body>
