@@ -83,8 +83,8 @@
     margin-bottom: var(--space-3);
   }
 
-  /* Keep shared control styles */
-  .controls button, .controls select {
+  /* Control styles (no buttons left) */
+  .controls select {
     background: var(--panel);
     color: var(--text);
     border: 1px solid var(--border);
@@ -92,7 +92,6 @@
     border-radius: .6rem;
     cursor: pointer;
   }
-  .controls button:hover { border-color: var(--accent); color: white }
   .status { color: var(--muted); font-size: .95rem; margin-left: auto }
 
   .error {
@@ -104,15 +103,6 @@
     margin: var(--space-3) 0 var(--space-4);
   }
   .hidden { display: none }
-
-  /* Wrapper: rounded corners & clipping */
-  .table-wrap {
-    margin-top: var(--table-margin-top);
-    border: 1px solid var(--border);
-    border-radius: .75rem;
-    overflow: hidden;
-    background: var(--panel);
-  }
 
   table {
     width: 100%;
@@ -165,8 +155,6 @@
     <div id="error" class="error hidden" role="alert"></div>
 
     <div class="controls">
-
-
       <label>Sort by: <select id="sortInterval"></select></label>
       <select id="sortDir">
         <option value="desc">High → Low</option>
@@ -177,9 +165,6 @@
         <option value="in">inches</option>
         <option value="mm">millimeters</option>
       </select></label>
-
-      <!-- Search bar removed -->
-      <!-- <label>Search: <input id="search" type="search" placeholder="Station or STID" /></label> -->
 
       <span id="status" class="status">Loading…</span>
     </div>
@@ -206,23 +191,33 @@
     const DATA_URL = "../data/latestPrecip.json";
     const INCH_TO_MM = 25.4;
 
-    // Removed 'search' from state
     const state = { json: null, intervals: [], unit: "in", sortInterval: "24", sortDir: "desc" };
 
     const el = (id) => document.getElementById(id);
     const thead = el("thead"), tbody = el("tbody"), errorBox = el("error"), statusText = el("status");
     const sortIntervalSel = el("sortInterval"), sortDirSel = el("sortDir"), unitSel = el("unitSelect"), generatedInfo = el("generatedInfo");
 
-    function showError(message, detail) { errorBox.classList.remove("hidden"); errorBox.textContent = message + (detail ? ` — ${detail}` : ""); statusText.textContent = "Error"; }
+    function showError(message, detail) { 
+      errorBox.classList.remove("hidden"); 
+      errorBox.textContent = message + (detail ? ` — ${detail}` : ""); 
+      statusText.textContent = "Error"; 
+    }
     function clearError() { errorBox.classList.add("hidden"); errorBox.textContent = ""; }
-    function toNumber(x) { const n = Number(x); return Number.isFinite(n) ? n : null; }
-    function convert(valInInches, unit) { if (valInInches == null) return null; const v = Number(valInInches); return Number.isFinite(v) ? (unit === "mm" ? v * INCH_TO_MM : v) : null; }
-    function fmt(val, unit) { if (val == null || !Number.isFinite(Number(val))) return "—"; const digits = unit === "mm" ? 1 : 2; return Number(val).toLocaleString(undefined, { minimumFractionDigits: digits, maximumFractionDigits: digits }); }
+    function convert(valInInches, unit) { 
+      if (valInInches == null) return null; 
+      const v = Number(valInInches); 
+      return Number.isFinite(v) ? (unit === "mm" ? v * INCH_TO_MM : v) : null; 
+    }
+    function fmt(val, unit) { 
+      if (val == null || !Number.isFinite(Number(val))) return "—"; 
+      const digits = unit === "mm" ? 1 : 2; 
+      return Number(val).toLocaleString(undefined, { minimumFractionDigits: digits, maximumFractionDigits: digits }); 
+    }
 
     function buildHeader() {
       thead.innerHTML = "";
       const tr = document.createElement("tr");
-      // Removed Elevation column
+      // Elevation column removed
       for (const h of ["Station", "STID"]) {
         const th = document.createElement("th");
         th.textContent = h;
@@ -244,19 +239,14 @@
         const precip = s.precip_in || {};
         const row = {
           station: s.display_name || s.name || "",
-          island: s.island || "",
           stid: s.stid || "",
-          elevation_m: toNumber(s.elevation_m), // still read, just not displayed
-          lat: toNumber(s.lat),
-          lon: toNumber(s.lon),
           values: {}
         };
         for (const iv of intervals) { row.values[iv] = precip[iv] ?? null; }
         return row;
       });
     }
-    
-    // Removed search filtering; return rows unchanged
+
     function sortRows(rows) {
       const iv = state.sortInterval;
       const dir = state.sortDir;
@@ -336,11 +326,6 @@
         render();
       } catch (err) { showError("Failed to load JSON", err?.message); }
     }
-
-
-
-    // Search input & listener removed
-    // el("search").addEventListener("input", (e) => { state.search = e.target.value; render(); });
 
     loadData();
   </script>
