@@ -138,7 +138,16 @@
       <tbody id="tbody"></tbody>
     </table>
   </main>
-
+  <script>
+    // Measure the page header and set the sticky offset for the table header
+    function setStickyOffset() {
+      const headerEl = document.querySelector("header");
+      const h = headerEl ? headerEl.getBoundingClientRect().height : 0;
+      document.documentElement.style.setProperty("--sticky-offset", `${Math.round(h)}px`);
+    }
+    window.addEventListener("load", setStickyOffset);
+    window.addEventListener("resize", setStickyOffset);
+  </script>
   <script>
     // JSON path relative to /precip/index.html
     const DATA_URL = "../data/latestPrecip.json";
