@@ -19,7 +19,7 @@
     /* sticky offset set by JS */
     --sticky-offset: 0px;
 
-    /* NEW: spacing scale — tweak these to taste */
+    /* spacing scale */
     --space-0: 0;
     --space-1: 0.25rem;
     --space-2: 0.5rem;
@@ -141,7 +141,7 @@
   .num { text-align: right; font-variant-numeric: tabular-nums }
   .muted { color: var(--muted) }
 
-  /* Optional: make it a bit tighter on very small screens */
+  /* Optional: tighter on very small screens */
   @media (max-width: 520px) {
     :root {
       --th-pad-x: var(--space-3);
@@ -203,14 +203,13 @@
 
     function showError(message, detail) { errorBox.classList.remove("hidden"); errorBox.textContent = message + (detail ? ` — ${detail}` : ""); statusText.textContent = "Error"; }
     function clearError() { errorBox.classList.add("hidden"); errorBox.textContent = ""; }
-    function toNumber(x) { const n = Number(x); return Number.isFinite(n) ? n : null; }
     function convert(valInInches, unit) { if (valInInches == null) return null; const v = Number(valInInches); return Number.isFinite(v) ? (unit === "mm" ? v * INCH_TO_MM : v) : null; }
     function fmt(val, unit) { if (val == null || !Number.isFinite(Number(val))) return "—"; const digits = unit === "mm" ? 1 : 2; return Number(val).toLocaleString(undefined, { minimumFractionDigits: digits, maximumFractionDigits: digits }); }
 
     function buildHeader() {
       thead.innerHTML = "";
       const tr = document.createElement("tr");
-      for (const h of ["Station", "STID", "Elevation (m)"]) { const th = document.createElement("th"); th.textContent = h; tr.appendChild(th); }
+      for (const h of ["Station", "STID"]) { const th = document.createElement("th"); th.textContent = h; tr.appendChild(th); }
       for (const interval of state.intervals) { const th = document.createElement("th"); th.className = "num"; th.textContent = `${interval}h (${state.unit})`; tr.appendChild(th); }
       thead.appendChild(tr);
     }
@@ -224,9 +223,6 @@
           station: s.display_name || s.name || "", // <- use display_name
           island: s.island || "",
           stid: s.stid || "",
-          elevation_m: toNumber(s.elevation_m),
-          lat: toNumber(s.lat),
-          lon: toNumber(s.lon),
           values: {}
         };
         for (const iv of intervals) { row.values[iv] = precip[iv] ?? null; }
@@ -260,7 +256,6 @@
         const tr = document.createElement("tr");
         const tdStation = document.createElement("td"); tdStation.textContent = r.station; tr.appendChild(tdStation);
         const tdStid = document.createElement("td"); tdStid.className = "muted"; tdStid.textContent = r.stid; tr.appendChild(tdStid);
-        const tdElev = document.createElement("td"); tdElev.className = "num"; tdElev.textContent = r.elevation_m != null ? r.elevation_m.toLocaleString() : "—"; tr.appendChild(tdElev);
         for (const iv of state.intervals) { const td = document.createElement("td"); td.className = "num"; td.textContent = fmt(convert(r.values[iv], unit), unit); tr.appendChild(td); }
         frag.appendChild(tr);
       }
@@ -283,7 +278,8 @@
         if (!res.ok) throw new Error(`HTTP ${res.status} — ${res.statusText}`);
         const json = await res.json();
         state.json = json;
-        state.intervals = (json.intervals_hours || []).map(iv => String(iv));
+        // Intervals: keep as strings to match object keys, and drop "2"
+        state.intervals = (json.intervals_hours || []).map(iv => String(iv)).filter(iv => iv !== "2");
         generatedInfo.textContent = `Generated: local ${json.generated_local ?? "—"} • UTC ${json.generated_utc ?? "—"}`;
         populateControls(); render();
       } catch (err) { showError("Failed to load JSON", err?.message); }
