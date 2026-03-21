@@ -1,11 +1,10 @@
-
 #!/usr/bin/env python3
 """
 Synoptic precip fetcher (pmode=last), token sourced from environment (GitHub Actions secret).
 
 - Stations: TT917, TT918, AR247, 023HI
 - Intervals: 1, 2, 3, 6, 24, 48 (hours)
-- Output: latestPrecip.json
+- Output: latestPrecip.json (repo root by default; override via env OUTPUT_JSON)
 - Token: expected in env var SYNOPTIC_TOKEN (provided by GitHub Actions secret)
 
 Environment variables:
@@ -13,12 +12,14 @@ Environment variables:
 Optional overrides:
   STATIONS        - comma-separated STIDs (default: TT917,TT918,AR247,023HI)
   OUTPUT_JSON     - output path (default: latestPrecip.json)
+  INTERVALS       - comma-separated hours (default: 1,2,3,6,24,48)
 
 Dependencies:
   pip install requests python-dateutil
 """
 
 import os
+import sys
 import json
 import requests
 from datetime import datetime, timezone
@@ -27,15 +28,17 @@ from dateutil import tz
 MM_TO_INCH = 1 / 25.4
 DEFAULT_STATIONS = ["TT917", "TT918", "AR247", "023HI"]
 DEFAULT_INTERVALS = (1, 2, 3, 6, 24, 48)
+DEFAULT_OUTPUT = "latestPrecip.json"  # repo root
 HAWAII_TZ = tz.gettz("Pacific/Honolulu")
 
 
 def iso_to_dt(iso_str):
-    """Safe ISO8601 → datetime with UTC tzinfo."""
+    """Safe ISO8601 → timezone-aware UTC datetime."""
     if not iso_str:
         return None
     try:
-        return datetime.fromisoformat(iso_str.replace("Z", "+00:00")).replace(tzinfo=timezone.utc)
+        dt = datetime.fromisoformat(iso_str.replace("Z", "+00:00"))
+        return dt.astimezone(timezone.utc)
     except Exception:
         return None
 
@@ -48,10 +51,10 @@ def fetch_precip_last(stations, token, intervals, end=None, timeout=45):
     base = "https://api.synopticdata.com/v2/stations/precip"
     params = {
         "stid": ",".join(stations),
-        "token": token,  # <-- token comes from env (GitHub secret)
+        "token": token,
         "pmode": "last",
         "accum_hours": ",".join(map(str, intervals)),
-        "units": "metric",     # totals in mm
+        "units": "metric",     # totals in mm; we convert to inches
         "timeformat": "iso",   # standardize any date strings returned
     }
     if end:
@@ -105,14 +108,24 @@ def main():
     # Token comes from environment (via GitHub Actions secret)
     token = os.getenv("SYNOPTIC_TOKEN")
     if not token:
-        # Do NOT print token contents; just fail clearly.
-        raise SystemExit("SYNOPTIC_TOKEN env var not set. Pass via GitHub Actions secrets.")
+        print("ERROR: SYNOPTIC_TOKEN env var not set. Pass via GitHub Actions secrets.", file=sys.stderr)
+        sys.exit(2)
 
     # Allow station & output overrides via env
     stations_env = os.getenv("STATIONS")
     stations = stations_env.split(",") if stations_env else DEFAULT_STATIONS
-    output_path = os.getenv("OUTPUT_JSON", "data/latest.json")
-    intervals = DEFAULT_INTERVALS
+
+    # Intervals override (optional)
+    intervals_env = os.getenv("INTERVALS")
+    intervals = (
+        [int(x) for x in intervals_env.split(",")] if intervals_env else list(DEFAULT_INTERVALS)
+    )
+
+    # Output path: guard against blank values
+    raw_output = os.getenv("OUTPUT_JSON")
+    output_path = (raw_output if raw_output is not None else DEFAULT_OUTPUT).strip()
+    if not output_path:
+        output_path = DEFAULT_OUTPUT
 
     # Fetch data from Synoptic
     data = fetch_precip_last(stations, token, intervals, end=None, timeout=45)
@@ -149,16 +162,22 @@ def main():
 
     rows = sorted(rows, key=lambda r: (r["stid"] or ""))
 
-    # Write JSON
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    # Write JSON (atomic) — create directory only if it exists in path
+    dirpath = os.path.dirname(output_path)
+    if dirpath:
+        os.makedirs(dirpath, exist_ok=True)
+
     payload = {
         "generated_utc": datetime.now(timezone.utc).isoformat(),
         "generated_local": datetime.now(timezone.utc).astimezone(HAWAII_TZ).isoformat(),
         "intervals_hours": list(intervals),
         "stations": rows,
     }
-    with open(output_path, "w") as f:
-        json.dump(payload, f, indent=2)
+
+    tmp = output_path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(payload, f, ensure_ascii=False, indent=2)
+    os.replace(tmp, output_path)
 
     print(f"Wrote {output_path} with {len(rows)} stations (pmode=last, intervals={intervals}).")
 
