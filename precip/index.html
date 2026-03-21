@@ -19,7 +19,7 @@
     /* sticky offset set by JS */
     --sticky-offset: 0px;
 
-    /* NEW: spacing scale — tweak these to taste */
+    /* spacing scale */
     --space-0: 0;
     --space-1: 0.25rem;
     --space-2: 0.5rem;
@@ -82,7 +82,9 @@
     align-items: center;
     margin-bottom: var(--space-3);
   }
-  .controls button, .controls select, .controls input[type="search"] {
+
+  /* Keep shared control styles */
+  .controls button, .controls select {
     background: var(--panel);
     color: var(--text);
     border: 1px solid var(--border);
@@ -166,11 +168,18 @@
       <button id="refresh">Refresh</button>
 
       <label>Sort by: <select id="sortInterval"></select></label>
-      <select id="sortDir"><option value="desc">High → Low</option><option value="asc">Low → High</option></select>
+      <select id="sortDir">
+        <option value="desc">High → Low</option>
+        <option value="asc">Low → High</option>
+      </select>
 
-      <label>Units: <select id="unitSelect"><option value="in">inches</option><option value="mm">millimeters</option></select></label>
+      <label>Units: <select id="unitSelect">
+        <option value="in">inches</option>
+        <option value="mm">millimeters</option>
+      </select></label>
 
-      <label>Search: <input id="search" type="search" placeholder="Station or STID" /></label>
+      <!-- Search bar removed -->
+      <!-- <label>Search: <input id="search" type="search" placeholder="Station or STID" /></label> -->
 
       <span id="status" class="status">Loading…</span>
     </div>
@@ -180,6 +189,7 @@
       <tbody id="tbody"></tbody>
     </table>
   </main>
+
   <script>
     // Measure the page header and set the sticky offset for the table header
     function setStickyOffset() {
@@ -190,16 +200,18 @@
     window.addEventListener("load", setStickyOffset);
     window.addEventListener("resize", setStickyOffset);
   </script>
+
   <script>
     // JSON path relative to /precip/index.html
     const DATA_URL = "../data/latestPrecip.json";
     const INCH_TO_MM = 25.4;
 
-    const state = { json: null, intervals: [], unit: "in", sortInterval: "24", sortDir: "desc", search: "" };
+    // Removed 'search' from state
+    const state = { json: null, intervals: [], unit: "in", sortInterval: "24", sortDir: "desc" };
 
     const el = (id) => document.getElementById(id);
     const thead = el("thead"), tbody = el("tbody"), errorBox = el("error"), statusText = el("status");
-    const sortIntervalSel = el("sortInterval"), sortDirSel = el("sortDir"), unitSel = el("unitSelect"), searchInput = el("search"), generatedInfo = el("generatedInfo");
+    const sortIntervalSel = el("sortInterval"), sortDirSel = el("sortDir"), unitSel = el("unitSelect"), generatedInfo = el("generatedInfo");
 
     function showError(message, detail) { errorBox.classList.remove("hidden"); errorBox.textContent = message + (detail ? ` — ${detail}` : ""); statusText.textContent = "Error"; }
     function clearError() { errorBox.classList.add("hidden"); errorBox.textContent = ""; }
@@ -210,8 +222,18 @@
     function buildHeader() {
       thead.innerHTML = "";
       const tr = document.createElement("tr");
-      for (const h of ["Station", "STID", "Elevation (m)"]) { const th = document.createElement("th"); th.textContent = h; tr.appendChild(th); }
-      for (const interval of state.intervals) { const th = document.createElement("th"); th.className = "num"; th.textContent = `${interval}h (${state.unit})`; tr.appendChild(th); }
+      // Removed Elevation column
+      for (const h of ["Station", "STID"]) {
+        const th = document.createElement("th");
+        th.textContent = h;
+        tr.appendChild(th);
+      }
+      for (const interval of state.intervals) {
+        const th = document.createElement("th");
+        th.className = "num";
+        th.textContent = `${interval}h (${state.unit})`;
+        tr.appendChild(th);
+      }
       thead.appendChild(tr);
     }
 
@@ -221,10 +243,10 @@
       return state.json.stations.map(s => {
         const precip = s.precip_in || {};
         const row = {
-          station: s.display_name || s.name || "", // <- use display_name
+          station: s.display_name || s.name || "",
           island: s.island || "",
           stid: s.stid || "",
-          elevation_m: toNumber(s.elevation_m),
+          elevation_m: toNumber(s.elevation_m), // still read, just not displayed
           lat: toNumber(s.lat),
           lon: toNumber(s.lon),
           values: {}
@@ -234,13 +256,15 @@
       });
     }
     
-    function applySearch(rows) {
-      const q = state.search.trim().toLowerCase(); if (!q) return rows;
-      return rows.filter(r => (r.station || "").toLowerCase().includes(q) || (r.stid || "").toLowerCase().includes(q));
-    }
-
+    // Removed search filtering; return rows unchanged
     function sortRows(rows) {
-      const iv = state.sortInterval, dir = state.sortDir, sign = dir === "asc" ? 1 : -1;
+      const iv = state.sortInterval;
+      const dir = state.sortDir;
+      const sign = dir === "asc" ? 1 : -1;
+
+      // If no sort interval (e.g., no intervals available), sort by station name
+      if (!iv) return [...rows].sort((a, b) => a.station.localeCompare(b.station));
+
       const byInterval = (a, b) => {
         const na = Number.isFinite(Number(a.values?.[iv])) ? Number(a.values[iv]) : -Infinity;
         const nb = Number.isFinite(Number(b.values?.[iv])) ? Number(b.values[iv]) : -Infinity;
@@ -252,7 +276,7 @@
     function render() {
       buildHeader();
       const unit = state.unit;
-      let rows = sortRows(applySearch(getRows()));
+      let rows = sortRows(getRows());
 
       tbody.innerHTML = "";
       const frag = document.createDocumentFragment();
@@ -260,20 +284,38 @@
         const tr = document.createElement("tr");
         const tdStation = document.createElement("td"); tdStation.textContent = r.station; tr.appendChild(tdStation);
         const tdStid = document.createElement("td"); tdStid.className = "muted"; tdStid.textContent = r.stid; tr.appendChild(tdStid);
-        const tdElev = document.createElement("td"); tdElev.className = "num"; tdElev.textContent = r.elevation_m != null ? r.elevation_m.toLocaleString() : "—"; tr.appendChild(tdElev);
-        for (const iv of state.intervals) { const td = document.createElement("td"); td.className = "num"; td.textContent = fmt(convert(r.values[iv], unit), unit); tr.appendChild(td); }
+        // Elevation column removed
+        for (const iv of state.intervals) {
+          const td = document.createElement("td");
+          td.className = "num";
+          td.textContent = fmt(convert(r.values[iv], unit), unit);
+          tr.appendChild(td);
+        }
         frag.appendChild(tr);
       }
       tbody.appendChild(frag);
-      statusText.textContent = `${rows.length} stations • unit: ${unit} • sorted by ${state.sortInterval}h (${state.sortDir})`;
+
+      const sortLabel = state.sortInterval ? `${state.sortInterval}h (${state.sortDir})` : "—";
+      statusText.textContent = `${rows.length} stations • unit: ${unit} • sorted by ${sortLabel}`;
     }
 
     function populateControls() {
       sortIntervalSel.innerHTML = "";
-      for (const iv of state.intervals) { const opt = document.createElement("option"); opt.value = iv; opt.textContent = `${iv}h`; sortIntervalSel.appendChild(opt); }
-      sortIntervalSel.value = state.intervals.includes("24") ? "24" : state.intervals[state.intervals.length - 1];
-      state.sortInterval = sortIntervalSel.value;
-      unitSel.value = state.unit; sortDirSel.value = state.sortDir;
+      for (const iv of state.intervals) {
+        const opt = document.createElement("option");
+        opt.value = iv;
+        opt.textContent = `${iv}h`;
+        sortIntervalSel.appendChild(opt);
+      }
+      // Default sort interval: prefer 24h if available, else last available, else none
+      if (state.intervals.length > 0) {
+        sortIntervalSel.value = state.intervals.includes("24") ? "24" : state.intervals[state.intervals.length - 1];
+        state.sortInterval = sortIntervalSel.value;
+      } else {
+        state.sortInterval = "";
+      }
+      unitSel.value = state.unit;
+      sortDirSel.value = state.sortDir;
     }
 
     async function loadData() {
@@ -283,9 +325,15 @@
         if (!res.ok) throw new Error(`HTTP ${res.status} — ${res.statusText}`);
         const json = await res.json();
         state.json = json;
-        state.intervals = (json.intervals_hours || []).map(iv => String(iv));
+
+        // Build intervals list and remove the '2h' column
+        state.intervals = (json.intervals_hours || [])
+          .map(iv => String(iv))
+          .filter(iv => iv !== "2"); // <-- remove 2h
+
         generatedInfo.textContent = `Generated: local ${json.generated_local ?? "—"} • UTC ${json.generated_utc ?? "—"}`;
-        populateControls(); render();
+        populateControls();
+        render();
       } catch (err) { showError("Failed to load JSON", err?.message); }
     }
 
@@ -293,7 +341,9 @@
     sortIntervalSel.addEventListener("change", (e) => { state.sortInterval = e.target.value; render(); });
     sortDirSel.addEventListener("change", (e) => { state.sortDir = e.target.value; render(); });
     unitSel.addEventListener("change", (e) => { state.unit = e.target.value; render(); });
-    el("search").addEventListener("input", (e) => { state.search = e.target.value; render(); });
+
+    // Search input & listener removed
+    // el("search").addEventListener("input", (e) => { state.search = e.target.value; render(); });
 
     loadData();
   </script>
