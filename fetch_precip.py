@@ -2,10 +2,13 @@
 """
 Synoptic precip fetcher (raw timeseries → custom bins), token sourced from environment.
 
-Matches prior JSON schema but adds:
-- "3 hr trend": numeric inches or "no data" (last 3h minus previous 3h)
+- Endpoint: /stations/timeseries (raw)
+- Window: end=now (UTC), start=now-48h
+- Bins: 1, 3, 6, 24, 48 hours
+- "no data" reported for bins without any observations in their window
+- 3-hour trend: last 3h total minus previous 3h total (in inches) → "3 hr trend" field
 
-Binning intervals: 1, 3, 6, 24, 48 hours
+Output JSON matches prior schema with one extra field ("3 hr trend").
 
 Dependencies:
   pip install requests python-dateutil
@@ -65,11 +68,17 @@ def iso_to_dt(iso_str: Optional[str]) -> Optional[datetime]:
         return None
 
 
+def to_synoptic_numeric(dt: datetime) -> str:
+    """Format UTC datetime as YYYYmmddHHMM for Synoptic timeseries start/end."""
+    dt_utc = dt.astimezone(timezone.utc)
+    return dt_utc.strftime("%Y%m%d%H%M")
+
+
 def fetch_precip_timeseries(
     stations: List[str],
     token: str,
-    start_iso: str,
-    end_iso: str,
+    start_numeric: str,  # YYYYmmddHHMM
+    end_numeric: str,    # YYYYmmddHHMM
     timeout: int = 45
 ) -> Dict[str, Any]:
     """
@@ -80,11 +89,11 @@ def fetch_precip_timeseries(
     params = {
         "stid": ",".join(stations),
         "token": token,
-        "start": start_iso,
-        "end": end_iso,
+        "start": start_numeric,
+        "end": end_numeric,
         "vars": "precip,precip_accum",
         "units": "metric",   # mm
-        "timeformat": "iso",
+        "timeformat": "iso", # have Synoptic return ISO8601 date_time strings
     }
 
     try:
@@ -100,6 +109,10 @@ def fetch_precip_timeseries(
             f"Non-JSON response (status={r.status_code}, content-type='{r.headers.get('Content-Type','')}').\n"
             f"Preview:\n{preview}"
         )
+
+    # Normalize possible uppercase "SUMMARY" to lowercase "summary"
+    if "SUMMARY" in data and "summary" not in data:
+        data["summary"] = data["SUMMARY"]
 
     if not data.get("STATION"):
         preview = json.dumps(data, indent=2)[:1200]
@@ -121,6 +134,7 @@ def parse_precip_increments(station_entry: Dict[str, Any]) -> List[Tuple[datetim
     """
     From a station's OBSERVATIONS, produce [(UTC timestamp, precip increment inches)].
     Prefer 'precip' (incremental). If missing, difference 'precip_accum' (ignore resets).
+    Fallback: if 'precipitation' exists (some networks), treat it as incremental mm.
     """
     obs = station_entry.get("OBSERVATIONS") or {}
     dt_strings = obs.get("date_time") or []
@@ -130,19 +144,22 @@ def parse_precip_increments(station_entry: Dict[str, Any]) -> List[Tuple[datetim
         if d is not None:
             times_utc.append(d)
 
-    precip_arr = obs.get("precip") or []
-    accum_arr = obs.get("precip_accum") or []
-    increments_in_inches: List[Tuple[datetime, float]] = []
-
+    # Try incremental precip first
+    precip_arr = obs.get("precip") or obs.get("precipitation") or []
     if precip_arr and len(precip_arr) == len(times_utc):
+        out: List[Tuple[datetime, float]] = []
         for t, v in zip(times_utc, precip_arr):
             mm = _coerce_float(v)
             if mm is None or mm < 0:
                 continue
-            increments_in_inches.append((t, round(mm * MM_TO_INCH, 5)))
-        return increments_in_inches
+            out.append((t, round(mm * MM_TO_INCH, 5)))
+        if out:
+            return out
 
+    # Fallback: difference cumulative precip_accum
+    accum_arr = obs.get("precip_accum") or []
     if accum_arr and len(accum_arr) == len(times_utc):
+        increments_in_inches: List[Tuple[datetime, float]] = []
         prev_mm: Optional[float] = None
         for t, v in zip(times_utc, accum_arr):
             mm = _coerce_float(v)
@@ -155,10 +172,12 @@ def parse_precip_increments(station_entry: Dict[str, Any]) -> List[Tuple[datetim
             delta = mm - prev_mm
             prev_mm = mm
             if delta <= 0:
+                # reset/decrease; ignore
                 continue
             increments_in_inches.append((t, round(delta * MM_TO_INCH, 5)))
         return increments_in_inches
 
+    # No usable precip variables found
     return []
 
 
@@ -234,7 +253,7 @@ def build_payload_timeseries_match_schema(
         precip_bins = bin_precip(increments, api_end_utc, intervals)
         trend_3h = compute_3hr_trend(increments, api_end_utc)
 
-        # Match your sample types: lat/lon/elevation as strings; pmode and api_end_* as in sample
+        # Match your sample types: lat/lon/elevation as strings; keep pmode and api_end_* as in sample
         row = {
             "stid": stid,
             "name": api_name,
@@ -298,11 +317,11 @@ def main() -> None:
     # Define window: now → last 48 hours (UTC)
     end_utc = datetime.now(timezone.utc)
     start_utc = end_utc - timedelta(hours=48)
-    start_iso = start_utc.isoformat()
-    end_iso = end_utc.isoformat()
+    start_num = to_synoptic_numeric(start_utc)
+    end_num = to_synoptic_numeric(end_utc)
 
     # Fetch → transform → write
-    data = fetch_precip_timeseries(DEFAULT_STATIONS, token, start_iso, end_iso, timeout=45)
+    data = fetch_precip_timeseries(DEFAULT_STATIONS, token, start_num, end_num, timeout=45)
 
     returned_stids = [st.get("STID") for st in (data.get("STATION") or [])]
     missing = [s for s in DEFAULT_STATIONS if s not in returned_stids]
@@ -315,7 +334,7 @@ def main() -> None:
     write_json_atomic(payload, output_path)
 
     print(f"Wrote {output_path} with {len(payload['stations'])} stations "
-          f"(timeseries window={start_iso} → {end_iso}, bins={list(DEFAULT_INTERVALS)}; includes '3 hr trend').")
+          f"(timeseries window={start_num} → {end_num}, bins={list(DEFAULT_INTERVALS)}; includes '3 hr trend').")
 
 
 if __name__ == "__main__":
