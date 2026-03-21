@@ -4,15 +4,8 @@ Synoptic precip fetcher (pmode=last), token sourced from environment (GitHub Act
 
 - Stations: TT917, TT918, AR247, 023HI
 - Intervals: 1, 2, 3, 6, 24, 48 (hours)
-- Output: latestPrecip.json (repo root by default; override via env OUTPUT_JSON)
-- Token: expected in env var SYNOPTIC_TOKEN (provided by GitHub Actions secret)
-
-Environment variables:
-  SYNOPTIC_TOKEN  - required (provided via GitHub Actions secret)
-Optional overrides:
-  STATIONS        - comma-separated STIDs (default: TT917,TT918,AR247,023HI)
-  OUTPUT_JSON     - output path (default: latestPrecip.json)
-  INTERVALS       - comma-separated hours (default: 1,2,3,6,24,48)
+- Output: data/latestPrecip.json (override via OUTPUT_JSON)
+- Token: expected in env var SYNOPTIC_TOKEN
 
 Dependencies:
   pip install requests python-dateutil
@@ -28,12 +21,11 @@ from dateutil import tz
 MM_TO_INCH = 1 / 25.4
 DEFAULT_STATIONS = ["TT917", "TT918", "AR247", "023HI"]
 DEFAULT_INTERVALS = (1, 2, 3, 6, 24, 48)
-DEFAULT_OUTPUT = "latestPrecip.json"  # repo root
+DEFAULT_OUTPUT = "data/latestPrecip.json"
 HAWAII_TZ = tz.gettz("Pacific/Honolulu")
 
 
 def iso_to_dt(iso_str):
-    """Safe ISO8601 → timezone-aware UTC datetime."""
     if not iso_str:
         return None
     try:
@@ -44,28 +36,23 @@ def iso_to_dt(iso_str):
 
 
 def fetch_precip_last(stations, token, intervals, end=None, timeout=45):
-    """
-    Call Synoptic /stations/precip with pmode=last and accum_hours list.
-    Treat presence of STATION payload as success (some responses lack summary.responseCode).
-    """
     base = "https://api.synopticdata.com/v2/stations/precip"
     params = {
         "stid": ",".join(stations),
         "token": token,
         "pmode": "last",
         "accum_hours": ",".join(map(str, intervals)),
-        "units": "metric",     # totals in mm; we convert to inches
-        "timeformat": "iso",   # standardize any date strings returned
+        "units": "metric",
+        "timeformat": "iso",
     }
     if end:
-        params["end"] = end  # defaults to "now" when omitted
+        params["end"] = end
 
     try:
         r = requests.get(base, params=params, headers={"Accept": "application/json"}, timeout=timeout)
     except requests.RequestException as e:
         raise RuntimeError(f"Network error contacting Synoptic precip: {e}") from e
 
-    # Try parse JSON; otherwise provide a diagnostic preview
     try:
         data = r.json()
     except ValueError:
@@ -83,10 +70,6 @@ def fetch_precip_last(stations, token, intervals, end=None, timeout=45):
 
 
 def parse_intervals_in(station_entry):
-    """
-    Parse OBSERVATIONS.precipitation array and convert mm totals to inches.
-    Returns dict {hours:int -> inches:float (3dp)}.
-    """
     obs = station_entry.get("OBSERVATIONS", {}) or {}
     precip_list = obs.get("precipitation") or []
     out = {}
@@ -96,51 +79,41 @@ def parse_intervals_in(station_entry):
         if hours is None or total_mm is None:
             continue
         try:
-            hours = int(hours)
-            total_mm = float(total_mm)
+            hours_i = int(hours)
+            total_mm_f = float(total_mm)
         except Exception:
             continue
-        out[hours] = round(total_mm * MM_TO_INCH, 3)
+        out[hours_i] = round(total_mm_f * MM_TO_INCH, 3)
     return out
 
 
 def main():
-    # Token comes from environment (via GitHub Actions secret)
     token = os.getenv("SYNOPTIC_TOKEN")
     if not token:
         print("ERROR: SYNOPTIC_TOKEN env var not set. Pass via GitHub Actions secrets.", file=sys.stderr)
         sys.exit(2)
 
-    # Allow station & output overrides via env
     stations_env = os.getenv("STATIONS")
     stations = stations_env.split(",") if stations_env else DEFAULT_STATIONS
 
-    # Intervals override (optional)
     intervals_env = os.getenv("INTERVALS")
-    intervals = (
-        [int(x) for x in intervals_env.split(",")] if intervals_env else list(DEFAULT_INTERVALS)
-    )
+    intervals = [int(x) for x in intervals_env.split(",")] if intervals_env else list(DEFAULT_INTERVALS)
 
-    # Output path: guard against blank values
     raw_output = os.getenv("OUTPUT_JSON")
     output_path = (raw_output if raw_output is not None else DEFAULT_OUTPUT).strip()
     if not output_path:
         output_path = DEFAULT_OUTPUT
 
-    # Fetch data from Synoptic
     data = fetch_precip_last(stations, token, intervals, end=None, timeout=45)
 
-    # Optional API timing metadata (may be absent on this endpoint)
     summary = data.get("summary") or {}
     api_end_dt_utc = iso_to_dt(summary.get("end"))
     api_end_local = api_end_dt_utc.astimezone(HAWAII_TZ).isoformat() if api_end_dt_utc else None
 
-    # Build rows
     rows = []
     for st in data.get("STATION", []):
         intervals_in = parse_intervals_in(st)
 
-        # Best-effort last obs time (may not be present)
         obs = st.get("OBSERVATIONS", {}) or {}
         times = obs.get("date_time", [])
         last_obs_dt_utc = iso_to_dt(times[-1]) if isinstance(times, list) and times else None
@@ -152,7 +125,7 @@ def main():
             "lat": st.get("LATITUDE"),
             "lon": st.get("LONGITUDE"),
             "elevation_m": st.get("ELEVATION"),
-            "precip_in": intervals_in,  # {1: x, 2: y, 3: z, 6: a, 24: b, 48: c}
+            "precip_in": intervals_in,
             "pmode": "last",
             "api_end_utc": api_end_dt_utc.isoformat() if api_end_dt_utc else None,
             "api_end_local": api_end_local if api_end_local else None,
@@ -162,7 +135,6 @@ def main():
 
     rows = sorted(rows, key=lambda r: (r["stid"] or ""))
 
-    # Write JSON (atomic) — create directory only if it exists in path
     dirpath = os.path.dirname(output_path)
     if dirpath:
         os.makedirs(dirpath, exist_ok=True)
