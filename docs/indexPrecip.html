@@ -1,1 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Precipitation Gages — Interval Totals (1h,2h,3h,6h,24h,48h)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css
+  <style>
+    body { padding: 1rem; }
+    .updated { font-size: 0.9rem; color: #444; }
+    .null { color: #888; }
+    th.sticky { position: sticky; top: 0; background: #fff; z-index: 2; }
 
+    /* Simple color bins for precip values (inches) */
+    .bin-0    { background: #f8f9fa; }           /* 0 */
+    .bin-1    { background: #e8f5e9; }           /* >0 - 0.05 */
+    .bin-2    { background: #c8e6c9; }           /* 0.05 - 0.10 */
+    .bin-3    { background: #a5d6a7; }           /* 0.10 - 0.25 */
+    .bin-4    { background: #81c784; }           /* 0.25 - 0.50 */
+    .bin-5    { background: #66bb6a; color: #fff; } /* 0.50 - 1.00 */
+    .bin-6    { background: #43a047; color: #fff; } /* >1.00 */
+  </style>
+</head>
+<body>
+  <div class="container-fluid">
+    <h1 class="mb-2">Precipitation Gages — Interval Totals</h1>
+    <p class="mb-1 updated">
+      Data generated: <span id="generated"></span>
+      <span id="apiEndWrap" class="ms-3">API end: <span id="apiEnd"></span></span>
+    </p>
+    <p class="text-muted mb-3">
+      Intervals: 1h, 2h, 3h, 6h, 24h, 48h (inches). Mode: <span id="pmode"></span>.
+      Auto-refresh: <span id="refreshSec">30</span> seconds.
+    </p>
+
+    <div class="table-responsive">
+      <table class="table table-sm table-striped align-middle">
+        <thead class="table-light">
+          <tr>
+            <th class="sticky">STID</th>
+            <th class="sticky">Name</th>
+            <th class="sticky text-end">1h (in)</th>
+            <th class="sticky text-end">2h (in)</th>
+            <th class="sticky text-end">3h (in)</th>
+            <th class="sticky text-end">6h (in)</th>
+            <th class="sticky text-end">24h (in)</th>
+            <th class="sticky text-end">48h (in)</th>
+            <th class="sticky">Last Obs (Local)</th>
+            <th class="sticky text-end">Lat</th>
+            <th class="sticky text-end">Lon</th>
+            <th class="sticky text-end">Elev (m)</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const INTERVALS = [1, 2, 3, 6, 24, 48];
+    const REFRESH_MS = 30_000;
+
+    function binClass(val) {
+      if (val === null || val === undefined || isNaN(val)) return '';
+      if (val <= 0)     return 'bin-0';
+      if (val <= 0.05)  return 'bin-1';
+      if (val <= 0.10)  return 'bin-2';
+      if (val <= 0.25)  return 'bin-3';
+      if (val <= 0.50)  return 'bin-4';
+      if (val <= 1.00)  return 'bin-5';
+      return 'bin-6';
+    }
+
+    function fmtInches(val) {
+      if (val === null || val === undefined || isNaN(val)) return '—';
+      return Number(val).toFixed(3);
+    }
+
+    async function loadData() {
+      const genEl = document.getElementById('generated');
+      const apiEndWrapEl = document.getElementById('apiEndWrap');
+      const apiEndEl = document.getElementById('apiEnd');
+      const pmodeEl = document.getElementById('pmode');
+      const tbody = document.getElementById('tbody');
+
+      try {
+        // If Pages serves from /docs, relative path to ../data/latestPrecip.json works
+        const resp = await fetch('../data/latestPrecip.json', { cache: 'no-cache' });
+        if (!resp.ok) throw new Error(`Failed to fetch latestPrecip.json: ${resp.status}`);
+        const data = await resp.json();
+
+        // Header info
+        const genLocal = data.generated_local ? new Date(data.generated_local) : null;
+        const genUtc = data.generated_utc ? new Date(data.generated_utc) : null;
+        genEl.textContent = genLocal ? genLocal.toLocaleString() : (genUtc ? genUtc.toLocaleString() : 'Unknown');
+
+        // Mode & API end
+        const first = (data.stations && data.stations[0]) ? data.stations[0] : null;
+        pmodeEl.textContent = first?.pmode ?? 'unknown';
+        const apiEndLocal = first?.api_end_local;
+        const apiEndUtc = first?.api_end_utc;
+        if (apiEndLocal || apiEndUtc) {
+          apiEndWrapEl.style.display = 'inline';
+          apiEndEl.textContent = (apiEndLocal ? new Date(apiEndLocal).toLocaleString()
+                                              : (apiEndUtc ? new Date(apiEndUtc).toLocaleString() : ''));
+        } else {
+          apiEndWrapEl.style.display = 'none';
+        }
+
+        // Build rows
+        tbody.innerHTML = '';
+        const stations = Array.isArray(data.stations) ? data.stations : [];
+        for (const st of stations) {
+          const tr = document.createElement('tr');
+          const intervals = st.precip_in || {};
+          const lastObsLocal = st.last_obs_local ? new Date(st.last_obs_local).toLocaleString() : '—';
+
+          tr.innerHTML = `
+            <td>${st.stid ?? ''}</td>
+            <td>${st.name ?? ''}</td>
+            ${INTERVALS.map(h => {
+              const v = (intervals[h] !== undefined) ? intervals[h] : null;
+              return `<td class="text-end ${binClass(v)}">${fmtInches(v)}</td>`;
+            }).join('')}
+            <td>${lastObsLocal}</td>
+            <td class="text-end">${st.lat ?? ''}</td>
+            <td class="text-end">${st.lon ?? ''}</td>
+            <td class="text-end">${st.elevation_m ?? ''}</td>
+          `;
+          tbody.appendChild(tr);
+        }
+
+      } catch (e) {
+        console.error(e);
+        genEl.textContent = 'Error loading data';
+        tbody.innerHTML = `
+          <tr><td colspan="12" class="text-danger">Failed to load ../data/latestPrecip.json</td></tr>
+        `;
+      }
+    }
+
+    document.getElementById('refreshSec').textContent = Math.round(REFRESH_MS / 1000);
+    loadData();
+    setInterval(loadData, REFRESH_MS);
+  </script>
+</body>
+</html>
