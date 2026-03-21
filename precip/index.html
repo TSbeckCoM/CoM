@@ -15,123 +15,46 @@
         --table-border: #334155;
         --row-alt: #0f172a;
       }
-      body {
-        margin: 0;
-        font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue",
-                     Ubuntu, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji",
-                     "Segoe UI Symbol", sans-serif;
-        background: var(--bg);
-        color: var(--fg);
-        line-height: 1.45;
-      }
-      header {
-        padding: 1rem;
-        border-bottom: 1px solid var(--table-border);
-        display: flex;
-        gap: 1rem;
-        align-items: center;
-        flex-wrap: wrap;
-      }
-      header h1 {
-        font-size: 1.25rem;
-        margin: 0;
-      }
-      .meta {
-        font-size: 0.95rem;
-        color: var(--muted);
-      }
-      .spacer {
-        flex: 1;
-      }
-      button {
-        padding: 0.5rem 0.75rem;
-        border-radius: 6px;
-        border: 1px solid var(--table-border);
-        background: transparent;
-        color: var(--fg);
-        cursor: pointer;
-      }
-      button:hover {
-        border-color: var(--accent);
-        color: var(--accent);
-      }
-      main {
-        padding: 1rem;
-        overflow-x: auto;
-      }
-      table {
-        border-collapse: collapse;
-        width: 100%;
-        min-width: 760px;
-      }
-      thead th {
-        text-align: left;
-        padding: 0.5rem 0.75rem;
-        border-bottom: 2px solid var(--table-border);
-        font-weight: 600;
-        white-space: nowrap;
-      }
-      tbody td {
-        padding: 0.5rem 0.75rem;
-        border-bottom: 1px solid var(--table-border);
-        vertical-align: top;
-        white-space: nowrap;
-      }
-      tbody tr:nth-child(even) {
-        background: var(--row-alt);
-      }
-      .status {
-        margin: 0.5rem 1rem;
-        font-size: 0.95rem;
-        color: var(--muted);
-      }
-      .status.error {
-        color: var(--error);
-        white-space: pre-wrap;
-      }
-      footer {
-        padding: 1rem;
-        border-top: 1px solid var(--table-border);
-        color: var(--muted);
-        font-size: 0.9rem;
-      }
-      code {
-        background: #1f2937;
-        padding: 0 0.25rem;
-        border-radius: 4px;
-      }
+      body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue",
+             Ubuntu, "Noto Sans", sans-serif; background:var(--bg); color:var(--fg); line-height:1.45; }
+      header { padding:1rem; border-bottom:1px solid var(--table-border); display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
+      header h1 { margin:0; font-size:1.25rem; }
+      .meta { font-size:0.95rem; color:var(--muted); }
+      .spacer { flex:1; }
+      button { padding:0.5rem 0.75rem; border-radius:6px; border:1px solid var(--table-border); background:transparent; color:var(--fg); cursor:pointer; }
+      button:hover { border-color:var(--accent); color:var(--accent); }
+      .status { margin:0.5rem 1rem; font-size:0.95rem; color:var(--muted); white-space:pre-wrap; }
+      .status.error { color:var(--error); }
+      .debug { margin:0.5rem 1rem; font-size:0.85rem; color:var(--muted); }
+      main { padding:1rem; overflow-x:auto; }
+      table { border-collapse:collapse; width:100%; min-width:760px; }
+      thead th { text-align:left; padding:0.5rem 0.75rem; border-bottom:2px solid var(--table-border); font-weight:600; white-space:nowrap; }
+      tbody td { padding:0.5rem 0.75rem; border-bottom:1px solid var(--table-border); vertical-align:top; white-space:nowrap; }
+      tbody tr:nth-child(even) { background:var(--row-alt); }
+      footer { padding:1rem; border-top:1px solid var(--table-border); color:var(--muted); font-size:0.9rem; }
+      code { background:#1f2937; padding:0 0.25rem; border-radius:4px; }
     </style>
   </head>
   <body>
     <header>
       <h1>Latest Precip (pmode: <code>last</code>)</h1>
-      <div class="meta">
-        Last updated: <span id="last-updated">loading…</span>
-      </div>
+      <div class="meta">Last updated: <span id="last-updated">loading…</span></div>
       <div class="spacer"></div>
       <button id="refresh-btn" type="button">Refresh</button>
     </header>
 
     <div id="status" class="status" aria-live="polite">Loading data…</div>
+    <div id="debug" class="debug"></div>
 
     <main>
       <table id="precip-table" aria-describedby="status">
         <thead>
           <tr>
-            <th>STID</th>
-            <th>Name</th>
-            <th>Island</th>
-            <th>1h</th>
-            <th>2h</th>
-            <th>3h</th>
-            <th>6h</th>
-            <th>24h</th>
-            <th>48h</th>
+            <th>STID</th><th>Name</th><th>Island</th>
+            <th>1h</th><th>2h</th><th>3h</th><th>6h</th><th>24h</th><th>48h</th>
           </tr>
         </thead>
-        <tbody id="precip-body">
-          <!-- rows rendered by script -->
-        </tbody>
+        <tbody id="precip-body"></tbody>
       </table>
     </main>
 
@@ -139,23 +62,25 @@
       Data source: Synoptic API (<code>stations/precip</code>, <code>pmode=last</code>). Values converted to inches at 3 decimal places.
     </footer>
 
-    <!-- Hardened loader & renderer -->
     <script type="module">
-      // --- Utilities ----------------------------------------------------------
-      function pagesRootBase() {
-        // For GitHub Project Pages, pathname is /<repo-name>/[subpath...]
-        const parts = location.pathname.split('/').filter(Boolean);
-        const repo = parts[0] || '';  // e.g., 'CoM'
-        return repo ? `/${repo}/` : '/';
-      }
+      // ----- ABSOLUTE URL (no ambiguity) -----
+      const PROJECT = 'CoM'; // ← your repo name
+      const ABS_JSON = `https://tsbeckcom.github.io/${PROJECT}/data/latestPrecip.json`;
 
-      const BASE = pagesRootBase(); // e.g., '/CoM/'
+      // You can switch to dynamic detection if you prefer:
+      // function pagesRootBase() {
+      //   const parts = location.pathname.split('/').filter(Boolean);
+      //   return parts.length ? `/${parts[0]}/` : '/';
+      // }
+      // const ABS_JSON = new URL(`${pagesRootBase()}data/latestPrecip.json`, location.origin).href;
+
       const INTERVALS_DEFAULT = [1, 2, 3, 6, 24, 48];
 
-      const $status = document.getElementById('status');
+      const $status  = document.getElementById('status');
       const $updated = document.getElementById('last-updated');
-      const $tbody = document.getElementById('precip-body');
+      const $tbody   = document.getElementById('precip-body');
       const $refresh = document.getElementById('refresh-btn');
+      const $debug   = document.getElementById('debug');
 
       function setStatus(msg, isError = false) {
         $status.textContent = msg;
@@ -169,8 +94,7 @@
 
       function getIntervals(data) {
         const arr = Array.isArray(data?.intervals_hours) ? data.intervals_hours : INTERVALS_DEFAULT;
-        // Normalize to numbers and ensure exactly 6 elements (fallback to default)
-        const nums = arr.map(h => Number(h)).filter(n => Number.isFinite(n));
+        const nums = arr.map(h => Number(h)).filter(Number.isFinite);
         return nums.length === 6 ? nums : INTERVALS_DEFAULT;
       }
 
@@ -186,53 +110,38 @@
         return safeNumber(v, 0).toFixed(3);
       }
 
-      // --- Rendering ----------------------------------------------------------
       function render(data) {
-        try {
-          const intervals = getIntervals(data);
-          const stations = Array.isArray(data?.stations) ? data.stations : [];
+        const intervals = getIntervals(data);
+        const stations  = Array.isArray(data?.stations) ? data.stations : [];
+        stations.sort((a, b) => String(a?.stid || '').localeCompare(String(b?.stid || '')));
 
-          // Optional: deterministic sort by STID (matches your Python)
-          stations.sort((a, b) => String(a?.stid || '').localeCompare(String(b?.stid || '')));
+        $updated.textContent = data?.generated_local || data?.generated_utc || '—';
 
-          // Last updated label
-          const last = data?.generated_local || data?.generated_utc || null;
-          $updated.textContent = last || '—';
-
-          // Schema marker (visible in console for quick sanity)
-          if (data?.schema) {
-            console.log('schema:', data.schema);
-          }
-
-          // Clear and render rows
-          $tbody.innerHTML = '';
-          for (const s of stations) {
-            const totals = getPrecipArray(s, intervals);
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-              <td>${s.stid ?? ''}</td>
-              <td>${s.display_name || s.name || s.stid || ''}</td>
-              <td>${s.island || ''}</td>
-              ${totals.map(v => `<td>${formatInches(v)}</td>`).join('')}
-            `;
-            $tbody.appendChild(tr);
-          }
-
-          setStatus(`Loaded ${stations.length} stations. Intervals: ${intervals.join(', ')}.`);
-        } catch (err) {
-          console.error(err);
-          setStatus(`Render error: ${err.message || err}`, true);
+        $tbody.innerHTML = '';
+        for (const s of stations) {
+          const totals = getPrecipArray(s, intervals);
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${s.stid ?? ''}</td>
+            <td>${s.display_name || s.name || s.stid || ''}</td>
+            <td>${s.island || ''}</td>
+            ${totals.map(v => `<td>${formatInches(v)}</td>`).join('')}
+          `;
+          $tbody.appendChild(tr);
         }
+
+        setStatus(`Loaded ${stations.length} stations. Intervals: ${intervals.join(', ')}.`);
       }
 
-      // --- Fetching -----------------------------------------------------------
       async function fetchLatest() {
-        const url = new URL(`${BASE}data/latestPrecip.json`, location.origin);
-        // Use a cache-buster while iterating. Switch to a deterministic v param later if desired.
-        url.searchParams.set('v', Date.now());
+        const url = new URL(ABS_JSON);
+        url.searchParams.set('v', Date.now()); // cache-buster while iterating
 
-        const res = await fetch(url, { cache: 'no-store' });
-        if (!res.ok) throw new Error(`Fetch failed: ${res.status} ${res.statusText}`);
+        // Debug: show exactly what we’re requesting
+        $debug.textContent = `Request URL: ${url.href}`;
+
+        const res = await fetch(url.href, { cache: 'no-store' });
+        if (!res.ok) throw new Error(`Fetch failed: ${res.status} ${res.statusText} for ${url.href}`);
         return res.json();
       }
 
@@ -247,9 +156,7 @@
         }
       }
 
-      // --- Wire up ------------------------------------------------------------
       $refresh.addEventListener('click', load);
-      // Initial load
       load();
     </script>
   </body>
