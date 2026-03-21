@@ -95,12 +95,20 @@
       const intervals = state.intervals;
       return state.json.stations.map(s => {
         const precip = s.precip_in || {};
-        const row = { station: s.name || "", stid: s.stid || "", elevation_m: toNumber(s.elevation_m), lat: toNumber(s.lat), lon: toNumber(s.lon), values: {} };
-        for (const iv of intervals) { row.values[iv] = precip[iv] ?? null; } // JSON keys are strings "1","2",...
+        const row = {
+          station: s.display_name || s.name || "", // <- use display_name
+          island: s.island || "",
+          stid: s.stid || "",
+          elevation_m: toNumber(s.elevation_m),
+          lat: toNumber(s.lat),
+          lon: toNumber(s.lon),
+          values: {}
+        };
+        for (const iv of intervals) { row.values[iv] = precip[iv] ?? null; }
         return row;
       });
     }
-
+    
     function applySearch(rows) {
       const q = state.search.trim().toLowerCase(); if (!q) return rows;
       return rows.filter(r => (r.station || "").toLowerCase().includes(q) || (r.stid || "").toLowerCase().includes(q));
