@@ -49,13 +49,22 @@ HAWAII_TZ = tz.gettz("Pacific/Honolulu")
 # Hard-coded station metadata (provide one entry per STID above)
 # Islands: "Hawaiʻi", "Maui", "Oʻahu", "Kauaʻi", "Molokaʻi", "Lānaʻi" (or your naming)
 STATION_META: Dict[str, Dict[str, Optional[str]]] = {
-    "TT917": {"display_name": "ILIO 1",       "island": "Oʻahu"},
-    "TT918": {"display_name": "MOKOLELAU 1",  "island": "Maui"},
-    "AR247": {"display_name": "AR247",        "island": "Maui"},  # adjust if needed
-    "023HI": {"display_name": "Hamoa",        "island": "Maui"},
-    # TODO: add entries for every new STID:
-    # "ABC12": {"display_name": "My Station Name", "island": "Kauaʻi"},
-    # "DEF34": {"display_name": "Other Station",   "island": "Hawaiʻi"},
+    "TT917": {"display_name": "",       "island": ""},
+    "PHMK": {"display_name": "",  "island": ""},
+    "TT919": {"display_name": "",        "island": ""},  
+    "031HI": {"display_name": "",        "island": ""},
+    "G4646": {"display_name": "",        "island": ""},
+    "TT912": {"display_name": "",        "island": ""},
+    "TT933": {"display_name": "",        "island": ""},
+    "AR427": {"display_name": "",        "island": ""},
+    "023HI": {"display_name": "",        "island": ""},
+    "PHOG": {"display_name": "",        "island": ""},
+    "TT910": {"display_name": "",        "island": ""},
+    "042HI": {"display_name": "",        "island": ""},
+    "TT925": {"display_name": "",        "island": ""},
+    "015HE": {"display_name": "",        "island": ""},
+    "017HI": {"display_name": "",        "island": ""},
+    "F4397": {"display_name": "",        "island": ""}       
 }
 
 # --- Helpers ------------------------------------------------------------------
