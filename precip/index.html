@@ -19,7 +19,7 @@
     /* sticky offset set by JS */
     --sticky-offset: 0px;
 
-    /* spacing scale */
+    /* NEW: spacing scale — tweak these to taste */
     --space-0: 0;
     --space-1: 0.25rem;
     --space-2: 0.5rem;
@@ -82,7 +82,7 @@
     align-items: center;
     margin-bottom: var(--space-3);
   }
-  .controls button, .controls select {
+  .controls button, .controls select, .controls input[type="search"] {
     background: var(--panel);
     color: var(--text);
     border: 1px solid var(--border);
@@ -170,6 +170,8 @@
 
       <label>Units: <select id="unitSelect"><option value="in">inches</option><option value="mm">millimeters</option></select></label>
 
+      <label>Search: <input id="search" type="search" placeholder="Station or STID" /></label>
+
       <span id="status" class="status">Loading…</span>
     </div>
 
@@ -193,48 +195,22 @@
     const DATA_URL = "../data/latestPrecip.json";
     const INCH_TO_MM = 25.4;
 
-    const state = { json: null, intervals: [], unit: "in", sortInterval: "24", sortDir: "desc" };
+    const state = { json: null, intervals: [], unit: "in", sortInterval: "24", sortDir: "desc", search: "" };
 
     const el = (id) => document.getElementById(id);
     const thead = el("thead"), tbody = el("tbody"), errorBox = el("error"), statusText = el("status");
-    const sortIntervalSel = el("sortInterval"), sortDirSel = el("sortDir"), unitSel = el("unitSelect"), generatedInfo = el("generatedInfo");
+    const sortIntervalSel = el("sortInterval"), sortDirSel = el("sortDir"), unitSel = el("unitSelect"), searchInput = el("search"), generatedInfo = el("generatedInfo");
 
     function showError(message, detail) { errorBox.classList.remove("hidden"); errorBox.textContent = message + (detail ? ` — ${detail}` : ""); statusText.textContent = "Error"; }
     function clearError() { errorBox.classList.add("hidden"); errorBox.textContent = ""; }
-
-    // Convert numeric values only; null stays null (-> em dash)
-    function convert(valInInches, unit) {
-      if (valInInches == null) return null;
-      const v = Number(valInInches);
-      return Number.isFinite(v) ? (unit === "mm" ? v * INCH_TO_MM : v) : null;
-    }
-
-    // Format: numeric -> localized; null -> em dash
-    function fmt(val, unit) {
-      if (val == null || !Number.isFinite(Number(val))) return "—";
-      const digits = unit === "mm" ? 1 : 2;
-      return Number(val).toLocaleString(undefined, { minimumFractionDigits: digits, maximumFractionDigits: digits });
-    }
-
-    // Robustly read precip value for interval iv (handles numeric/string keys; maps "no data" -> null)
-    function getPrecipValue(precip, iv) {
-      if (!precip) return null;
-      const raw = precip[iv] ?? precip[Number(iv)] ?? precip[String(iv)];
-      if (raw == null) return null;
-      if (typeof raw === 'string') {
-        const s = raw.trim().toLowerCase();
-        if (s === 'no data' || s === '') return null;    // show em dash in UI
-        const n = Number(raw);
-        return Number.isFinite(n) ? n : null;
-      }
-      const n = Number(raw);
-      return Number.isFinite(n) ? n : null;
-    }
+    function toNumber(x) { const n = Number(x); return Number.isFinite(n) ? n : null; }
+    function convert(valInInches, unit) { if (valInInches == null) return null; const v = Number(valInInches); return Number.isFinite(v) ? (unit === "mm" ? v * INCH_TO_MM : v) : null; }
+    function fmt(val, unit) { if (val == null || !Number.isFinite(Number(val))) return "—"; const digits = unit === "mm" ? 1 : 2; return Number(val).toLocaleString(undefined, { minimumFractionDigits: digits, maximumFractionDigits: digits }); }
 
     function buildHeader() {
       thead.innerHTML = "";
       const tr = document.createElement("tr");
-      for (const h of ["Station", "STID"]) { const th = document.createElement("th"); th.textContent = h; tr.appendChild(th); }
+      for (const h of ["Station", "STID", "Elevation (m)"]) { const th = document.createElement("th"); th.textContent = h; tr.appendChild(th); }
       for (const interval of state.intervals) { const th = document.createElement("th"); th.className = "num"; th.textContent = `${interval}h (${state.unit})`; tr.appendChild(th); }
       thead.appendChild(tr);
     }
@@ -245,13 +221,22 @@
       return state.json.stations.map(s => {
         const precip = s.precip_in || {};
         const row = {
-          station: s.display_name || s.name || "", // use display_name
+          station: s.display_name || s.name || "", // <- use display_name
+          island: s.island || "",
           stid: s.stid || "",
+          elevation_m: toNumber(s.elevation_m),
+          lat: toNumber(s.lat),
+          lon: toNumber(s.lon),
           values: {}
         };
-        for (const iv of intervals) { row.values[iv] = getPrecipValue(precip, iv); }
+        for (const iv of intervals) { row.values[iv] = precip[iv] ?? null; }
         return row;
       });
+    }
+    
+    function applySearch(rows) {
+      const q = state.search.trim().toLowerCase(); if (!q) return rows;
+      return rows.filter(r => (r.station || "").toLowerCase().includes(q) || (r.stid || "").toLowerCase().includes(q));
     }
 
     function sortRows(rows) {
@@ -267,7 +252,7 @@
     function render() {
       buildHeader();
       const unit = state.unit;
-      let rows = sortRows(getRows());
+      let rows = sortRows(applySearch(getRows()));
 
       tbody.innerHTML = "";
       const frag = document.createDocumentFragment();
@@ -275,11 +260,8 @@
         const tr = document.createElement("tr");
         const tdStation = document.createElement("td"); tdStation.textContent = r.station; tr.appendChild(tdStation);
         const tdStid = document.createElement("td"); tdStid.className = "muted"; tdStid.textContent = r.stid; tr.appendChild(tdStid);
-        for (const iv of state.intervals) {
-          const numeric = r.values[iv];
-          const conv = convert(numeric, unit);
-          const td = document.createElement("td"); td.className = "num"; td.textContent = fmt(conv, unit); tr.appendChild(td);
-        }
+        const tdElev = document.createElement("td"); tdElev.className = "num"; tdElev.textContent = r.elevation_m != null ? r.elevation_m.toLocaleString() : "—"; tr.appendChild(tdElev);
+        for (const iv of state.intervals) { const td = document.createElement("td"); td.className = "num"; td.textContent = fmt(convert(r.values[iv], unit), unit); tr.appendChild(td); }
         frag.appendChild(tr);
       }
       tbody.appendChild(frag);
@@ -301,12 +283,7 @@
         if (!res.ok) throw new Error(`HTTP ${res.status} — ${res.statusText}`);
         const json = await res.json();
         state.json = json;
-
-        // Intervals: keep as strings and DROP "2" if present
-        state.intervals = (json.intervals_hours || [])
-          .map(iv => String(iv))
-          .filter(iv => iv !== "2");
-
+        state.intervals = (json.intervals_hours || []).map(iv => String(iv));
         generatedInfo.textContent = `Generated: local ${json.generated_local ?? "—"} • UTC ${json.generated_utc ?? "—"}`;
         populateControls(); render();
       } catch (err) { showError("Failed to load JSON", err?.message); }
@@ -316,7 +293,9 @@
     sortIntervalSel.addEventListener("change", (e) => { state.sortInterval = e.target.value; render(); });
     sortDirSel.addEventListener("change", (e) => { state.sortDir = e.target.value; render(); });
     unitSel.addEventListener("change", (e) => { state.unit = e.target.value; render(); });
+    el("search").addEventListener("input", (e) => { state.search = e.target.value; render(); });
 
     loadData();
   </script>
 </body>
+</html>
