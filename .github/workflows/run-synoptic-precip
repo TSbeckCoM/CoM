@@ -29,7 +29,7 @@ jobs:
         env:
           SYNOPTIC_TOKEN: ${{ secrets.SYNOPTIC_TOKEN }}   # <-- secret injected into env
           STATIONS: "TT917,TT918,AR247,023HI"
-          OUTPUT_JSON: "data/latest.json"
+          OUTPUT_JSON: "data/latestPrecip.json"
         run: |
           python scripts/fetch_precip.py
 
