@@ -1,0 +1,74 @@
+{
+  "generated_utc": "2026-03-21T12:50:47.181952+00:00",
+  "generated_local": "2026-03-21T02:50:47.181969-10:00",
+  "intervals_hours": [
+    1,
+    2,
+    3,
+    6,
+    24,
+    48
+  ],
+  "stations": [
+    {
+      "stid": "023HI",
+      "name": "Hamoa",
+      "lat": "20.7195",
+      "lon": "-156.0024",
+      "elevation_m": "347.0",
+      "precip_in": {
+        "1": 0.0,
+        "2": 0.0,
+        "3": 0.0,
+        "6": 0.0,
+        "24": 0.1,
+        "48": 0.571
+      },
+      "pmode": "last",
+      "api_end_utc": null,
+      "api_end_local": null,
+      "last_obs_utc": null,
+      "last_obs_local": null
+    },
+    {
+      "stid": "TT917",
+      "name": "ILIO 1",
+      "lat": "21.220330",
+      "lon": "-157.247860",
+      "elevation_m": "175.0",
+      "precip_in": {
+        "1": 0.0,
+        "2": 0.18,
+        "3": 0.6,
+        "6": 2.93,
+        "24": 3.46,
+        "48": 4.53
+      },
+      "pmode": "last",
+      "api_end_utc": null,
+      "api_end_local": null,
+      "last_obs_utc": null,
+      "last_obs_local": null
+    },
+    {
+      "stid": "TT918",
+      "name": "MOKOLELAU 1",
+      "lat": "21.070230",
+      "lon": "-156.917900",
+      "elevation_m": "806.0",
+      "precip_in": {
+        "1": 0.02,
+        "2": 0.03,
+        "3": 0.06,
+        "6": 0.87,
+        "24": 2.9,
+        "48": 3.32
+      },
+      "pmode": "last",
+      "api_end_utc": null,
+      "api_end_local": null,
+      "last_obs_utc": null,
+      "last_obs_local": null
+    }
+  ]
+}
