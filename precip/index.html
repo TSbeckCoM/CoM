@@ -201,7 +201,6 @@
 
     function showError(message, detail) { errorBox.classList.remove("hidden"); errorBox.textContent = message + (detail ? ` — ${detail}` : ""); statusText.textContent = "Error"; }
     function clearError() { errorBox.classList.add("hidden"); errorBox.textContent = ""; }
-    function toNumber(x) { const n = Number(x); return Number.isFinite(n) ? n : null; }
 
     // Convert numeric values only; null stays null (-> em dash)
     function convert(valInInches, unit) {
@@ -246,7 +245,7 @@
       return state.json.stations.map(s => {
         const precip = s.precip_in || {};
         const row = {
-          station: s.display_name || s.name || "", // use display_name if present
+          station: s.display_name || s.name || "", // use display_name
           stid: s.stid || "",
           values: {}
         };
@@ -276,7 +275,11 @@
         const tr = document.createElement("tr");
         const tdStation = document.createElement("td"); tdStation.textContent = r.station; tr.appendChild(tdStation);
         const tdStid = document.createElement("td"); tdStid.className = "muted"; tdStid.textContent = r.stid; tr.appendChild(tdStid);
-        for (const iv of state.intervals) { const td = document.createElement("td"); td.className = "num"; td.textContent = fmt(convert(r.values[iv], unit), unit); tr.appendChild(td); }
+        for (const iv of state.intervals) {
+          const numeric = r.values[iv];
+          const conv = convert(numeric, unit);
+          const td = document.createElement("td"); td.className = "num"; td.textContent = fmt(conv, unit); tr.appendChild(td);
+        }
         frag.appendChild(tr);
       }
       tbody.appendChild(frag);
