@@ -190,6 +190,8 @@
     window.addEventListener("load", setStickyOffset);
     window.addEventListener("resize", setStickyOffset);
   </script>
+
+  <!-- UI logic -->
   <script>
     // JSON path relative to /precip/index.html
     const DATA_URL = "../data/latestPrecip.json";
@@ -203,95 +205,19 @@
 
     function showError(message, detail) { errorBox.classList.remove("hidden"); errorBox.textContent = message + (detail ? ` — ${detail}` : ""); statusText.textContent = "Error"; }
     function clearError() { errorBox.classList.add("hidden"); errorBox.textContent = ""; }
-    function convert(valInInches, unit) { if (valInInches == null) return null; const v = Number(valInInches); return Number.isFinite(v) ? (unit === "mm" ? v * INCH_TO_MM : v) : null; }
-    function fmt(val, unit) { if (val == null || !Number.isFinite(Number(val))) return "—"; const digits = unit === "mm" ? 1 : 2; return Number(val).toLocaleString(undefined, { minimumFractionDigits: digits, maximumFractionDigits: digits }); }
 
-    function buildHeader() {
-      thead.innerHTML = "";
-      const tr = document.createElement("tr");
-      for (const h of ["Station", "STID"]) { const th = document.createElement("th"); th.textContent = h; tr.appendChild(th); }
-      for (const interval of state.intervals) { const th = document.createElement("th"); th.className = "num"; th.textContent = `${interval}h (${state.unit})`; tr.appendChild(th); }
-      thead.appendChild(tr);
-    }
-
-    function getRows() {
-      if (!state.json?.stations) return [];
-      const intervals = state.intervals;
-      return state.json.stations.map(s => {
-        const precip = s.precip_in || {};
-        const row = {
-          station: s.display_name || s.name || "", // <- use display_name
-          island: s.island || "",
-          stid: s.stid || "",
-          values: {}
-        };
-        for (const iv of intervals) { row.values[iv] = precip[iv] ?? null; }
-        return row;
-      });
-    }
-    
-    function applySearch(rows) {
-      const q = state.search.trim().toLowerCase(); if (!q) return rows;
-      return rows.filter(r => (r.station || "").toLowerCase().includes(q) || (r.stid || "").toLowerCase().includes(q));
-    }
-
-    function sortRows(rows) {
-      const iv = state.sortInterval, dir = state.sortDir, sign = dir === "asc" ? 1 : -1;
-      const byInterval = (a, b) => {
-        const na = Number.isFinite(Number(a.values?.[iv])) ? Number(a.values[iv]) : -Infinity;
-        const nb = Number.isFinite(Number(b.values?.[iv])) ? Number(b.values[iv]) : -Infinity;
-        return na === nb ? a.station.localeCompare(b.station) : (na - nb) * sign;
-      };
-      return [...rows].sort(byInterval);
-    }
-
-    function render() {
-      buildHeader();
-      const unit = state.unit;
-      let rows = sortRows(applySearch(getRows()));
-
-      tbody.innerHTML = "";
-      const frag = document.createDocumentFragment();
-      for (const r of rows) {
-        const tr = document.createElement("tr");
-        const tdStation = document.createElement("td"); tdStation.textContent = r.station; tr.appendChild(tdStation);
-        const tdStid = document.createElement("td"); tdStid.className = "muted"; tdStid.textContent = r.stid; tr.appendChild(tdStid);
-        for (const iv of state.intervals) { const td = document.createElement("td"); td.className = "num"; td.textContent = fmt(convert(r.values[iv], unit), unit); tr.appendChild(td); }
-        frag.appendChild(tr);
+    // Robustly read precip value for interval iv (handles numeric/string keys; maps "no data" -> null)
+    function getPrecipValue(precip, iv) {
+      if (!precip) return null;
+      const raw = (precip[iv] ?? precip[String(iv)] ?? precip[Number(iv)]);
+      if (raw == null) return null;
+      if (typeof raw === 'string') {
+        const s = raw.trim().toLowerCase();
+        if (s === 'no data' || s === '') return null;    // <-- SHOW EM DASH, not "no data"
+        const n = Number(raw);
+        return Number.isFinite(n) ? n : null;
       }
-      tbody.appendChild(frag);
-      statusText.textContent = `${rows.length} stations • unit: ${unit} • sorted by ${state.sortInterval}h (${state.sortDir})`;
+      const n = Number(raw);
+      return Number.isFinite(n) ? n : null;
     }
 
-    function populateControls() {
-      sortIntervalSel.innerHTML = "";
-      for (const iv of state.intervals) { const opt = document.createElement("option"); opt.value = iv; opt.textContent = `${iv}h`; sortIntervalSel.appendChild(opt); }
-      sortIntervalSel.value = state.intervals.includes("24") ? "24" : state.intervals[state.intervals.length - 1];
-      state.sortInterval = sortIntervalSel.value;
-      unitSel.value = state.unit; sortDirSel.value = state.sortDir;
-    }
-
-    async function loadData() {
-      statusText.textContent = "Loading…"; clearError();
-      try {
-        const res = await fetch(DATA_URL, { cache: "no-cache" });
-        if (!res.ok) throw new Error(`HTTP ${res.status} — ${res.statusText}`);
-        const json = await res.json();
-        state.json = json;
-        // Intervals: keep as strings to match object keys, and drop "2"
-        state.intervals = (json.intervals_hours || []).map(iv => String(iv)).filter(iv => iv !== "2");
-        generatedInfo.textContent = `Generated: local ${json.generated_local ?? "—"} • UTC ${json.generated_utc ?? "—"}`;
-        populateControls(); render();
-      } catch (err) { showError("Failed to load JSON", err?.message); }
-    }
-
-    el("refresh").addEventListener("click", loadData);
-    sortIntervalSel.addEventListener("change", (e) => { state.sortInterval = e.target.value; render(); });
-    sortDirSel.addEventListener("change", (e) => { state.sortDir = e.target.value; render(); });
-    unitSel.addEventListener("change", (e) => { state.unit = e.target.value; render(); });
-    el("search").addEventListener("input", (e) => { state.search = e.target.value; render(); });
-
-    loadData();
-  </script>
-</body>
-</html>
