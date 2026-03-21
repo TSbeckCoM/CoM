@@ -1,8 +1,9 @@
 {
-  "generated_utc": "2026-03-21T15:23:35.368698+00:00",
-  "generated_local": "2026-03-21T05:23:35.368705-10:00",
+  "generated_utc": "2026-03-21T15:36:11.420939+00:00",
+  "generated_local": "2026-03-21T05:36:11.420953-10:00",
   "intervals_hours": [
     1,
+    2,
     3,
     6,
     24,
@@ -18,18 +19,18 @@
       "lon": "-156.2948",
       "elevation_m": "2090.0",
       "precip_in": {
-        "1": "no data",
-        "3": "no data",
-        "6": "no data",
-        "24": "no data",
-        "48": "no data"
+        "1": 0.01,
+        "2": 0.03,
+        "3": 0.03,
+        "6": 0.03,
+        "24": 0.14,
+        "48": 0.836
       },
       "pmode": "last",
       "api_end_utc": null,
       "api_end_local": null,
       "last_obs_utc": null,
-      "last_obs_local": null,
-      "3 hr trend": "no data"
+      "last_obs_local": null
     },
     {
       "stid": "023HI",
@@ -40,18 +41,18 @@
       "lon": "-156.0024",
       "elevation_m": "347.0",
       "precip_in": {
-        "1": "no data",
-        "3": "no data",
-        "6": "no data",
-        "24": "no data",
-        "48": "no data"
+        "1": 0.0,
+        "2": 0.0,
+        "3": 0.0,
+        "6": 0.0,
+        "24": 0.01,
+        "48": 0.561
       },
       "pmode": "last",
       "api_end_utc": null,
       "api_end_local": null,
       "last_obs_utc": null,
-      "last_obs_local": null,
-      "3 hr trend": "no data"
+      "last_obs_local": null
     },
     {
       "stid": "031HI",
@@ -62,18 +63,18 @@
       "lon": "-156.7586",
       "elevation_m": "1319.0",
       "precip_in": {
-        "1": "no data",
-        "3": "no data",
-        "6": "no data",
-        "24": "no data",
-        "48": "no data"
+        "1": 0.03,
+        "2": 0.1,
+        "3": 0.483,
+        "6": 0.805,
+        "24": 5.184,
+        "48": 6.732
       },
       "pmode": "last",
       "api_end_utc": null,
       "api_end_local": null,
       "last_obs_utc": null,
-      "last_obs_local": null,
-      "3 hr trend": "no data"
+      "last_obs_local": null
     },
     {
       "stid": "042HI",
@@ -84,18 +85,18 @@
       "lon": "-156.3599",
       "elevation_m": "1401.0",
       "precip_in": {
-        "1": "no data",
-        "3": "no data",
-        "6": "no data",
-        "24": "no data",
-        "48": "no data"
+        "1": 0.0,
+        "2": 0.01,
+        "3": 0.02,
+        "6": 0.02,
+        "24": 0.11,
+        "48": 0.863
       },
       "pmode": "last",
       "api_end_utc": null,
       "api_end_local": null,
       "last_obs_utc": null,
-      "last_obs_local": null,
-      "3 hr trend": "no data"
+      "last_obs_local": null
     },
     {
       "stid": "AR427",
@@ -106,18 +107,18 @@
       "lon": "-156.516",
       "elevation_m": "766.93",
       "precip_in": {
-        "1": "no data",
-        "3": "no data",
-        "6": "no data",
-        "24": "no data",
-        "48": "no data"
+        "1": 0.14,
+        "2": 0.29,
+        "3": 0.75,
+        "6": 0.9,
+        "24": 6.32,
+        "48": 8.17
       },
       "pmode": "last",
       "api_end_utc": null,
       "api_end_local": null,
       "last_obs_utc": null,
-      "last_obs_local": null,
-      "3 hr trend": "no data"
+      "last_obs_local": null
     },
     {
       "stid": "F4397",
@@ -128,18 +129,18 @@
       "lon": "-156.32083",
       "elevation_m": "978.0",
       "precip_in": {
-        "1": "no data",
-        "3": "no data",
-        "6": "no data",
-        "24": "no data",
-        "48": "no data"
+        "1": 0.01,
+        "2": 0.01,
+        "3": 0.01,
+        "6": 0.01,
+        "24": 0.14,
+        "48": 0.62
       },
       "pmode": "last",
       "api_end_utc": null,
       "api_end_local": null,
       "last_obs_utc": null,
-      "last_obs_local": null,
-      "3 hr trend": "no data"
+      "last_obs_local": null
     },
     {
       "stid": "G4646",
@@ -150,18 +151,18 @@
       "lon": "-156.44883",
       "elevation_m": "88.58",
       "precip_in": {
-        "1": "no data",
-        "3": "no data",
-        "6": "no data",
-        "24": "no data",
-        "48": "no data"
+        "1": 0.0,
+        "2": 0.02,
+        "3": 0.02,
+        "6": 0.06,
+        "24": 0.33,
+        "48": 0.53
       },
       "pmode": "last",
       "api_end_utc": null,
       "api_end_local": null,
       "last_obs_utc": null,
-      "last_obs_local": null,
-      "3 hr trend": "no data"
+      "last_obs_local": null
     },
     {
       "stid": "PHMK",
@@ -172,18 +173,18 @@
       "lon": "-157.1",
       "elevation_m": "453.0",
       "precip_in": {
-        "1": "no data",
-        "3": "no data",
-        "6": "no data",
-        "24": "no data",
-        "48": "no data"
+        "1": 0.169,
+        "2": 0.171,
+        "3": 0.171,
+        "6": 0.811,
+        "24": 2.413,
+        "48": 3.723
       },
       "pmode": "last",
       "api_end_utc": null,
       "api_end_local": null,
       "last_obs_utc": null,
-      "last_obs_local": null,
-      "3 hr trend": "no data"
+      "last_obs_local": null
     },
     {
       "stid": "PHOG",
@@ -194,18 +195,18 @@
       "lon": "-156.43694",
       "elevation_m": "52.0",
       "precip_in": {
-        "1": "no data",
-        "3": "no data",
-        "6": "no data",
-        "24": "no data",
-        "48": "no data"
+        "1": 0.02,
+        "2": 0.03,
+        "3": 0.031,
+        "6": 0.034,
+        "24": 0.28,
+        "48": 0.377
       },
       "pmode": "last",
       "api_end_utc": null,
       "api_end_local": null,
       "last_obs_utc": null,
-      "last_obs_local": null,
-      "3 hr trend": "no data"
+      "last_obs_local": null
     },
     {
       "stid": "TT910",
@@ -216,18 +217,18 @@
       "lon": "-156.564690",
       "elevation_m": "870.0",
       "precip_in": {
-        "1": "no data",
-        "3": "no data",
-        "6": "no data",
-        "24": "no data",
-        "48": "no data"
+        "1": 0.02,
+        "2": 0.02,
+        "3": 0.02,
+        "6": 0.03,
+        "24": 0.29,
+        "48": 1.64
       },
       "pmode": "last",
       "api_end_utc": null,
       "api_end_local": null,
       "last_obs_utc": null,
-      "last_obs_local": null,
-      "3 hr trend": "no data"
+      "last_obs_local": null
     },
     {
       "stid": "TT912",
@@ -238,18 +239,18 @@
       "lon": "-156.654930",
       "elevation_m": "797.0",
       "precip_in": {
-        "1": "no data",
-        "3": "no data",
-        "6": "no data",
-        "24": "no data",
-        "48": "no data"
+        "1": 0.1,
+        "2": 0.14,
+        "3": 0.17,
+        "6": 0.25,
+        "24": 1.51,
+        "48": 2.31
       },
       "pmode": "last",
       "api_end_utc": null,
       "api_end_local": null,
       "last_obs_utc": null,
-      "last_obs_local": null,
-      "3 hr trend": "no data"
+      "last_obs_local": null
     },
     {
       "stid": "TT917",
@@ -260,18 +261,18 @@
       "lon": "-157.247860",
       "elevation_m": "175.0",
       "precip_in": {
-        "1": "no data",
-        "3": "no data",
-        "6": "no data",
-        "24": "no data",
-        "48": "no data"
+        "1": 0.06,
+        "2": 0.06,
+        "3": 0.07,
+        "6": 0.67,
+        "24": 3.51,
+        "48": 4.6
       },
       "pmode": "last",
       "api_end_utc": null,
       "api_end_local": null,
       "last_obs_utc": null,
-      "last_obs_local": null,
-      "3 hr trend": "no data"
+      "last_obs_local": null
     },
     {
       "stid": "TT919",
@@ -282,18 +283,18 @@
       "lon": "-157.029840",
       "elevation_m": "54.0",
       "precip_in": {
-        "1": "no data",
-        "3": "no data",
-        "6": "no data",
-        "24": "no data",
-        "48": "no data"
+        "1": 0.27,
+        "2": 0.29,
+        "3": 0.31,
+        "6": 0.74,
+        "24": 2.38,
+        "48": 3.3
       },
       "pmode": "last",
       "api_end_utc": null,
       "api_end_local": null,
       "last_obs_utc": null,
-      "last_obs_local": null,
-      "3 hr trend": "no data"
+      "last_obs_local": null
     },
     {
       "stid": "TT925",
@@ -304,18 +305,18 @@
       "lon": "-156.280610",
       "elevation_m": "4062.0",
       "precip_in": {
-        "1": "no data",
-        "3": "no data",
-        "6": "no data",
-        "24": "no data",
-        "48": "no data"
+        "1": 0.01,
+        "2": 0.02,
+        "3": 0.02,
+        "6": 0.02,
+        "24": 0.15,
+        "48": 0.5
       },
       "pmode": "last",
       "api_end_utc": null,
       "api_end_local": null,
       "last_obs_utc": null,
-      "last_obs_local": null,
-      "3 hr trend": "no data"
+      "last_obs_local": null
     },
     {
       "stid": "TT933",
@@ -326,18 +327,17 @@
       "lon": "-156.674710",
       "elevation_m": "220.0",
       "precip_in": {
-        "1": "no data",
-        "3": "no data",
-        "6": "no data",
-        "24": "no data",
-        "48": "no data"
+        "2": 0.04,
+        "3": 0.09,
+        "6": 0.1,
+        "24": 0.86,
+        "48": 1.27
       },
       "pmode": "last",
       "api_end_utc": null,
       "api_end_local": null,
       "last_obs_utc": null,
-      "last_obs_local": null,
-      "3 hr trend": "no data"
+      "last_obs_local": null
     }
   ]
 }
