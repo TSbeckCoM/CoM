@@ -25,7 +25,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests python-dateutil
 
-      - name: Fetch Synoptic precip (pmode=last)
+      - name: Fetch precip (pmode=last)
         env:
           SYNOPTIC_TOKEN: ${{ secrets.SYNOPTIC_TOKEN }}   # <-- secret injected into env
           STATIONS: "TT917,TT918,AR247,023HI"
