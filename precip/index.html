@@ -17,7 +17,7 @@
     }
     * { box-sizing: border-box }
     body { font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial; margin: 0; background: var(--bg); color: var(--text); line-height: 1.5; }
-    header { padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); backdrop-filter: saturate(180%) blur(6px); background: color-mix(in oklab, var(--bg) 85%, transparent); }
+    header { padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); position: sticky; top: 0; backdrop-filter: saturate(180%) blur(6px); background: color-mix(in oklab, var(--bg) 85%, transparent); }
     header h1 { margin: 0 0 .25rem 0; font-size: 1.25rem }
     header .sub { color: var(--muted); font-size: .95rem }
 
@@ -30,7 +30,7 @@
     .hidden { display: none }
 
     table { width: 100%; border-collapse: collapse; background: var(--panel); border: 1px solid var(--border); border-radius: .5rem; overflow: hidden; }
-    thead th { text-align: left; padding: .6rem .75rem; background: var(--header); border-bottom: 1px solid var(--border); font-weight: 600; position: sticky; top: 61px; z-index: 1; white-space: nowrap; }
+    thead th { text-align: left; padding: .6rem .75rem; background: var(--header); border-bottom: 1px solid var(--border); font-weight: 600; white-space: nowrap; }
     tbody td { padding: .6rem .75rem; border-bottom: 1px solid var(--border); vertical-align: top; }
     tbody tr:hover { background: var(--hover) }
     .num { text-align: right; font-variant-numeric: tabular-nums }
