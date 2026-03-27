@@ -5,20 +5,35 @@ on:
     - cron: "*/5 * * * *"
   workflow_dispatch:
 
+permissions:
+  contents: write
+
+concurrency:
+  group: update-dashboard-main
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout (full history)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          # If you want to push with your fine-grained PAT instead of GITHUB_TOKEN:
+          # persist-credentials: false
+
+      - name: Configure Git bot identity
+        shell: pwsh
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
       - name: Run USGS script
         shell: pwsh
         run: ./StreamGageUpdate.ps1
 
-      # ---------------------------------------
-      # NEW STEP: Compute 2-hour moving-average trend
-      # ---------------------------------------
       - name: Compute Trend
         shell: pwsh
         run: ./compute-trend.ps1
@@ -31,9 +46,30 @@ jobs:
           Set-Content -Path buildinfo.json -Value $json -Encoding UTF8
 
       - name: Commit dashboard files
+        shell: pwsh
         run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-          git add latest.json latest_with_trend.json history.json buildinfo.json history24.json
+          git add latest.json,latest_with_trend.json,history.json,buildinfo.json,history24.json
           git commit -m "Update dashboard" || echo "No changes"
-          git push
+
+      - name: Rebase on latest main
+        shell: pwsh
+        run: |
+          git fetch origin main
+          git rebase origin/main || (echo "Rebase conflict"; git rebase --abort; exit 1)
+
+      # Use PAT (fine-grained) if desired
+      # - name: Set remote URL with PAT
+      #   if: always()  # runs even if previous step had "No changes"
+      #   shell: pwsh
+      #   env:
+      #     PAT: ${{ secrets.FINE_GRAINED_PAT }}
+      #   run: |
+      #     git remote set-url origin "https://x-access-token:$env:PAT@github.com/${{ github.repository }}.git"
+
+      - name: Push changes
+        shell: pwsh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # If you set persist-credentials: false, uncomment remote set above and push will use PAT.
+          git push origin HEAD:main
