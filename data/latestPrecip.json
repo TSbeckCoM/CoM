@@ -3,8 +3,8 @@
     "version": "precip_v2",
     "has_precip_in_arr": true
   },
-  "generated_utc": "2026-04-02T00:45:21.315544+00:00",
-  "generated_local": "2026-04-01T14:45:21.315561-10:00",
+  "generated_utc": "2026-04-02T01:00:47.868886+00:00",
+  "generated_local": "2026-04-01T15:00:47.868897-10:00",
   "intervals_hours": [
     1,
     2,
