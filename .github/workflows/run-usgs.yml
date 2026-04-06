@@ -44,39 +44,26 @@ jobs:
           $ts = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ")
           $json = @{ buildTime = $ts } | ConvertTo-Json
           Set-Content -Path buildinfo.json -Value $json -Encoding UTF8
-
-      - name: Commit dashboard files
-        shell: pwsh
-        run: |
-          git add latest.json latest_with_trend.json history.json buildinfo.json history24.json    
-
-          # Commit only if anything actually changed
-          if (git diff --cached --quiet) {
-            Write-Host "No changes to commit."
-          } else {
-            git commit -m "Update dashboard"
-            git push origin HEAD:main
-          }
-          
-      - name: Rebase on latest main
-        shell: pwsh
-        run: |
-          git fetch origin main
-          git rebase origin/main || (echo "Rebase conflict"; git rebase --abort; exit 1)
-
-      # Use PAT (fine-grained) if desired
-      # - name: Set remote URL with PAT
-      #   if: always()  # runs even if previous step had "No changes"
-      #   shell: pwsh
-      #   env:
-      #     PAT: ${{ secrets.FINE_GRAINED_PAT }}
-      #   run: |
-      #     git remote set-url origin "https://x-access-token:$env:PAT@github.com/${{ github.repository }}.git"
-
-      - name: Push changes
+    
+      - name: Commit & Push (optional PAT)
         shell: pwsh
         env:
+          PAT: ${{ secrets.FINE_GRAINED_PAT }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # If you set persist-credentials: false, uncomment remote set above and push will use PAT.
-          git push origin HEAD:main
+          git add latest.json latest_with_trend.json history.json buildinfo.json history24.json
+          git diff --cached --quiet
+          if ($LASTEXITCODE -ne 0) {
+            git commit -m "Update dashboard"
+            if ($env:PAT) {
+              $repo = "${{ github.repository }}"
+              git remote set-url origin "https://x-access-token:$($env:PAT)@github.com/$repo.git"
+              Write-Host "Using fine-grained PAT to push."
+            } else {
+              Write-Host "Using GITHUB_TOKEN to push."
+            }
+            git push origin HEAD:main
+          } else {
+            Write-Host "No changes to commit."
+          }
+
