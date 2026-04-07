@@ -75,11 +75,15 @@ jobs:
               Write-Host "Using fine-grained PAT to push."
               git remote set-url origin "https://x-access-token:$pat@github.com/$repo.git"
             } else {
-              Write-Host "PAT not present; falling back to GITHUB_TOKEN."
-              # Recreate the extraheader explicitly for GITHUB_TOKEN
-              $basic = :ToBase64String([Text.Encoding]::ASCII.GetBytes(":$($env:GITHUB_TOKEN)"))
-              git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $basic"
-            }
+              Write-Host "PAT not present; using GITHUB_TOKEN to push."
+              $gtok = $env:GITHUB_TOKEN
+              if (-not $gtok) {
+                Write-Error "GITHUB_TOKEN not available; cannot push."
+                exit 1
+              }
+              git remote set-url origin "https://x-access-token:$gtok@github.com/$repo.git"
+             }
+
 
             # Show remotes and test connectivity before pushing
             Write-Host "Effective remotes:"
