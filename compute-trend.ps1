@@ -1,8 +1,8 @@
 # ------------------------------------------------------------
 # compute-trend.ps1
 # Computes 3-hour moving-average trend for all Maui County stations
-# Normalizes USGS history to FEET for consistency with latest.json
-# Also outputs history.json and history24.json for inspection
+# Uses REAL USGS 3-hour history (no local history.json needed)
+# Also outputs history.json for inspection
 # ------------------------------------------------------------
 
 . "$PSScriptRoot/thresholds.ps1"
@@ -11,13 +11,12 @@
 $latestPath   = Join-Path $PSScriptRoot "latest.json"
 $outputPath   = Join-Path $PSScriptRoot "latest_with_trend.json"
 $historyOut   = Join-Path $PSScriptRoot "history.json"
-$history24Out = Join-Path $PSScriptRoot "history24.json"
 
 # ------------------------------------------------------------
 # Load latest.json (current readings)
 # ------------------------------------------------------------
 if (-not (Test-Path $latestPath)) {
-    Write-Host "ERROR: latest.json not found." -ForegroundColor Red
+    Write-Host "ERROR: latest.json not found."
     exit 1
 }
 
@@ -41,103 +40,77 @@ foreach ($item in $latest) {
     }
 }
 
-# Optional: warn if any latest items are not in feet (should be normalized upstream by StreamGageUpdate.ps1)
-$notFeet = @()
-foreach ($item in $latest) {
-    if ($null -ne $item.ValueUnit -and $item.ValueUnit -ne 'ft') {
-        $notFeet += $item.SiteCode
-    }
-}
-if ($notFeet.Count -gt 0) {
-    Write-Host "WARN: Some latest.json items report ValueUnit != 'ft' (check StreamGageUpdate normalization): $($notFeet -join ', ')" -ForegroundColor Yellow
-}
-
 # ------------------------------------------------------------
-# Fetch USGS history (3-hour and 24-hour) for Maui County (15009)
+# Fetch 3-hour USGS history for Maui County (15009)
 # ------------------------------------------------------------
-$historyUrl   = "https://waterservices.usgs.gov/nwis/iv/?format=json&countyCd=15009&period=PT3H&siteStatus=active"
+$historyUrl = "https://waterservices.usgs.gov/nwis/iv/?format=json&countyCd=15009&period=PT3H&siteStatus=active"
 $history24Url = "https://waterservices.usgs.gov/nwis/iv/?format=json&countyCd=15009&period=P1D&siteStatus=active"
+$usgsHistory24 = Invoke-RestMethod -Uri $history24Url -TimeoutSec 30
 
 try {
-    $usgsHistory   = Invoke-RestMethod -Uri $historyUrl   -TimeoutSec 30
-    $usgsHistory24 = Invoke-RestMethod -Uri $history24Url -TimeoutSec 30
+    $usgsHistory = Invoke-RestMethod -Uri $historyUrl -TimeoutSec 30
 }
 catch {
-    Write-Host "ERROR: Unable to fetch USGS history. $_" -ForegroundColor Red
+    Write-Host "ERROR: Unable to fetch USGS history."
     exit 1
 }
 
 # ------------------------------------------------------------
-# Build lookup: SiteCode → list of { Timestamp, Value } IN FEET
+# Build lookup: SiteCode → list of { Timestamp, Value }
 # ------------------------------------------------------------
-$historyBySite   = @{}
-$history24BySite = @{}
+$historyBySite = @{}
 
-function Convert-TimeSeriesToFeet {
-    param(
-        [Parameter(Mandatory=$true)] $timeSeriesObj
-    )
+foreach ($ts in $usgsHistory.value.timeSeries) {
 
     # Only use gage height (00065)
-    $param = $timeSeriesObj.variable.variableCode[0].value
-    if ($param -ne "00065") { return $null }
+    $param = $ts.variable.variableCode[0].value
+    if ($param -ne "00065") { continue }
 
-    $siteCode = $timeSeriesObj.sourceInfo.siteCode[0].value
-
-    # unitCode may be missing; default to 'ft'
-    $unitCode = $timeSeriesObj.variable.unit.unitCode
-    if (-not $unitCode) { $unitCode = 'ft' }
+    $siteCode = $ts.sourceInfo.siteCode[0].value
 
     $entries = @()
-    foreach ($v in $timeSeriesObj.values[0].value) {
-        # Raw numeric value
-        $val = [double]$v.value
-
-        # Normalize meters to feet
-        if ($unitCode -eq 'm') {
-            $val = $val * 3.28084
-        }
-
+    foreach ($v in $ts.values[0].value) {
         $entries += [PSCustomObject]@{
             Timestamp = $v.dateTime
-            Value     = $val   # FEET
+            Value     = [double]$v.value
         }
     }
 
-    return @{ SiteCode = $siteCode; Entries = $entries }
+    $historyBySite[$siteCode] = $entries
 }
 
-# 3-hour series
-foreach ($ts in $usgsHistory.value.timeSeries) {
-    $conv = Convert-TimeSeriesToFeet -timeSeriesObj $ts
-    if ($conv -ne $null) {
-        $historyBySite[$conv.SiteCode] = $conv.Entries
-    }
-}
+$history24BySite = @{}
 
-# 24-hour series
 foreach ($ts in $usgsHistory24.value.timeSeries) {
-    $conv = Convert-TimeSeriesToFeet -timeSeriesObj $ts
-    if ($conv -ne $null) {
-        $history24BySite[$conv.SiteCode] = $conv.Entries
+    $param = $ts.variable.variableCode[0].value
+    if ($param -ne "00065") { continue }
+
+    $siteCode = $ts.sourceInfo.siteCode[0].value
+
+    $entries = @()
+    foreach ($v in $ts.values[0].value) {
+        $entries += [PSCustomObject]@{
+            Timestamp = $v.dateTime
+            Value     = [double]$v.value
+        }
     }
+
+    $history24BySite[$siteCode] = $entries
 }
 
 # ------------------------------------------------------------
-# Save history.json and history24.json (values in FEET)
+# Save history.json (for your inspection)
 # ------------------------------------------------------------
-$historyBySite   | ConvertTo-Json -Depth 10 | Out-File $historyOut   -Encoding utf8
-$history24BySite | ConvertTo-Json -Depth 10 | Out-File $history24Out -Encoding utf8
-
-Write-Host "USGS history normalized to FEET and written to history.json and history24.json."
+$historyBySite | ConvertTo-Json -Depth 10 | Out-File $historyOut -Encoding utf8
+$history24BySite | ConvertTo-Json -Depth 10 | Out-File "$PSScriptRoot/history24.json" -Encoding utf8
 
 # ------------------------------------------------------------
-# Compute moving-average trend for each site (using FEET)
+# Compute moving-average trend for each site
 # ------------------------------------------------------------
 foreach ($item in $latest) {
 
     $siteCode = $item.SiteCode
-    $current  = [double]$item.Value  # Expect FEET from latest.json
+    $current = [double]$item.Value
 
     if (-not $historyBySite.ContainsKey($siteCode)) {
         $trend = "N/A"
@@ -145,24 +118,22 @@ foreach ($item in $latest) {
     else {
         $entries = $historyBySite[$siteCode]
 
-        # Filter to numeric values in FEET
-        $vals = $entries | Select-Object -ExpandProperty Value | Where-Object { $_ -ne $null }
-
-        if ($vals.Count -lt 2) {
+        if ($entries.Count -lt 2) {
             $trend = "N/A"
         }
         else {
-            # Compute 3-hour average (FEET)
-            $avg = ($vals | Measure-Object -Average).Average
+            # Compute 3-hour average
+            $avg = ($entries.Value | Measure-Object -Average).Average
 
             # Compare current to average
             $delta = $current - $avg
 
-            # Tolerance to avoid jitter (in FEET)
+            # Tolerance to avoid jitter
             $tolerance = 0.02
 
             # Determine arrow
-            if ([math]::Abs($delta) -lt $tolerance             $arrow = "--"
+            if ([math]::Abs($delta) -lt $tolerance) {
+                $arrow = "--"
             }
             elseif ($delta -gt 0) {
                 $arrow = "↑"
@@ -172,7 +143,7 @@ foreach ($item in $latest) {
             }
 
             # Absolute numeric change, 2 decimals
-            $absDelta = :Abs($delta)
+            $absDelta = [math]::Abs($delta)
             $formattedDelta = "{0:0.00}" -f $absDelta
 
             # Final trend string
@@ -180,14 +151,14 @@ foreach ($item in $latest) {
         }
     }
 
-    # Add/overwrite Trend on the item
+    # Add Trend to the item
     $item | Add-Member -NotePropertyName Trend -NotePropertyValue $trend -Force
 }
 
 # ------------------------------------------------------------
-# Save updated JSON with Trend (preserving all fields)
+# Save updated JSON with Trend
 # ------------------------------------------------------------
 $latest | ConvertTo-Json -Depth 10 | Out-File $outputPath -Encoding utf8
 
-Write-Host "Trend calculation complete (values in FEET) using USGS 3-hour history."
-Write-Host "history.json and history24.json written for inspection."
+Write-Host "Trend calculation complete using USGS 3-hour history."
+Write-Host "history.json written for inspection."
