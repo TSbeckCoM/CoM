@@ -53,19 +53,46 @@ jobs:
         run: |
           git add latest.json latest_with_trend.json history.json buildinfo.json history24.json
 
+          # Commit only if something is staged
           git diff --cached --quiet
           if ($LASTEXITCODE -ne 0) {
             git commit -m "Update dashboard"
 
-            $repo = "${{ github.repository }}"
-            if ($env:PAT) {
-              Write-Host "Using fine-grained PAT for push."
-              git remote set-url origin "https://x-access-token:$($env:PAT)@github.com/$repo.git"
+            $repo  = "${{ github.repository }}"
+            $event = "${{ github.event_name }}"
+            Write-Host "Event: $event  Repo: $repo"
+
+            # Clear cached credentials/headers so our chosen auth applies
+            git config --system --unset credential.helper 2>$null
+            git config --global --unset credential.helper 2>$null
+            git config --local  --unset credential.helper 2>$null
+            git config --local  --unset-all http.https://github.com/.extraheader 2>$null
+
+            # Prefer PAT if present (recommended for cron/dispatch)
+            $pat = $env:PAT
+            if ($pat) { $pat = $pat.Trim() }
+            if ($pat) {
+              Write-Host "Using fine-grained PAT to push."
+              git remote set-url origin "https://x-access-token:$pat@github.com/$repo.git"
             } else {
-              Write-Host "Using default GITHUB_TOKEN for push."
+              Write-Host "PAT not present; falling back to GITHUB_TOKEN."
+              # Recreate the extraheader explicitly for GITHUB_TOKEN
+              $basic = :ToBase64String([Text.Encoding]::ASCII.GetBytes(":$($env:GITHUB_TOKEN)"))
+              git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $basic"
             }
 
-            git push origin HEAD:main
+            # Show remotes and test connectivity before pushing
+            Write-Host "Effective remotes:"
+            git remote -v
+            Write-Host "Testing remote access via 'git ls-remote'…"
+            git ls-remote origin HEAD
+            if ($LASTEXITCODE -ne 0) {
+              Write-Error "Remote test failed (likely auth issue). Aborting before push."
+              exit 1
+            }
+
+            # Push once
+            git push origin HEAD:main --verbose
           } else {
             Write-Host "No changes to commit."
           }
