@@ -196,19 +196,49 @@ Promise.all([
 
       // --- 24‑HOUR SPARKLINE DATA ---
       const historyValues = (historyData[site.SiteCode] || []).map(v => v.Value);
-      const spark = makeSparkline(historyValues);
-
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td>${site.SiteName}</td>
-        <td>${site.SiteCode}</td>
-        <td>${displayValue}</td>
-        <td style="white-space: pre;">${site.Trend}</td>
+      
+      let points = "";
+      let yKona1 = null;
+      const width = 100;
+      const height = 20;
+      
+      if (historyValues.length > 0) {
+          const min = Math.min(...historyValues);
+          const max = Math.max(...historyValues);
+          const range = max - min || 1;
+      
+          // Sparkline points
+          points = historyValues.map((v, i) => {
+              const x = (i / (historyValues.length - 1)) * width;
+              const y = height - ((v - min) / range) * height;
+              return `${x},${y}`;
+          }).join(" ");
+      
+          // Horizontal line Y for Kona 1 Max
+          if (site.Kona1Max !== null && site.Kona1Max !== undefined && site.Kona1Max !== "") {
+              const v = Number(site.Kona1Max);
+              yKona1 = height - ((v - min) / range) * height;
+              yKona1 = Math.max(0, Math.min(height, yKona1)); // clamp inside SVG
+          }
+      }
         <td>
           <svg width="100" height="20">
-            <polyline fill="none" stroke="#0074d9" stroke-width="2"
-              points="${spark}">
-            </polyline>
+        
+            <!-- Sparkline -->
+            ${points ? `
+              <polyline fill="none" stroke="#0074d9" stroke-width="2"
+                points="${points}"></polyline>
+            ` : ``}
+        
+            <!-- Kona 1 Max line (simple + robust) -->
+            ${yKona1 !== null ? `
+              <line x1="0" y1="${yKona1}"
+                    x2="100" y2="${yKona1}"
+                    stroke="red" stroke-width="1" stroke-dasharray="3,2">
+                <title>Kona 1 Max: ${site.Kona1Max}</title>
+              </line>
+            ` : ``}
+        
           </svg>
         </td>
         <td>${site.Kona1Max ?? ""}</td>
