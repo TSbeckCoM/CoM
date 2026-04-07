@@ -41,7 +41,7 @@ foreach ($item in $latest) {
     }
 }
 
-# Optional: warn if any latest items are not in feet (should be normalized upstream)
+# Optional: warn if latest items report non-feet units (should be normalized upstream)
 $notFeet = @()
 foreach ($item in $latest) {
     if ($null -ne $item.ValueUnit -and $item.ValueUnit -ne 'ft') {
