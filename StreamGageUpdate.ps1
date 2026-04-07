@@ -22,7 +22,6 @@ $floodStages = @{
 # Kona max lookup table (per station, by SiteCode)
 # ---------------------------------------------
 $konaMax = @{
-    # EXAMPLES — replace with your actual values
     # "16415600" = @{ Kona1 = 0.0; Kona2 = 0.0 }
     # "16400000" = @{ Kona1 = 0.0; Kona2 = 0.0 }
     # "16638500" = @{ Kona1 = 0.0; Kona2 = 0.0 }
@@ -63,9 +62,13 @@ $results = foreach ($ts in $stations) {
     
     # Lookup Minor/Major thresholds
     $stages = $floodStages[$siteCode]
-
     $minor = if ($stages) { $stages.Minor } else { $null }
     $major = if ($stages) { $stages.Major } else { $null }
+    
+    # Lookup Kona max (per station)
+    $kona = $konaMax[$siteCode]
+    $kona1 = if ($kona) { $kona.Kona1 } else { $null }
+    $kona2 = if ($kona) { $kona.Kona2 } else { $null }
 
     # Build clean output object
     [PSCustomObject]@{
@@ -77,8 +80,9 @@ $results = foreach ($ts in $stations) {
         MinorFlood          = $minor
         MajorFlood          = $major
         Latitude            = $latitude
-        Longitude           = $longitude
-
+        Longitude           = $longitude   
+        Kona1Max            = $kona1
+        Kona2Max            = $kona2
     }
 }
 
