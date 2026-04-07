@@ -22,6 +22,24 @@ if (-not (Test-Path $latestPath)) {
 
 $latest = Get-Content $latestPath | ConvertFrom-Json
 
+# Backfill/validate thresholds & Kona values (belt-and-suspenders)
+foreach ($item in $latest) {
+    $sc = $item.SiteCode
+
+    if ($null -eq $item.MinorFlood -and $floodStages.ContainsKey($sc)) {
+        $item.MinorFlood = $floodStages[$sc].Minor
+    }
+    if ($null -eq $item.MajorFlood -and $floodStages.ContainsKey($sc)) {
+        $item.MajorFlood = $floodStages[$sc].Major
+    }
+    if ($null -eq $item.Kona1Max -and $konaMax.ContainsKey($sc)) {
+        $item.Kona1Max = $konaMax[$sc].Kona1
+    }
+    if ($null -eq $item.Kona2Max -and $konaMax.ContainsKey($sc)) {
+        $item.Kona2Max = $konaMax[$sc].Kona2
+    }
+}
+
 # ------------------------------------------------------------
 # Fetch 3-hour USGS history for Maui County (15009)
 # ------------------------------------------------------------
