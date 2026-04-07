@@ -52,16 +52,19 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git add latest.json latest_with_trend.json history.json buildinfo.json history24.json
+
           git diff --cached --quiet
           if ($LASTEXITCODE -ne 0) {
             git commit -m "Update dashboard"
+
+            $repo = "${{ github.repository }}"
             if ($env:PAT) {
-              $repo = "${{ github.repository }}"
+              Write-Host "Using fine-grained PAT for push."
               git remote set-url origin "https://x-access-token:$($env:PAT)@github.com/$repo.git"
-              Write-Host "Using fine-grained PAT to push."
             } else {
-              Write-Host "Using GITHUB_TOKEN to push."
+              Write-Host "Using default GITHUB_TOKEN for push."
             }
+
             git push origin HEAD:main
           } else {
             Write-Host "No changes to commit."
