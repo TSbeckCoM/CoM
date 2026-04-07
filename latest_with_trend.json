@@ -95,7 +95,7 @@
     "Longitude": -156.0522222,
     "Kona1Max": null,
     "Kona2Max": null,
-    "Trend": "↑ 0.98"
+    "Trend": "↑ 0.97"
   },
   {
     "SiteName": "Hanawi Stream near Nahiku, Maui, HI",
@@ -115,15 +115,15 @@
     "SiteName": "West Wailuaiki Stream near Keanae, Maui, HI",
     "SiteCode": "16518000",
     "VariableDescription": "Gage height, feet",
-    "Value": 1.56,
-    "Timestamp": "2026-04-07T05:35:00+00:00",
+    "Value": 1.55,
+    "Timestamp": "2026-04-07T06:05:00+00:00",
     "MinorFlood": 10,
     "MajorFlood": 13.5,
     "Latitude": 20.8143611,
     "Longitude": -156.1429722,
     "Kona1Max": null,
     "Kona2Max": null,
-    "Trend": "-- 0.00"
+    "Trend": "-- 0.01"
   },
   {
     "SiteName": "Honomanu Stream near Keanae, Maui, HI",
@@ -193,7 +193,7 @@
     "Longitude": -156.2312222,
     "Kona1Max": null,
     "Kona2Max": null,
-    "Trend": "-- 0.01"
+    "Trend": "-- 0.00"
   },
   {
     "SiteName": "Nailiilihaele Stream near Huelo, Maui, HI",
@@ -228,7 +228,7 @@
     "SiteCode": "16604500",
     "VariableDescription": "Gage height, feet",
     "Value": 0.7,
-    "Timestamp": "2026-04-07T05:50:00+00:00",
+    "Timestamp": "2026-04-07T06:05:00+00:00",
     "MinorFlood": 8.5,
     "MajorFlood": null,
     "Latitude": 20.88238889,
@@ -270,7 +270,7 @@
     "SiteCode": "16614000",
     "VariableDescription": "Gage height, feet",
     "Value": 2.01,
-    "Timestamp": "2026-04-07T05:50:00+00:00",
+    "Timestamp": "2026-04-07T06:05:00+00:00",
     "MinorFlood": 6,
     "MajorFlood": 11,
     "Latitude": 20.9358611,
@@ -312,7 +312,7 @@
     "SiteCode": "16620000",
     "VariableDescription": "Gage height, feet",
     "Value": 2.26,
-    "Timestamp": "2026-04-07T05:45:00+00:00",
+    "Timestamp": "2026-04-07T06:00:00+00:00",
     "MinorFlood": 6,
     "MajorFlood": 7.9,
     "Latitude": 20.95969444,
@@ -333,7 +333,7 @@
     "Longitude": -156.6495306,
     "Kona1Max": null,
     "Kona2Max": null,
-    "Trend": "↓ 0.26"
+    "Trend": "↓ 0.21"
   },
   {
     "SiteName": "Kahoma Stream at Lahaina, Maui, HI",
