@@ -36,6 +36,8 @@
         <th>Station ID</th>
         <th>Gage Height (ft)</th>
         <th>3-Hr Trend</th>
+        <th>Kona 1 Max</th>
+        <th>Kona 2 Max</th>
         <th>24‑Hr Trend</th>
         <th>Minor Flood</th>
         <th>Major Flood</th>
@@ -167,7 +169,7 @@ Promise.all([
   Object.keys(groups).forEach(island => {
     const headerRow = document.createElement("tr");
     headerRow.innerHTML = `
-      <td colspan="10" style="
+      <td colspan="12" style="
         background:#004578;
         color:white;
         font-weight:bold;
@@ -209,6 +211,8 @@ Promise.all([
             </polyline>
           </svg>
         </td>
+        <td>${site.Kona1Max ?? ""}</td>
+        <td>${site.Kona2Max ?? ""}</td>        
         <td>${site.MinorFlood ?? ""}</td>
         <td>${site.MajorFlood ?? ""}</td>
         <td>${statusInfo.icon} ${status}</td>
