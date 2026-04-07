@@ -22,19 +22,19 @@ $floodStages = @{
 # Kona max lookup table (per station, by SiteCode)
 # ---------------------------------------------
 $konaMax = @{
-    # "16415600" = @{ Kona1 = $null; Kona2 = $null }
-    # "16400000" = @{ Kona1 = $null; Kona2 = $null }
-    # "16638500" = @{ Kona1 = $null; Kona2 = $null }
-    # "16620000" = @{ Kona1 = $null;  Kona2 = $null }
-    # "16618000" = @{ Kona1 = $null;  Kona2 = $null }
-    # "16614000" = @{ Kona1 = $null; Kona2 = $null }
-    # "16604500" = @{ Kona1 = $null;  Kona2 = $null }
-    # "16605500" = @{ Kona1 = 13.4; Kona2 = 13.5 } 
-    # "16587000" = @{ Kona1 = $null;  Kona2 = $null }
-    # "16552800" = @{ Kona1 = $null;  Kona2 = $null }
-    # "16518000" = @{ Kona1 = $null; Kona2 = $null }
-    # "16508000" = @{ Kona1 = $null;  Kona2 = $null }
-    # "16501200" = @{ Kona1 = $null;  Kona2 = $null }
+    "16415600" = @{ Kona1 = $null; Kona2 = $null }
+    "16400000" = @{ Kona1 = $null; Kona2 = $null }
+    "16638500" = @{ Kona1 = $null; Kona2 = $null }
+    "16620000" = @{ Kona1 = $null;  Kona2 = $null }
+    "16618000" = @{ Kona1 = $null;  Kona2 = $null }
+    "16614000" = @{ Kona1 = $null; Kona2 = $null }
+    "16604500" = @{ Kona1 = $null;  Kona2 = $null }
+    "16605500" = @{ Kona1 = 13.4; Kona2 = 13.5 } 
+    "16587000" = @{ Kona1 = $null;  Kona2 = $null }
+    "16552800" = @{ Kona1 = $null;  Kona2 = $null }
+    "16518000" = @{ Kona1 = $null; Kona2 = $null }
+    "16508000" = @{ Kona1 = $null;  Kona2 = $null }
+    "16501200" = @{ Kona1 = $null;  Kona2 = $null }
 }
 
 # ---------------------------------------------
