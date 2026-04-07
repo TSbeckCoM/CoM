@@ -194,62 +194,50 @@ Promise.all([
   
       const statusInfo = getStatusInfo(status);
   
-      // --- 24‑HOUR SPARKLINE DATA (autoscale to series only; Kona overlay) ---
+      // --- 24‑HOUR SPARKLINE DATA: fixed Y-axis (0..15 ft) + axis labels ---
       const toNum = v => v == null ? null : Number(v);
       const series = (historyData[site.SiteCode] || [])
         .map(v => toNum(v.Value))
         .filter(v => typeof v === 'number' && !Number.isNaN(v));
-  
-      const width = 100;
-      const height = 20;
-  
-      // Local autoscale from series (with padding), independent of Kona values
-      let AXIS_MIN, AXIS_MAX;
-      if (series.length >= 2) {
-        const sMin = Math.min(...series);
-        const sMax = Math.max(...series);
-        const sRange = sMax - sMin;
-        const pad = Math.max(0.2, sRange * 0.15); // >= 0.2 ft or 15% of range
-  
-        AXIS_MIN = sMin - pad;
-        AXIS_MAX = sMax + pad;
-  
-        // Guard against degenerate axis
-        if (AXIS_MAX <= AXIS_MIN) AXIS_MAX = AXIS_MIN + 1;
-      } else {
-        // Fallback axis around current value ±1 ft
-        const cur = toNum(site.Value);
-        const base = (cur != null && !Number.isNaN(cur)) ? cur : 0;
-        AXIS_MIN = base - 1;
-        AXIS_MAX = base + 1;
+      
+      // Chart sizing
+      const width = 120;   // a bit wider to fit labels comfortably
+      const height = 24;   // slightly taller than 20 for readability
+      
+      // Fixed axis domain in FEET
+      const AXIS_MIN = 0;
+      const AXIS_MAX = 15;
+      
+      // Plot area with a left margin for y-axis labels
+      const LEFT_MARGIN = 24;      // space for labels/ticks
+      const RIGHT_MARGIN = 4;
+      const PLOT_WIDTH = width - LEFT_MARGIN - RIGHT_MARGIN;
+      
+      // Scaler using the fixed domain; clamps to SVG bounds
+      function scaleYFixed(v) {
+        const t = (Number(v) - AXIS_MIN) / (AXIS_MAX - AXIS_MIN); // normalize 0..1
+        const y = height - (t * height);                          // flip for SVG y
+        return Math.max(0, Math.min(height, y));                  // clamp
       }
-  
-      function scaleY(v) {
-        const t = (Number(v) - AXIS_MIN) / (AXIS_MAX - AXIS_MIN);
-        const y = height - (t * height);
-        return Math.max(0, Math.min(height, y)); // clamp inside SVG
-      }
-  
-      // Build sparkline polyline points
+      
+      // Build sparkline polyline points (x maps into the plot area)
       let points = "";
       if (series.length > 1) {
         points = series.map((v, i) => {
-          const x = (i / (series.length - 1)) * width;
-          const y = scaleY(v);
+          const t = (series.length - 1) === 0 ? 0 : (i / (series.length - 1));
+          const x = LEFT_MARGIN + t * PLOT_WIDTH;
+          const y = scaleYFixed(v);
           return `${x},${y}`;
         }).join(" ");
       }
-  
-      // Kona 1 overlay with in/out-of-range detection
-      const K1 = toNum(site.Kona1Max);
-      let yK1 = null, k1OutTop = false, k1OutBottom = false;
-      if (K1 != null && !Number.isNaN(K1)) {
-        if (K1 > AXIS_MAX) k1OutTop = true;
-        else if (K1 < AXIS_MIN) k1OutBottom = true;
-        else yK1 = scaleY(K1);
-      } // ✅ close the if
-  
-      // Build the row
+      
+      // Axis ticks at fixed feet values
+      const ticks = [0, 5, 10, 15].map(ft => ({
+        ft,
+        y: scaleYFixed(ft)
+      }));
+      
+      // ✅ Build the row HTML inside a template string (no overlays yet)
       const row = document.createElement("tr");
       row.innerHTML = `
         <td>${site.SiteName}</td>
@@ -258,45 +246,50 @@ Promise.all([
         <td style="white-space: pre;">${site.Trend}</td>
         <td>
           <svg width="${width}" height="${height}">
+            <!-- Left y-axis line -->
+            <line x1="${LEFT_MARGIN}" y1="0" x2="${LEFT_MARGIN}" y2="${height}"
+                  stroke="#999" stroke-width="0.5"></line>
+      
+            <!-- Y-axis ticks and labels -->
+            ${ticks.map(t => `
+              <line x1="${LEFT_MARGIN - 4}" y1="${t.y}" x2="${LEFT_MARGIN}" y2="${t.y}"
+                    stroke="#999" stroke-width="0.5"></line>
+              <text x="${LEFT_MARGIN - 6}" y="${t.y + 3}" text-anchor="end"
+                    font-size="9" fill="#666">${t.ft}</text>
+            `).join('')}
+      
+            <!-- Optional: faint grid lines across plot area -->
+            ${ticks.map(t => `
+              <line x1="${LEFT_MARGIN}" y1="${t.y}" x2="${width - RIGHT_MARGIN}" y2="${t.y}"
+                    stroke="#eee" stroke-width="0.5"></line>
+            `).join('')}
+      
+            <!-- Sparkline on fixed axis -->
             ${points ? `
               <polyline fill="none" stroke="#0074d9" stroke-width="2"
                         points="${points}"></polyline>
-            ` : ``}
-  
-            <!-- Kona 1 Max dashed line when inside range -->
-            ${yK1 !== null ? `
-              <line x1="0" y1="${yK1}" x2="${width}" y2="${yK1}"
-                    stroke="red" stroke-width="1" stroke-dasharray="3,2">
-                <title>Kona 1 Max: ${site.Kona1Max} ft</title>
-              </line>
-            ` : ``}
-  
-            <!-- Small edge marker when Kona 1 is outside axis -->
-            ${k1OutTop ? `
-              <polygon points="${width-10},2 ${width-2},2 ${width-6},8"
-                       fill="red">
-                <title>Kona 1 Max above visible range (${site.Kona1Max} ft)</title>
-              </polygon>
-            ` : ``}
-            ${k1OutBottom ? `
-              <polygon points="${width-10},${height-2} ${width-2},${height-2} ${width-6},${height-8}"
-                       fill="red">
-                <title>Kona 1 Max below visible range (${site.Kona1Max} ft)</title>
-              </polygon>
-            ` : ``}
+            ` : `
+              <!-- If no history, draw a small placeholder baseline at current value -->
+              ${site.Value != null && !Number.isNaN(Number(site.Value)) ? `
+                <line x1="${LEFT_MARGIN}" y1="${scaleYFixed(site.Value)}"
+                      x2="${width - RIGHT_MARGIN}" y2="${scaleYFixed(site.Value)}"
+                      stroke="#0074d9" stroke-width="1"></line>
+              ` : ``}
+            `}
           </svg>
         </td>
-  
-        <!-- New static columns -->
+      
+        <!-- Static columns -->
         <td>${site.Kona1Max ?? ""}</td>
         <td>${site.Kona2Max ?? ""}</td>
-  
         <td>${site.MinorFlood ?? ""}</td>
         <td>${site.MajorFlood ?? ""}</td>
         <td>${statusInfo.icon} ${status}</td>
         <td>${toHawaiiTime(site.Timestamp)}</td>
         <td>
-          <a href="map.html?lat=${site.Latitude}&lon=${site.Longitude}&name=${encodeURIComponent(site.SiteName)}" target="_blank`;      
+          map.html?lat=${site.Latitude}&lon=${site.Longitude}&name=${encodeURIComponent(site.SiteName)}View</a>
+        </td>
+      `;
       tbody.appendChild(row);      
     });
   });
