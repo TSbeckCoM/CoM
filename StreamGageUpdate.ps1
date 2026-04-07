@@ -23,13 +23,6 @@ $results = foreach ($ts in $stations) {
     $latitude  = $ts.sourceInfo.geoLocation.geogLocation.latitude
     $longitude = $ts.sourceInfo.geoLocation.geogLocation.longitude
     
-    $unitCode  = $ts.variable.unit.unitCode  # typically 'ft' or 'm'
-    $valFeet   = [double]$valueRaw
-    if ($unitCode -eq 'm') {
-        $valFeet  = $valFeet * 3.28084
-        $unitCode = 'ft'
-    }
-    
     # Lookup Minor/Major thresholds
     $stages = $floodStages[$siteCode]
     $minor = if ($stages) { $stages.Minor } else { $null }
@@ -45,9 +38,9 @@ $results = foreach ($ts in $stations) {
         SiteName            = $siteName
         SiteCode            = $siteCode
         VariableDescription = $varDesc
-        #Value               = [double]$value
-        Value               = $valFeet
-        ValueUnit           = $unitCode
+        Value               = [double]$value
+        #Value               = $valFeet
+        #ValueUnit           = $unitCode
         Timestamp           = $dateTime
         MinorFlood          = $minor
         MajorFlood          = $major
