@@ -5,6 +5,8 @@
 # Also outputs history.json for inspection
 # ------------------------------------------------------------
 
+. "$PSScriptRoot/thresholds.ps1"
+
 # Paths
 $latestPath   = Join-Path $PSScriptRoot "latest.json"
 $outputPath   = Join-Path $PSScriptRoot "latest_with_trend.json"
