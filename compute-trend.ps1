@@ -23,7 +23,7 @@ if (-not (Test-Path $latestPath)) {
 
 $latest = Get-Content $latestPath | ConvertFrom-Json
 
-# Belt-and-suspenders: backfill thresholds & Kona values from shared tables
+# Backfill/validate thresholds & Kona values (belt-and-suspenders)
 foreach ($item in $latest) {
     $sc = $item.SiteCode
 
@@ -41,7 +41,7 @@ foreach ($item in $latest) {
     }
 }
 
-# Optional: warn if any latest items are not in feet (should be normalized upstream)
+# Optional: warn if latest items report non-feet units (should be normalized upstream)
 $notFeet = @()
 foreach ($item in $latest) {
     if ($null -ne $item.ValueUnit -and $item.ValueUnit -ne 'ft') {
@@ -73,7 +73,6 @@ catch {
 $historyBySite   = @{}
 $history24BySite = @{}
 
-# Helper to convert a time series block into entries in FEET
 function Convert-TimeSeriesToFeet {
     param(
         [Parameter(Mandatory=$true)] $timeSeriesObj
