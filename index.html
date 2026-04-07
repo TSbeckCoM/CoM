@@ -195,37 +195,60 @@ Promise.all([
       const statusInfo = getStatusInfo(status);
   
       // --- 24‑HOUR SPARKLINE DATA (fixed Y-axis 0..15 ft) ---
-      const historyValues = (historyData[site.SiteCode] || []).map(v => v.Value);
-  
-      // Fixed axis domain
-      const AXIS_MIN = 0;
-      const AXIS_MAX = 15;
+      // --- 24‑HOUR SPARKLINE DATA (autoscale to series only; Kona overlay) ---
+      const toNum = v => v == null ? null : Number(v);
+      const series = (historyData[site.SiteCode] || [])
+        .map(v => toNum(v.Value))
+        .filter(v => typeof v === 'number' && !Number.isNaN(v));
+      
       const width = 100;
       const height = 20;
-  
-      // Scaler using the fixed domain; clamps to SVG bounds
-      function scaleYFixed(v) {
-        const t = (Number(v) - AXIS_MIN) / (AXIS_MAX - AXIS_MIN); // normalize 0..1
-        const y = height - (t * height); // flip for SVG y
-        return Math.max(0, Math.min(height, y)); // clamp
+      
+      // Local autoscale from series (with padding), independent of Kona values
+      let AXIS_MIN, AXIS_MAX;
+      if (series.length >= 2) {
+        const sMin = Math.min(...series);
+        const sMax = Math.max(...series);
+        const sRange = sMax - sMin;
+        const pad = Math.max(0.2, sRange * 0.15); // >= 0.2 ft or 15% of range
+      
+        AXIS_MIN = sMin - pad;
+        AXIS_MAX = sMax + pad;
+      
+        // Guard against degenerate axis
+        if (AXIS_MAX <= AXIS_MIN) AXIS_MAX = AXIS_MIN + 1;
+      } else {
+        // Fallback axis around current value ±1 ft
+        const cur = toNum(site.Value);
+        const base = (cur != null && !Number.isNaN(cur)) ? cur : 0;
+        AXIS_MIN = base - 1;
+        AXIS_MAX = base + 1;
       }
-  
+      
+      function scaleY(v) {
+        const t = (Number(v) - AXIS_MIN) / (AXIS_MAX - AXIS_MIN);
+        const y = height - (t * height);
+        return Math.max(0, Math.min(height, y)); // clamp inside SVG
+      }
+      
+      // Build sparkline polyline points
       let points = "";
-      let yKona1 = null;
-  
-      if (historyValues.length > 0) {
-        // Build sparkline points using the fixed scaler
-        points = historyValues.map((v, i) => {
-          const x = (i / (historyValues.length - 1)) * width;
-          const y = scaleYFixed(v);
+      if (series.length > 1) {
+        points = series.map((v, i) => {
+          const x = (i / (series.length - 1)) * width;
+          const y = scaleY(v);
           return `${x},${y}`;
         }).join(" ");
       }
-  
-      // Horizontal line Y for Kona 1 Max using the same fixed scale
-      if (site.Kona1Max !== null && site.Kona1Max !== undefined && site.Kona1Max !== "") {
-        yKona1 = scaleYFixed(site.Kona1Max);
-      }
+      
+      // Kona 1 overlay with in/out-of-range detection
+      const K1 = toNum(site.Kona1Max);
+      let yK1 = null, k1OutTop = false, k1OutBottom = false;
+      if (K1 != null && !Number.isNaN(K1)) {
+        if (K1 > AXIS_MAX) k1OutTop = true;
+        else if (K1 < AXIS_MIN) k1OutBottom = true;
+        else yK1 = scaleY(K1);
+
   
       // ✅ Build the row HTML inside a template string
       const row = document.createElement("tr");
@@ -240,16 +263,31 @@ Promise.all([
               <polyline fill="none" stroke="#0074d9" stroke-width="2"
                         points="${points}"></polyline>
             ` : ``}
-  
-            ${yKona1 !== null ? `
-              <line x1="0" y1="${yKona1}" x2="${width}" y2="${yKona1}"
+        
+            <!-- Kona 1 Max dashed line when inside range -->
+            ${yK1 !== null ? `
+              <line x1="0" y1="${yK1}" x2="${width}" y2="${yK1}"
                     stroke="red" stroke-width="1" stroke-dasharray="3,2">
                 <title>Kona 1 Max: ${site.Kona1Max} ft</title>
               </line>
             ` : ``}
+        
+            <!-- Small edge marker when Kona 1 is outside axis -->
+            ${k1OutTop ? `
+              <polygon points="${width-10},2 ${width-2},2 ${width-6},8"
+                       fill="red">
+                <title>Kona 1 Max above visible range (${site.Kona1Max} ft)</title>
+              </polygon>
+            ` : ``}
+            ${k1OutBottom ? `
+              <polygon points="${width-10},${height-2} ${width-2},${height-2} ${width-6},${height-8}"
+                       fill="red">
+                <title>Kona 1 Max below visible range (${site.Kona1Max} ft)</title>
+              </polygon>
+            ` : ``}
           </svg>
         </td>
-  
+
         <!-- New static columns -->
         <td>${site.Kona1Max ?? ""}</td>
         <td>${site.Kona2Max ?? ""}</td>
