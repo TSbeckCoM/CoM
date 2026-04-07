@@ -181,63 +181,23 @@ Promise.all([
     groups[island].forEach(site => {
       const siteTime = new Date(site.Timestamp).getTime();
       const age = now - siteTime;
-  
+
       let status;
       let displayValue = site.Value;
-  
+
       if (age > twentyFourHours) {
         status = "Out of Date";
         displayValue = "n/a";
       } else {
         status = computeStatus(site.Value, site.MinorFlood, site.MajorFlood);
       }
-  
+
       const statusInfo = getStatusInfo(status);
-  
-      // --- 24‑HOUR SPARKLINE DATA: fixed Y-axis (0..15 ft) + axis labels ---
-      const toNum = v => v == null ? null : Number(v);
-      const series = (historyData[site.SiteCode] || [])
-        .map(v => toNum(v.Value))
-        .filter(v => typeof v === 'number' && !Number.isNaN(v));
-      
-      // Chart sizing
-      const width = 120;   // a bit wider to fit labels comfortably
-      const height = 24;   // slightly taller than 20 for readability
-      
-      // Fixed axis domain in FEET
-      const AXIS_MIN = 0;
-      const AXIS_MAX = 15;
-      
-      // Plot area with a left margin for y-axis labels
-      const LEFT_MARGIN = 24;      // space for labels/ticks
-      const RIGHT_MARGIN = 4;
-      const PLOT_WIDTH = width - LEFT_MARGIN - RIGHT_MARGIN;
-      
-      // Scaler using the fixed domain; clamps to SVG bounds
-      function scaleYFixed(v) {
-        const t = (Number(v) - AXIS_MIN) / (AXIS_MAX - AXIS_MIN); // normalize 0..1
-        const y = height - (t * height);                          // flip for SVG y
-        return Math.max(0, Math.min(height, y));                  // clamp
-      }
-      
-      // Build sparkline polyline points (x maps into the plot area)
-      let points = "";
-      if (series.length > 1) {
-        points = series.map((v, i) => {
-          const t = (series.length - 1) === 0 ? 0 : (i / (series.length - 1));
-          const x = LEFT_MARGIN + t * PLOT_WIDTH;
-          const y = scaleYFixed(v);
-          return `${x},${y}`;
-        }).join(" ");
-      }
-      
-      // Axis ticks at fixed feet values
-      const ticks = [0, 5, 10, 15].map(ft => ({
-        ft,
-        y: scaleYFixed(ft)
-      }));
-      
-      // ✅ Build the row HTML inside a template string (no overlays yet)
+
+      // --- 24‑HOUR SPARKLINE DATA ---
+      const historyValues = (historyData[site.SiteCode] || []).map(v => v.Value);
+      const spark = makeSparkline(historyValues);
+
       const row = document.createElement("tr");
       row.innerHTML = `
         <td>${site.SiteName}</td>
@@ -245,50 +205,19 @@ Promise.all([
         <td>${displayValue}</td>
         <td style="white-space: pre;">${site.Trend}</td>
         <td>
-          <svg width="${width}" height="${height}">
-            <!-- Left y-axis line -->
-            <line x1="${LEFT_MARGIN}" y1="0" x2="${LEFT_MARGIN}" y2="${height}"
-                  stroke="#999" stroke-width="0.5"></line>
-      
-            <!-- Y-axis ticks and labels -->
-            ${ticks.map(t => `
-              <line x1="${LEFT_MARGIN - 4}" y1="${t.y}" x2="${LEFT_MARGIN}" y2="${t.y}"
-                    stroke="#999" stroke-width="0.5"></line>
-              <text x="${LEFT_MARGIN - 6}" y="${t.y + 3}" text-anchor="end"
-                    font-size="9" fill="#666">${t.ft}</text>
-            `).join('')}
-      
-            <!-- Optional: faint grid lines across plot area -->
-            ${ticks.map(t => `
-              <line x1="${LEFT_MARGIN}" y1="${t.y}" x2="${width - RIGHT_MARGIN}" y2="${t.y}"
-                    stroke="#eee" stroke-width="0.5"></line>
-            `).join('')}
-      
-            <!-- Sparkline on fixed axis -->
-            ${points ? `
-              <polyline fill="none" stroke="#0074d9" stroke-width="2"
-                        points="${points}"></polyline>
-            ` : `
-              <!-- If no history, draw a small placeholder baseline at current value -->
-              ${site.Value != null && !Number.isNaN(Number(site.Value)) ? `
-                <line x1="${LEFT_MARGIN}" y1="${scaleYFixed(site.Value)}"
-                      x2="${width - RIGHT_MARGIN}" y2="${scaleYFixed(site.Value)}"
-                      stroke="#0074d9" stroke-width="1"></line>
-              ` : ``}
-            `}
+          <svg width="100" height="20">
+            <polyline fill="none" stroke="#0074d9" stroke-width="2"
+              points="${spark}">
+            </polyline>
           </svg>
         </td>
-      
-        <!-- Static columns -->
         <td>${site.Kona1Max ?? ""}</td>
         <td>${site.Kona2Max ?? ""}</td>
         <td>${site.MinorFlood ?? ""}</td>
         <td>${site.MajorFlood ?? ""}</td>
         <td>${statusInfo.icon} ${status}</td>
         <td>${toHawaiiTime(site.Timestamp)}</td>
-        <td>
-          map.html?lat=${site.Latitude}&lon=${site.Longitude}&name=${encodeURIComponent(site.SiteName)}View</a>
-        </td>
+        <td><a href="map.html?lat=${site.Latitude}&lon=${site.Longitude}&name=${encodeURIComponent(site.SiteName)}" target="_blank">View</a></td>
       `;
       tbody.appendChild(row);      
     });
