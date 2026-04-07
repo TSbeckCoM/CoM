@@ -41,7 +41,7 @@ foreach ($item in $latest) {
     }
 }
 
-# Optional: warn if latest items report non-feet units (should be normalized upstream)
+# Optional: warn if any latest items are not in feet (should be normalized upstream)
 $notFeet = @()
 foreach ($item in $latest) {
     if ($null -ne $item.ValueUnit -and $item.ValueUnit -ne 'ft') {
@@ -83,7 +83,8 @@ function Convert-TimeSeriesToFeet {
     if ($param -ne "00065") { return $null }
 
     $siteCode = $timeSeriesObj.sourceInfo.siteCode[0].value
-    # unitCode may be missing; default assume 'ft'
+
+    # unitCode may be missing; default to 'ft'
     $unitCode = $timeSeriesObj.variable.unit.unitCode
     if (-not $unitCode) { $unitCode = 'ft' }
 
@@ -144,12 +145,15 @@ foreach ($item in $latest) {
     else {
         $entries = $historyBySite[$siteCode]
 
-        if ($entries.Count -lt 2) {
+        # Filter to numeric values in FEET
+        $vals = $entries | Select-Object -ExpandProperty Value | Where-Object { $_ -ne $null }
+
+        if ($vals.Count -lt 2) {
             $trend = "N/A"
         }
         else {
             # Compute 3-hour average (FEET)
-            $avg = ($entries.Value | Measure-Object -Average).Average
+            $avg = ($vals | Measure-Object -Average).Average
 
             # Compare current to average
             $delta = $current - $avg
