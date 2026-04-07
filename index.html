@@ -181,42 +181,38 @@ Promise.all([
     groups[island].forEach(site => {
       const siteTime = new Date(site.Timestamp).getTime();
       const age = now - siteTime;
-    
+  
       let status;
       let displayValue = site.Value;
-    
+  
       if (age > twentyFourHours) {
         status = "Out of Date";
         displayValue = "n/a";
       } else {
         status = computeStatus(site.Value, site.MinorFlood, site.MajorFlood);
       }
-    
+  
       const statusInfo = getStatusInfo(status);
-    
-      // --- 24‑HOUR SPARKLINE DATA ---
+  
+      // --- 24‑HOUR SPARKLINE DATA (fixed Y-axis 0..15 ft) ---
       const historyValues = (historyData[site.SiteCode] || []).map(v => v.Value);
-      
+  
       // Fixed axis domain
       const AXIS_MIN = 0;
       const AXIS_MAX = 15;
       const width = 100;
-      const height = 20
-      
+      const height = 20;
+  
       // Scaler using the fixed domain; clamps to SVG bounds
       function scaleYFixed(v) {
-        // Normalize to [0,1] based on fixed axis, then flip for SVG y
-        const t = (Number(v) - AXIS_MIN) / (AXIS_MAX - AXIS_MIN);
-        const y = height - (t * height);
-        // Clamp to [0, height]
-        return Math.max(0, Math.min(height, y));
+        const t = (Number(v) - AXIS_MIN) / (AXIS_MAX - AXIS_MIN); // normalize 0..1
+        const y = height - (t * height); // flip for SVG y
+        return Math.max(0, Math.min(height, y)); // clamp
       }
-      
+  
       let points = "";
       let yKona1 = null;
-      #const width = 100;
-      #const height = 20;
-      
+  
       if (historyValues.length > 0) {
         // Build sparkline points using the fixed scaler
         points = historyValues.map((v, i) => {
@@ -224,22 +220,13 @@ Promise.all([
           const y = scaleYFixed(v);
           return `${x},${y}`;
         }).join(" ");
-        }
-      
-        // Horizontal line Y for Kona 1 Max using same fixed scale
-        if (site.Kona1Max !== null && site.Kona1Max !== undefined && site.Kona1Max !== "") {
-          yKona1 = scaleYFixed(site.Kona1Max);
-        }
-
-    
-        // Sparkline points
-        points = historyValues.map((v, i) => {
-          const x = (i / (historyValues.length - 1)) * width;
-          const y = height - ((v - min) / range) * height;
-          return `${x},${y}`;
-        }).join(" ");
-    
-    
+      }
+  
+      // Horizontal line Y for Kona 1 Max using the same fixed scale
+      if (site.Kona1Max !== null && site.Kona1Max !== undefined && site.Kona1Max !== "") {
+        yKona1 = scaleYFixed(site.Kona1Max);
+      }
+  
       // ✅ Build the row HTML inside a template string
       const row = document.createElement("tr");
       row.innerHTML = `
@@ -249,13 +236,11 @@ Promise.all([
         <td style="white-space: pre;">${site.Trend}</td>
         <td>
           <svg width="${width}" height="${height}">
-            <!-- Sparkline -->
             ${points ? `
               <polyline fill="none" stroke="#0074d9" stroke-width="2"
                         points="${points}"></polyline>
             ` : ``}
-        
-            <!-- Kona 1 Max horizontal line -->
+  
             ${yKona1 !== null ? `
               <line x1="0" y1="${yKona1}" x2="${width}" y2="${yKona1}"
                     stroke="red" stroke-width="1" stroke-dasharray="3,2">
@@ -264,17 +249,20 @@ Promise.all([
             ` : ``}
           </svg>
         </td>
+  
         <!-- New static columns -->
         <td>${site.Kona1Max ?? ""}</td>
         <td>${site.Kona2Max ?? ""}</td>
-    
+  
         <td>${site.MinorFlood ?? ""}</td>
         <td>${site.MajorFlood ?? ""}</td>
         <td>${statusInfo.icon} ${status}</td>
         <td>${toHawaiiTime(site.Timestamp)}</td>
-        <td>map.html?lat=${site.Latitude}&lon=${site.Longitude}&name=${encodeURIComponent(site.SiteName)}View</a></td>
+        <td>
+          map.html?lat=${site.Latitude}&lon=${site.Longitude}&name=${encodeURIComponent(site.SiteName)}View</a>
+        </td>
       `;
-      tbody.appendChild(row);
+      tbody.appendChild(row);      
     });
   });
 
