@@ -194,16 +194,15 @@ Promise.all([
   
       const statusInfo = getStatusInfo(status);
   
-      // --- 24‑HOUR SPARKLINE DATA (fixed Y-axis 0..15 ft) ---
       // --- 24‑HOUR SPARKLINE DATA (autoscale to series only; Kona overlay) ---
       const toNum = v => v == null ? null : Number(v);
       const series = (historyData[site.SiteCode] || [])
         .map(v => toNum(v.Value))
         .filter(v => typeof v === 'number' && !Number.isNaN(v));
-      
+  
       const width = 100;
       const height = 20;
-      
+  
       // Local autoscale from series (with padding), independent of Kona values
       let AXIS_MIN, AXIS_MAX;
       if (series.length >= 2) {
@@ -211,10 +210,10 @@ Promise.all([
         const sMax = Math.max(...series);
         const sRange = sMax - sMin;
         const pad = Math.max(0.2, sRange * 0.15); // >= 0.2 ft or 15% of range
-      
+  
         AXIS_MIN = sMin - pad;
         AXIS_MAX = sMax + pad;
-      
+  
         // Guard against degenerate axis
         if (AXIS_MAX <= AXIS_MIN) AXIS_MAX = AXIS_MIN + 1;
       } else {
@@ -224,13 +223,13 @@ Promise.all([
         AXIS_MIN = base - 1;
         AXIS_MAX = base + 1;
       }
-      
+  
       function scaleY(v) {
         const t = (Number(v) - AXIS_MIN) / (AXIS_MAX - AXIS_MIN);
         const y = height - (t * height);
         return Math.max(0, Math.min(height, y)); // clamp inside SVG
       }
-      
+  
       // Build sparkline polyline points
       let points = "";
       if (series.length > 1) {
@@ -240,7 +239,7 @@ Promise.all([
           return `${x},${y}`;
         }).join(" ");
       }
-      
+  
       // Kona 1 overlay with in/out-of-range detection
       const K1 = toNum(site.Kona1Max);
       let yK1 = null, k1OutTop = false, k1OutBottom = false;
@@ -248,9 +247,9 @@ Promise.all([
         if (K1 > AXIS_MAX) k1OutTop = true;
         else if (K1 < AXIS_MIN) k1OutBottom = true;
         else yK1 = scaleY(K1);
-
+      } // ✅ close the if
   
-      // ✅ Build the row HTML inside a template string
+      // Build the row
       const row = document.createElement("tr");
       row.innerHTML = `
         <td>${site.SiteName}</td>
@@ -263,7 +262,7 @@ Promise.all([
               <polyline fill="none" stroke="#0074d9" stroke-width="2"
                         points="${points}"></polyline>
             ` : ``}
-        
+  
             <!-- Kona 1 Max dashed line when inside range -->
             ${yK1 !== null ? `
               <line x1="0" y1="${yK1}" x2="${width}" y2="${yK1}"
@@ -271,7 +270,7 @@ Promise.all([
                 <title>Kona 1 Max: ${site.Kona1Max} ft</title>
               </line>
             ` : ``}
-        
+  
             <!-- Small edge marker when Kona 1 is outside axis -->
             ${k1OutTop ? `
               <polygon points="${width-10},2 ${width-2},2 ${width-6},8"
@@ -287,7 +286,7 @@ Promise.all([
             ` : ``}
           </svg>
         </td>
-
+  
         <!-- New static columns -->
         <td>${site.Kona1Max ?? ""}</td>
         <td>${site.Kona2Max ?? ""}</td>
@@ -297,9 +296,7 @@ Promise.all([
         <td>${statusInfo.icon} ${status}</td>
         <td>${toHawaiiTime(site.Timestamp)}</td>
         <td>
-          map.html?lat=${site.Latitude}&lon=${site.Longitude}&name=${encodeURIComponent(site.SiteName)}View</a>
-        </td>
-      `;
+          <a href="map.html?lat=${site.Latitude}&lon=${site.Longitude}&name=${encodeURIComponent(site.SiteName)}" target="_blank`;      
       tbody.appendChild(row);      
     });
   });
