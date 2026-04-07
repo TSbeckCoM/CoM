@@ -171,13 +171,13 @@
     "SiteName": "Nailiilihaele Stream near Huelo, Maui, HI",
     "SiteCode": "16570000",
     "VariableDescription": "Gage height, feet",
-    "Value": 2.22,
-    "Timestamp": "2026-04-07T00:45:00+00:00",
+    "Value": 2.21,
+    "Timestamp": "2026-04-07T01:45:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.8711111,
     "Longitude": -156.2155556,
-    "Trend": "-- 0.01"
+    "Trend": "-- 0.00"
   },
   {
     "SiteName": "Honopou Stream near Huelo, Maui, HI",
@@ -261,7 +261,7 @@
     "MajorFlood": 12.4,
     "Latitude": 20.97869444,
     "Longitude": -156.5545,
-    "Trend": "-- 0.01"
+    "Trend": "-- 0.00"
   },
   {
     "SiteName": "Honokohau Stream near Honokohau, Maui, HI",
@@ -285,7 +285,7 @@
     "MajorFlood": null,
     "Latitude": 20.9998111,
     "Longitude": -156.6495306,
-    "Trend": "↑ 0.21"
+    "Trend": "↑ 0.20"
   },
   {
     "SiteName": "Kahoma Stream at Lahaina, Maui, HI",
