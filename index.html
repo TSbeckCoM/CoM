@@ -18,10 +18,8 @@
   <p id="updated">Updated: loading...</p>
 
   <div style="text-align: right; margin-bottom: 8px;">
-    allstations.htmlView All Stations Map</a>
-  </div>
-
-  <table id="gage-table" style="border-collapse: collapse; margin-top: 20px;">
+    <a href="allstations.html">View All Stations Map</a>
+ <table id="gage-table" style="border-collapse: collapse; margin-top: 20px;">
     <thead>
       <tr>
         <th>Station Name</th>
@@ -352,8 +350,7 @@ stationID,nearValue,nearStatus,firstValue,firstStatus,secondValue,secondStatus,t
             <td style="text-align:left;">${statusInfo.icon} ${statusObj.label}</td>
             <td>${toHawaiiTime(site.Timestamp)}</td>
             <td>
-              <a href="map.html?lat=${site.Latitude}&lon=${site.Longitude}&name=${encodeURIComponenteName)}Map</a>
-            </td>
+              <a href="map.html?lat=${site.Latitude}&lon=${site.Longitude}&name=${encodeURIComponent(site.SiteName)}">Map      </td>
           `;
           tbody.appendChild(row);
         } catch (e) {
