@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,10 +18,8 @@
   <h1>Stream Gage Dashboard</h1>
   <p id="updated">Updated: loading...</p>
   <div style="text-align: right; margin-bottom: 8px;">
-    allstations.htmlView All Stations Map</a>
-  </div>
-
-  <table id="gage-table" style="width:100%; border-collapse: collapse; margin-top: 20px;">
+    <a href="allstations.html">View All Stations Map</a>
+ <table id="gage-table" style="width:100%; border-collapse: collapse; margin-top: 20px;">
     <thead>
       <tr>
         <th>Station Name</th>
@@ -40,7 +39,7 @@
     <tbody></tbody>
   </table>
 
-  <!-- Inline CSV (from your lookupTable.csv) -->
+  <!-- Inline CSV (your lookupTable.csv) -->
   <script type="text/csv" id="lookup-table-csv">
 stationID,nearValue,nearStatus,firstValue,firstStatus,secondValue,secondStatus,thirdValue,thirdStatus,maxValue,maxStatus
 16400000,8.28,Near Kona low height,9.2,Kona low height,9.3,Kona low max height,9.5,Minor flood,19.9,Major flood
@@ -296,8 +295,9 @@ stationID,nearValue,nearStatus,firstValue,firstStatus,secondValue,secondStatus,t
           statusObj = { label: "Out of Date", severity: "out" };
           displayValue = "n/a";
         } else {
-          // SiteCode matches stationID in the CSV
-          statusObj = computeStatus(site.Value, site.SiteCode, thresholdsByStation);
+          // Ensure we match the CSV’s stationID key
+          const siteId = String(site.SiteCode ?? "");
+          statusObj = computeStatus(site.Value, siteId, thresholdsByStation);
         }
 
         const statusInfo = getStatusInfo(statusObj.severity);
@@ -306,35 +306,44 @@ stationID,nearValue,nearStatus,firstValue,firstStatus,secondValue,secondStatus,t
         const historyValues = (historyData[site.SiteCode] || []).map(v => v.Value);
         const spark = makeSparkline(historyValues);
 
-        const row = document.createElement("tr");
-        row.innerHTML = `
-          <td>${site.SiteName}</td>
-          <td>${site.SiteCode}</td>
-          <td>${displayValue}</td>
-          <td style="white-space: pre;">${site.Trend}</td>
-          <td>
-            <svg width="100" height="20">
-              <polyline fill="none" stroke="#0074d9" stroke-width="2"
-                points="${spark}">
-              </polyline>
-            </svg>
+        // Build row safely (so a single bad record doesn't kill the table)
+        try {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${site.SiteName}</td>
+            <td>${site.SiteCode}</td>
+            <td>${displayValue}</td>
+            <td style="white-space: pre;">${site.Trend}</td>
+            <td>
+              <svg width="100" height="20">
+                <polyline fill="none" stroke="#0074d9" stroke-width="2"
+                  points="${spark}">
+                </polyline>
+              </svg>
+            </td>
+            <td>${site.Kona1Max ?? ""}</td>
+            <td>${site.Kona2Max ?? ""}</td>
+            <td>${site.MinorFlood ?? ""}</td>
+            <td>${site.MajorFlood ?? ""}</td>
+            <td>${statusInfo.icon} ${statusObj.label}</td>
+            <td>${toHawaiiTime(site.Timestamp)}</td>
+            <td>
+              <a href="map.html?lat=${site.Latitude}&lon=${site.Longitude}&name=${encodeURIComponent(site.SiteName)}"
           </td>
-          <td>${site.Kona1Max ?? ""}</td>
-          <td>${site.Kona2Max ?? ""}</td>
-          <td>${site.MinorFlood ?? ""}</td>
-          <td>${site.MajorFlood ?? ""}</td>
-          <td>${statusInfo.icon} ${statusObj.label}</td>
-          <td>${toHawaiiTime(site.Timestamp)}</td>
-          <td><a href="map.html?lat=${site.Latitude}&lon=${site.Longitude}&name=${encodeURIComponenteName)}View</a></td>
-        `;
-        tbody.appendChild(row);
+          `;
+          tbody.appendChild(row);
+        } catch (e) {
+          console.error("Row build error for", site.SiteCode, site.SiteName, e);
+        }
       });
     });
   })
   .catch(err => {
+    console.error(err);
     document.getElementById("updated").textContent =
       "Error loading data: " + err;
   });
   </script>
 </body>
 </html>
+
