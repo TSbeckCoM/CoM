@@ -336,6 +336,7 @@ stationID,nearValue,nearStatus,firstValue,firstStatus,secondValue,secondStatus,t
             <td style="text-align:left;">${site.SiteName}</td>
             <td>${site.SiteCode}</td>
             <td>${district}</td>
+            <td style="text-align:left;">${statusInfo.icon} ${statusObj.label}</td>
             <td>${displayValue}</td>
             <td style="white-space: pre;">${site.Trend}</td>
             <td>
@@ -347,7 +348,6 @@ stationID,nearValue,nearStatus,firstValue,firstStatus,secondValue,secondStatus,t
             <td>${site.Kona2Max ?? ""}</td>
             <td>${site.MinorFlood ?? ""}</td>
             <td>${site.MajorFlood ?? ""}</td>
-            <td style="text-align:left;">${statusInfo.icon} ${statusObj.label}</td>
             <td>${toHawaiiTime(site.Timestamp)}</td>
             <td>
               <a href="map.html?lat=${site.Latitude}&lon=${site.Longitude}&name=${encodeURIComponent(site.SiteName)}">Map      </td>
