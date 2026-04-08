@@ -177,7 +177,7 @@ stationID,nearValue,nearStatus,firstValue,firstStatus,secondValue,secondStatus,t
     return map;
   }
 
-  // Defensive CSV parser (no quoted fields assumed in your sample)
+  // Defensive CSV parser
   function parseCSV(text) {
     if (!text) return [];
     if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1); // strip BOM
@@ -290,11 +290,10 @@ stationID,nearValue,nearStatus,firstValue,firstStatus,secondValue,secondStatus,t
       groups[island].sort((a, b) => {
         const dA = (districtByStation[String(a.SiteCode)] ?? "").toLowerCase();
         const dB = (districtByStation[String(b.SiteCode)] ?? "").toLowerCase();
-        if (dA !== dB) return dA.localeCompare(dB, 'en');
+        if (dA !== dB) return dA.localeCompare(dB, 'en', { sensitivity: 'base' });
         const nameA = (a.SiteName ?? "").toLowerCase();
         const nameB = (b.SiteName ?? "").toLowerCase();
-        if (nameA !== nameB) return nameA.localeCompare(nameB, 'en');
-        // Tie-breaker on SiteCode (string compare to keep leading zeros if any)
+        if (nameA !== nameB) return nameA.localeCompare(nameB, 'en', { sensitivity: 'base' });
         return String(a.SiteCode).localeCompare(String(b.SiteCode), 'en');
       });
     });
@@ -353,7 +352,7 @@ stationID,nearValue,nearStatus,firstValue,firstStatus,secondValue,secondStatus,t
             <td style="text-align:left;">${statusInfo.icon} ${statusObj.label}</td>
             <td>${toHawaiiTime(site.Timestamp)}</td>
             <td>
-              <a href="map.html?lat=${site.Latitude}&lon=${site.Longitude}&name=${encodeURIComponent(site.Site</a>
+              <a href="map.html?lat=${site.Latitude}&lon=${site.Longitude}&name=${encodeURIComponenteName)}Map</a>
             </td>
           `;
           tbody.appendChild(row);
@@ -370,4 +369,3 @@ stationID,nearValue,nearStatus,firstValue,firstStatus,secondValue,secondStatus,t
   });
   </script>
 </body>
-</html>
