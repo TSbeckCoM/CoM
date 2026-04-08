@@ -24,6 +24,7 @@
       <tr>
         <th>Station Name</th>
         <th>Station ID</th>
+        <th>District</th>
         <th>Gage Height (ft)</th>
         <th>3-Hr Trend</th>
         <th>24‑Hr Trend</th>
@@ -85,6 +86,44 @@ stationID,nearValue,nearStatus,firstValue,firstStatus,secondValue,secondStatus,t
     return "Other";
   }
 
+  // --- Hard-coded district map ---------------------------
+  const DISTRICT_BY_STATION = {
+    "16570000": "Haiku",
+    "16587000": "Haiku",
+    "16501200": "Hana",
+    "16508000": "Hana",
+    "16518000": "Hana",
+    "16527000": "Hana",
+    "16527500": "Hana",
+    "16536000": "Hana",
+    "16545000": "Hana",
+    "16400000": "Kaunakakai",
+    "16414200": "Kaunakakai",
+    "16415000": "Kaunakakai",
+    "16415600": "Kaunakakai",
+    "16417800": "Kaunakakai",
+    "16409000": "Kualapuu",
+    "16620000": "Lahaina",
+    "16623300": "Lahaina",
+    "16638500": "Lahaina",
+    "16641000": "Lahaina",
+    "16643100": "Lahaina",
+    "16647000": "Lahaina",
+    "16552800": "Makawao",
+    "16604500": "Wailuku",
+    "16605500": "Wailuku",
+    "16611500": "Wailuku",
+    "16614000": "Wailuku",
+    "16614500": "Wailuku",
+    "16618000": "Wailuku",
+    "16647900": "Wailuku"
+  };
+
+function getDistrict(site) {
+  // Normalize to string to match keys
+  return DISTRICT_BY_STATION[String(site.SiteCode)] ?? "Unknown";
+}
+    
   // Convert UTC timestamp → Hawaii Standard Time (UTC-10)
   function toHawaiiTime(utcString) {
     const utcDate = new Date(utcString);
@@ -255,13 +294,12 @@ stationID,nearValue,nearStatus,firstValue,firstStatus,secondValue,secondStatus,t
   .then(([history24, data, lookup]) => {
     historyData = history24;
     thresholdsByStation = lookup;
-
     const now = Date.now();
     const twentyFourHours = 24 * 60 * 60 * 1000;
-
+    
     const tbody = document.querySelector("#gage-table tbody");
     tbody.innerHTML = "";
-
+    
     // Group by island
     const groups = {};
     data.forEach(site => {
@@ -269,50 +307,70 @@ stationID,nearValue,nearStatus,firstValue,firstStatus,secondValue,secondStatus,t
       if (!groups[island]) groups[island] = [];
       groups[island].push(site);
     });
-
+    
     // Render each island group
     Object.keys(groups).forEach(island => {
+      // Island header (colspan 13 because we added District)
       const headerRow = document.createElement("tr");
       headerRow.innerHTML = `
-        <td colspan="12" style="
+        <td colspan="13" style="
           background:#004578;
           color:white;
           font-weight:bold;
           font-size:18px;
-          text-align:left;
         ">${island}</td>
       `;
       tbody.appendChild(headerRow);
-
+    
+      // --- Build district groups within the island ---
+      const districtsMap = {};
       groups[island].forEach(site => {
-        const siteTime = new Date(site.Timestamp).getTime();
-        const age = now - siteTime;
-
-        let statusObj;
-        let displayValue = site.Value;
-
-        if (age > twentyFourHours) {
-          // Preserve Out-of-Date behavior
-          statusObj = { label: "Out of Date", severity: "out" };
-          displayValue = "n/a";
-        } else {
-          // Ensure we match the CSV’s stationID key
-          const siteId = String(site.SiteCode ?? "");
-          statusObj = computeStatus(site.Value, siteId, thresholdsByStation);
-        }
-
-        const statusInfo = getStatusInfo(statusObj.severity);
-
-        // 24‑hour sparkline
-        const historyValues = (historyData[site.SiteCode] || []).map(v => v.Value);
-        const spark = makeSparkline(historyValues);
-
-        // Build row safely (so a single bad record doesn't kill the table)
-        try {
+        const district = getDistrict(site);
+        (districtsMap[district] ??= []).push(site);
+      });
+    
+      // Sort districts alphabetically (A→Z)
+      const districtNames = Object.keys(districtsMap).sort((a, b) => a.localeCompare(b));
+    
+      districtNames.forEach(districtName => {
+        // District header row
+        const dHeader = document.createElement("tr");
+        dHeader.className = "district-header";
+        dHeader.innerHTML = `<td colspan="13">${districtName}</td>`;
+        tbody.appendChild(dHeader);
+    
+        // (Optional) sort stations within district by Station Name
+        districtsMap[districtName].sort((a, b) => a.SiteName.localeCompare(b.SiteName));
+        // If you prefer feed order, comment the line above.
+    
+        // Render each site row
+        districtsMap[districtName].forEach(site => {
+          const siteTime = new Date(site.Timestamp).getTime();
+          const age = now - siteTime;
+    
+          let statusObj;
+          let displayValue = site.Value;
+    
+          if (age > twentyFourHours) {
+            statusObj = { label: "Out of Date", severity: "out" };
+            displayValue = "n/a";
+          } else {
+            const siteId = String(site.SiteCode ?? "");
+            statusObj = computeStatus(site.Value, siteId, thresholdsByStation);
+          }
+    
+          const statusInfo = getStatusInfo(statusObj.severity);
+    
+          const historyValues = (historyData[site.SiteCode] || []).map(v => v.Value);
+          const spark = makeSparkline(historyValues);
+    
           const row = document.createElement("tr");
           row.innerHTML = `
-            <td style="text-align:left;">${site.SiteName}</td>
+            <td>${site.SiteName}</td>
             <td>${site.SiteCode}</td>
+            <!-- NEW District cell -->
+            <td class="district-col">${getDistrict(site)}</td>
+            <!-- /NEW -->
             <td>${displayValue}</td>
             <td style="white-space: pre;">${site.Trend}</td>
             <td>
@@ -326,11 +384,11 @@ stationID,nearValue,nearStatus,firstValue,firstStatus,secondValue,secondStatus,t
             <td>${site.Kona2Max ?? ""}</td>
             <td>${site.MinorFlood ?? ""}</td>
             <td>${site.MajorFlood ?? ""}</td>
-            <td style="text-align:left;">${statusInfo.icon} ${statusObj.label}</td>
+            <td class="status-col">${statusInfo.icon} ${statusObj.label}</td>
             <td>${toHawaiiTime(site.Timestamp)}</td>
             <td>
-              <a href="map.html?lat=${site.Latitude}&lon=${site.Longitude}&name=${encodeURIComponent(site.SiteName)}"
-          </td>
+              allstations.htmlView All Stations Map</a>
+            </td>
           `;
           tbody.appendChild(row);
         } catch (e) {
