@@ -35,4 +35,16 @@ $konaMax = @{
     "16518000" = @{ Kona1 = 9.0; Kona2 = $null }
     "16508000" = @{ Kona1 = 8.8;  Kona2 = $null }
     "16501200" = @{ Kona1 = 9.4;  Kona2 = $null }
+    "16501200" = @{ Kona1 = 9.4;  Kona2 = $null }
+    
+    "16641000" = @{ Kona1 = 15.2;  Kona2 = $null }
+    "16527000" = @{ Kona1 = 8.2;  Kona2 = $null }
+    "16647900" = @{ Kona1 = 6.5;  Kona2 = $null }
+    "16415000" = @{ Kona1 = 6.4;  Kona2 = $null }
+    "16611500" = @{ Kona1 = 6.1;  Kona2 = $null }
+    "16414200" = @{ Kona1 = 5.8;  Kona2 = $null }
+    "16545000" = @{ Kona1 = 5.4;  Kona2 = $null }
+    "16570000" = @{ Kona1 = 4.8;  Kona2 = $null }
+    "16536000" = @{ Kona1 = 4.0;  Kona2 = $null }
+    "16623300" = @{ Kona1 = 1.7;  Kona2 = $null }
 }
