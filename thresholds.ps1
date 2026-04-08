@@ -35,8 +35,6 @@ $konaMax = @{
     "16518000" = @{ Kona1 = 9.0; Kona2 = $null }
     "16508000" = @{ Kona1 = 8.8;  Kona2 = $null }
     "16501200" = @{ Kona1 = 9.4;  Kona2 = $null }
-    "16501200" = @{ Kona1 = 9.4;  Kona2 = $null }
-    
     "16641000" = @{ Kona1 = 15.2;  Kona2 = $null }
     "16527000" = @{ Kona1 = 8.2;  Kona2 = $null }
     "16647900" = @{ Kona1 = 6.5;  Kona2 = $null }
