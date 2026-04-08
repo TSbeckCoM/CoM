@@ -11,7 +11,7 @@
     "Longitude": -156.7619722,
     "Kona1Max": 9.3,
     "Kona2Max": 9.2,
-    "Trend": "↓ 0.17"
+    "Trend": "↓ 0.15"
   },
   {
     "SiteName": "Waihanau Stream nr Kalaupapa, Molokai, HI",
@@ -32,7 +32,7 @@
     "SiteCode": "16414200",
     "VariableDescription": "Gage height, feet",
     "Value": 4.9,
-    "Timestamp": "2026-04-08T07:55:00+00:00",
+    "Timestamp": "2026-04-08T08:55:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 21.09652778,
@@ -95,7 +95,7 @@
     "Longitude": -156.0522222,
     "Kona1Max": 9.4,
     "Kona2Max": 6.4,
-    "Trend": "↓ 0.15"
+    "Trend": "↓ 0.33"
   },
   {
     "SiteName": "Hanawi Stream near Nahiku, Maui, HI",
@@ -130,7 +130,7 @@
     "SiteCode": "16527000",
     "VariableDescription": "Gage height, feet",
     "Value": 3.37,
-    "Timestamp": "2026-04-08T07:55:00+00:00",
+    "Timestamp": "2026-04-08T08:55:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.831325,
@@ -179,7 +179,7 @@
     "Longitude": -156.18858547,
     "Kona1Max": 5.4,
     "Kona2Max": 7.4,
-    "Trend": "-- 0.01"
+    "Trend": "-- 0.00"
   },
   {
     "SiteName": "Waikamoi Str abv Kula PL intake nr Olinda, Maui,HI",
@@ -298,7 +298,7 @@
     "SiteCode": "16618000",
     "VariableDescription": "Gage height, feet",
     "Value": 0.52,
-    "Timestamp": "2026-04-08T08:35:00+00:00",
+    "Timestamp": "2026-04-08T09:00:00+00:00",
     "MinorFlood": 6,
     "MajorFlood": 12.4,
     "Latitude": 20.97869444,
@@ -340,7 +340,7 @@
     "SiteCode": "16638500",
     "VariableDescription": "Gage height, feet",
     "Value": 0.4,
-    "Timestamp": "2026-04-08T08:50:00+00:00",
+    "Timestamp": "2026-04-08T09:05:00+00:00",
     "MinorFlood": 6,
     "MajorFlood": 8.61,
     "Latitude": 20.88313889,
