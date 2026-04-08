@@ -9,9 +9,6 @@
   <style>
     body { font-family: Arial; padding: 20px; }
     pre { background: #f4f4f4; padding: 20px; border-radius: 8px; }
-    td.status-col {
-    text-align: left;
-    }
     table { border-collapse: collapse; }
     table th, table td { border: 1px solid #ddd; padding: 6px 8px; }
     table th { background: #f8f8f8; text-align: left; padding-left: 6px; }
@@ -329,7 +326,7 @@ stationID,nearValue,nearStatus,firstValue,firstStatus,secondValue,secondStatus,t
             <td>${site.Kona2Max ?? ""}</td>
             <td>${site.MinorFlood ?? ""}</td>
             <td>${site.MajorFlood ?? ""}</td>
-            <td class="status-col">${statusInfo.icon} ${statusObj.label}</td>
+            <td style="text-align:left;">${statusInfo.icon} ${statusObj.label}</td>
             <td>${toHawaiiTime(site.Timestamp)}</td>
             <td>
               <a href="map.html?lat=${site.Latitude}&lon=${site.Longitude}&name=${encodeURIComponent(site.SiteName)}"
