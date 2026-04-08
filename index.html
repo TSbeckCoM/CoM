@@ -18,7 +18,7 @@
   <p id="updated">Updated: loading...</p>
 
   <div style="text-align: right; margin-bottom: 8px;">
-    <a hrefions.htmlView All Stations Map</a>
+    <llstations.htmlView All Stations Map</a>
   </div>
 
   <table id="gage-table" style="border-collapse: collapse; margin-top: 20px;">
@@ -42,7 +42,7 @@
     <tbody></tbody>
   </table>
 
-  <!-- Inline CSV ( lookupTable.csv) -->
+  <!-- Inline CSV ( lookupTable.csv ) -->
   <script type="text/csv" id="lookup-table-csv">
 stationID,nearValue,nearStatus,firstValue,firstStatus,secondValue,secondStatus,thirdValue,thirdStatus,maxValue,maxStatus
 16400000,8.28,Near Kona low height,9.2,Kona low height,9.3,Kona low max height,9.5,Minor flood,19.9,Major flood
@@ -77,6 +77,8 @@ stationID,nearValue,nearStatus,firstValue,firstStatus,secondValue,secondStatus,t
   </script>
 
   <script>
+  const COLCOUNT = 13;
+
   // Determine island from SiteName
   function getIsland(name) {
     name = name.toLowerCase();
@@ -88,7 +90,7 @@ stationID,nearValue,nearStatus,firstValue,firstStatus,secondValue,secondStatus,t
     return "Other";
   }
 
-  // StationID → District (hard-coded from user list)
+  // StationID → District (hard-coded from your list)
   const districtByStation = {
     "16570000": "Haiku",
     "16587000": "Haiku",
@@ -135,16 +137,6 @@ stationID,nearValue,nearStatus,firstValue,firstStatus,secondValue,secondStatus,t
     });
   }
 
-  // Compute gage height trend over last 3 hours
-  function getTrendArrow(trend) {
-    switch (trend) {
-      case "Rising":  return "↑";
-      case "Falling": return "↓";
-      case "Steady":  return "--";
-      default:        return "•"; // for N/A
-    }
-  }
-
   // Generate sparkline chart
   function makeSparkline(values, width = 100, height = 20) {
     if (!values || values.length === 0) return "";
@@ -185,17 +177,26 @@ stationID,nearValue,nearStatus,firstValue,firstStatus,secondValue,secondStatus,t
     return map;
   }
 
+  // Defensive CSV parser (no quoted fields assumed in your sample)
   function parseCSV(text) {
     if (!text) return [];
-    const lines = text.split(/\r?\n/).filter(l => l.trim().length);
+    // Strip BOM if present
+    if (text.charCodeAt(0) === 0xFEFF) {
+      text = text.slice(1);
+    }
+    // Normalize newlines, drop empty lines
+    const lines = text.replace(/\r/g, "").split("\n").filter(l => l.trim().length);
     const header = lines[0].split(",").map(h => h.trim());
     return lines.slice(1).map(line => {
-      const cols = line.split(",").map(c => c.trim());
+      const cols = line.split(","); // simple split (no quoted fields present)
       const obj = {};
-      header.forEach((h, i) => obj[h] = cols[i] ?? "";
+      header.forEach((h, i) => {
+        obj[h] = (cols[i] ?? "").trim();
+      });
       return obj;
     });
   }
+
   const numOrNull = v => (v === undefined || v === null || v === "" ? null : Number(v));
   const strOrNull = v => (v === undefined || v === null || v === "" ? null : v);
 
@@ -294,7 +295,7 @@ stationID,nearValue,nearStatus,firstValue,firstStatus,secondValue,secondStatus,t
     Object.keys(groups).forEach(island => {
       const headerRow = document.createElement("tr");
       headerRow.innerHTML = `
-        <td colspan="13" style="
+        <td colspan="${COLCOUNT}" style="
           background:#004578;
           color:white;
           font-weight:bold;
@@ -312,22 +313,17 @@ stationID,nearValue,nearStatus,firstValue,firstStatus,secondValue,secondStatus,t
         let displayValue = site.Value;
 
         if (age > twentyFourHours) {
-          // Preserve Out-of-Date behavior
           statusObj = { label: "Out of Date", severity: "out" };
           displayValue = "n/a";
         } else {
-          // Ensure we match the CSV’s stationID key
           const siteId = String(site.SiteCode ?? "");
           statusObj = computeStatus(site.Value, siteId, thresholdsByStation);
         }
 
         const statusInfo = getStatusInfo(statusObj.severity);
-
-        // 24‑hour sparkline
         const historyValues = (historyData[site.SiteCode] || []).map(v => v.Value);
         const spark = makeSparkline(historyValues);
 
-        // Build row
         try {
           const row = document.createElement("tr");
           const district = districtByStation[String(site.SiteCode)] ?? "—";
@@ -339,9 +335,7 @@ stationID,nearValue,nearStatus,firstValue,firstStatus,secondValue,secondStatus,t
             <td style="white-space: pre;">${site.Trend}</td>
             <td>
               <svg width="100" height="20">
-                <polyline fill="none" stroke="#0074d9" stroke-width="2"
-                  points="${spark}">
-                </polyline>
+                <polyline fill="none" stroke="#0074d9" stroke-width="2" points="${spark}"></polyline>
               </svg>
             </td>
             <td>${site.Kona1Max ?? ""}</td>
@@ -350,10 +344,7 @@ stationID,nearValue,nearStatus,firstValue,firstStatus,secondValue,secondStatus,t
             <td>${site.MajorFlood ?? ""}</td>
             <td style="text-align:left;">${statusInfo.icon} ${statusObj.label}</td>
             <td>${toHawaiiTime(site.Timestamp)}</td>
-            <td>
-              <a href="map.html?lat=${site.Latitude}&lon=${site.Longme=${encodeURIComponent(site.SiteName)}Map</a>
-            </td>
-          `;
+            <td><a href="map.html?lat=${site.Latitude}&lon=${site.Longitude}&name=${encodeURIComponent(site.SiteName)}">Map</       `;
           tbody.appendChild(row);
         } catch (e) {
           console.error("Row build error for", site.SiteCode, site.SiteName, e);
@@ -368,3 +359,4 @@ stationID,nearValue,nearStatus,firstValue,firstStatus,secondValue,secondStatus,t
   });
   </script>
 </body>
+</html>
