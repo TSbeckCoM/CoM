@@ -24,7 +24,8 @@
       <tr>
         <th>Station Name</th>
         <th>Station ID</th>
-        <th>District</th><!-- NEW -->
+        <th>District</th>
+        <th>Status</th>
         <th>Gage Height (ft)</th>
         <th>3‑Hr Trend</th>
         <th>24‑Hr Trend</th>
@@ -32,7 +33,6 @@
         <th>Kona 2 Max</th>
         <th>Minor Flood</th>
         <th>Major Flood</th>
-        <th>Status</th>
         <th>Last Updated (HST)</th>
         <th>Map</th>
       </tr>
@@ -88,7 +88,7 @@ stationID,nearValue,nearStatus,firstValue,firstStatus,secondValue,secondStatus,t
     return "Other";
   }
 
-  // StationID → District (hard-coded from your list)
+  // StationID → District 
   const districtByStation = {
     "16570000": "Haiku",
     "16587000": "Haiku",
