@@ -18,7 +18,7 @@
   <p id="updated">Updated: loading...</p>
 
   <div style="text-align: right; margin-bottom: 8px;">
-    <llstations.htmlView All Stations Map</a>
+    allstations.htmlView All Stations Map</a>
   </div>
 
   <table id="gage-table" style="border-collapse: collapse; margin-top: 20px;">
@@ -180,19 +180,13 @@ stationID,nearValue,nearStatus,firstValue,firstStatus,secondValue,secondStatus,t
   // Defensive CSV parser (no quoted fields assumed in your sample)
   function parseCSV(text) {
     if (!text) return [];
-    // Strip BOM if present
-    if (text.charCodeAt(0) === 0xFEFF) {
-      text = text.slice(1);
-    }
-    // Normalize newlines, drop empty lines
+    if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1); // strip BOM
     const lines = text.replace(/\r/g, "").split("\n").filter(l => l.trim().length);
     const header = lines[0].split(",").map(h => h.trim());
     return lines.slice(1).map(line => {
-      const cols = line.split(","); // simple split (no quoted fields present)
+      const cols = line.split(",");
       const obj = {};
-      header.forEach((h, i) => {
-        obj[h] = (cols[i] ?? "").trim();
-      });
+      header.forEach((h, i) => { obj[h] = (cols[i] ?? "").trim(); });
       return obj;
     });
   }
@@ -291,6 +285,20 @@ stationID,nearValue,nearStatus,firstValue,firstStatus,secondValue,secondStatus,t
       groups[island].push(site);
     });
 
+    // Sort within each island by District (A→Z), then Station Name, then Station ID
+    Object.keys(groups).forEach(island => {
+      groups[island].sort((a, b) => {
+        const dA = (districtByStation[String(a.SiteCode)] ?? "").toLowerCase();
+        const dB = (districtByStation[String(b.SiteCode)] ?? "").toLowerCase();
+        if (dA !== dB) return dA.localeCompare(dB, 'en');
+        const nameA = (a.SiteName ?? "").toLowerCase();
+        const nameB = (b.SiteName ?? "").toLowerCase();
+        if (nameA !== nameB) return nameA.localeCompare(nameB, 'en');
+        // Tie-breaker on SiteCode (string compare to keep leading zeros if any)
+        return String(a.SiteCode).localeCompare(String(b.SiteCode), 'en');
+      });
+    });
+
     // Render each island group
     Object.keys(groups).forEach(island => {
       const headerRow = document.createElement("tr");
@@ -323,10 +331,10 @@ stationID,nearValue,nearStatus,firstValue,firstStatus,secondValue,secondStatus,t
         const statusInfo = getStatusInfo(statusObj.severity);
         const historyValues = (historyData[site.SiteCode] || []).map(v => v.Value);
         const spark = makeSparkline(historyValues);
+        const district = districtByStation[String(site.SiteCode)] ?? "—";
 
         try {
           const row = document.createElement("tr");
-          const district = districtByStation[String(site.SiteCode)] ?? "—";
           row.innerHTML = `
             <td style="text-align:left;">${site.SiteName}</td>
             <td>${site.SiteCode}</td>
@@ -344,7 +352,10 @@ stationID,nearValue,nearStatus,firstValue,firstStatus,secondValue,secondStatus,t
             <td>${site.MajorFlood ?? ""}</td>
             <td style="text-align:left;">${statusInfo.icon} ${statusObj.label}</td>
             <td>${toHawaiiTime(site.Timestamp)}</td>
-            <td><a href="map.html?lat=${site.Latitude}&lon=${site.Longitude}&name=${encodeURIComponent(site.SiteName)}">Map</       `;
+            <td>
+              <a href="map.html?lat=${site.Latitude}&lon=${site.Longitude}&name=${encodeURIComponent(site.Site</a>
+            </td>
+          `;
           tbody.appendChild(row);
         } catch (e) {
           console.error("Row build error for", site.SiteCode, site.SiteName, e);
