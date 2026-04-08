@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,19 +9,9 @@
   <style>
     body { font-family: Arial; padding: 20px; }
     pre { background: #f4f4f4; padding: 20px; border-radius: 8px; }
-    table {
-      border-collapse: collapse;
-    }
-    table th,
-    table td {
-      border: 1px solid #ddd; /* light gray gridlines */
-      padding: 6px 8px;
-    }  
-    table th {
-      background: #f8f8f8; /* subtle header background */
-      text-align: left;
-      padding-left: 6px;
-    }
+    table { border-collapse: collapse; }
+    table th, table td { border: 1px solid #ddd; padding: 6px 8px; }
+    table th { background: #f8f8f8; text-align: left; padding-left: 6px; }
   </style>
 </head>
 <body>
@@ -28,8 +19,7 @@
   <p id="updated">Updated: loading...</p>
   <div style="text-align: right; margin-bottom: 8px;">
     <a href="allstations.html">View All Stations Map</a>
-  </div>
-  <table id="gage-table" style="width:100%; border-collapse: collapse; margin-top: 20px;">
+ <table id="gage-table" style="width:100%; border-collapse: collapse; margin-top: 20px;">
     <thead>
       <tr>
         <th>Station Name</th>
@@ -49,185 +39,311 @@
     <tbody></tbody>
   </table>
 
+  <!-- Inline CSV ( lookupTable.csv) -->
+  <script type="text/csv" id="lookup-table-csv">
+stationID,nearValue,nearStatus,firstValue,firstStatus,secondValue,secondStatus,thirdValue,thirdStatus,maxValue,maxStatus
+16400000,8.28,Near Kona low height,9.2,Kona low height,9.3,Kona low max height,9.5,Minor flood,19.9,Major flood
+16409000,,,,,,,,,,
+16414200,5.22,Near Kona low height,5.8,Kona low height,9.3,Kona low max height,,,,
+16415000,5.76,Near Kona low height,6.4,Kona low height,6.6,Kona low max height,,,,
+16415600,9,Near minor flood,10,Minor flood,12.3,Kona low height,13.4,Kona low max height,,
+16417800,,,,,,,,,,
+16501200,5.76,Near Kona low height,6.4,Kona low height,7,Minor flood,9.4,Kona low max height,12.4,Major flood
+16508000,6.75,Near Kona low height,7.5,Kona low height,7.8,Kona low max height,8.8,Minor flood,12.1,Major flood
+16518000,8.1,Near Kona low height,9,Kona low height,10,Minor flood,11.8,Kona low max height,13.5,Major flood
+16527000,7.38,Near Kona low height,8.2,Kona low height,9.8,Kona low max height,,,,
+16527500,,,,,,,,,,
+16536000,3.6,Near Kona low height,4,Kona low height,5.2,Kona low max height,,,,
+16545000,4.86,Near Kona low height,5.4,Kona low height,7.4,Kona low max height,,,,
+16552800,2.7,Near Kona low height,3,Kona low height,5.4,Minor flood,6.5,Kona low max height,8.2,Major flood
+16570000,4.32,Near Kona low height,4.8,Kona low height,6.8,Kona low max height,,,,
+16587000,2.25,Near Kona low height,2.5,Kona low height,3.1,Kona low max height,3.5,Minor flood,7.3,Major flood
+16604500,3.6,Near Kona low height,4,Kona low height,8.3,Kona low max height,8.5,Minor flood,,
+16605500,12.06,Near Kona low height,13.4,Kona low height,13.5,Kona low max height,,,,
+16611500,4.86,Near Kona low height,5.4,Kona low height,6.1,Kona low max height,,,,
+16614000,5.04,Near Kona low height,5.6,Kona low height,6,Minor flood,6.7,Kona low max height,11,Major flood
+16614500,,,,,,,,,,
+16618000,4.77,Near Kona low height,5.3,Kona low height,5.7,Kona low max height,6,Minor flood,12.4,Major flood
+16620000,5.22,Near Kona low height,5.8,Kona low height,6,Minor flood,6.1,Kona low max height,,Major flood
+16623300,1.53,Near Kona low height,1.7,Kona low max height,,,,,,
+16638500,2.88,Near Kona low height,3.2,Kona low height,3.5,Kona low max height,6,Minor flood,8.61,Major flood
+16641000,13.68,Near Kona low height,15.2,Kona low height,,,,,,
+16643100,,,,,,,,,,
+16647000,10.53,Near Kona low height,11.7,Kona low height,,,,,,
+16647900,5.13,Near Kona low height,5.7,Kona low height,6.5,Kona low max height,,,,,
+  </script>
 
-<script>
-// Determine island from SiteName
-function getIsland(name) {
-  name = name.toLowerCase();
-  if (name.includes("molokai")) return "Molokai";
-  if (name.includes("maui")) return "Maui";
-  if (name.includes("hawaii")) return "Hawaii";
-  if (name.includes("oahu")) return "Oahu";
-  if (name.includes("kauai")) return "Kauai";
-  return "Other";
-}
-
-// Convert UTC timestamp → Hawaii Standard Time (UTC-10)
-function toHawaiiTime(utcString) {
-  const utcDate = new Date(utcString);
-
-  return utcDate.toLocaleString("en-US", {
-    timeZone: "Pacific/Honolulu",
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit"
-  });
-}
-
-// Compute gage height trend over last 3 hours
-function getTrendArrow(trend) {
-  switch (trend) {
-    case "Rising":  return "↑";
-    case "Falling": return "↓";
-    case "Steady":  return "--";
-    default:        return "•"; // for N/A
+  <script>
+  // Determine island from SiteName
+  function getIsland(name) {
+    name = name.toLowerCase();
+    if (name.includes("molokai")) return "Molokai";
+    if (name.includes("maui")) return "Maui";
+    if (name.includes("hawaii")) return "Hawaii";
+    if (name.includes("oahu")) return "Oahu";
+    if (name.includes("kauai")) return "Kauai";
+    return "Other";
   }
-}
-  
-// Generate sparkline chart
-function makeSparkline(values, width = 100, height = 20) {
-  if (!values || values.length === 0) return "";
 
-  const min = Math.min(...values);
-  const max = Math.max(...values);
-  const range = max - min || 1;
+  // Convert UTC timestamp → Hawaii Standard Time (UTC-10)
+  function toHawaiiTime(utcString) {
+    const utcDate = new Date(utcString);
+    return utcDate.toLocaleString("en-US", {
+      timeZone: "Pacific/Honolulu",
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit"
+    });
+  }
 
-  return values
-    .map((v, i) => {
-      const x = (i / (values.length - 1)) * width;
-      const y = height - ((v - min) / range) * height;
-      return `${x},${y}`;
+  // Compute gage height trend over last 3 hours
+  function getTrendArrow(trend) {
+    switch (trend) {
+      case "Rising":  return "↑";
+      case "Falling": return "↓";
+      case "Steady":  return "--";
+      default:        return "•"; // for N/A
+    }
+  }
+
+  // Generate sparkline chart
+  function makeSparkline(values, width = 100, height = 20) {
+    if (!values || values.length === 0) return "";
+    const min = Math.min(...values);
+    const max = Math.max(...values);
+    const range = max - min || 1;
+    return values
+      .map((v, i) => {
+        const x = (i / (values.length - 1)) * width;
+        const y = height - ((v - min) / range) * height;
+        return `${x},${y}`;
+      })
+      .join(" ");
+  }
+
+  // --- CSV → thresholds map (reads inline CSV) ----------------------------
+  async function loadLookupTable() {
+    const inlineEl = document.getElementById("lookup-table-csv");
+    const csvText = inlineEl ? inlineEl.textContent.trim() : "";
+    const rows = parseCSV(csvText);
+    const map = {};
+    rows.forEach(r => {
+      const id = (r.stationID || "").trim();
+      if (!id) return;
+      map[id] = {
+        nearValue:   numOrNull(r.nearValue),
+        nearStatus:  strOrNull(r.nearStatus),
+        firstValue:  numOrNull(r.firstValue),
+        firstStatus: strOrNull(r.firstStatus),
+        secondValue: numOrNull(r.secondValue),
+        secondStatus:strOrNull(r.secondStatus),
+        thirdValue:  numOrNull(r.thirdValue),
+        thirdStatus: strOrNull(r.thirdStatus),
+        maxValue:    numOrNull(r.maxValue),
+        maxStatus:   strOrNull(r.maxStatus)
+      };
+    });
+    return map;
+  }
+
+  function parseCSV(text) {
+    if (!text) return [];
+    const lines = text.split(/\r?\n/).filter(l => l.trim().length);
+    const header = lines[0].split(",").map(h => h.trim());
+    return lines.slice(1).map(line => {
+      const cols = line.split(",").map(c => c.trim());
+      const obj = {};
+      header.forEach((h, i) => obj[h] = cols[i] ?? "");
+      return obj;
+    });
+  }
+  const numOrNull = v => (v === undefined || v === null || v === "" ? null : Number(v));
+  const strOrNull = v => (v === undefined || v === null || v === "" ? null : v);
+
+  // --- NEW computeStatus per your logic -----------------------------------
+  // Returns { label, severity } where severity drives the icon color.
+  function computeStatus(value, siteCode, thresholdsByStation) {
+    const t = thresholdsByStation[siteCode];
+
+    // If no row or nearValue is null → "No Threshold" (black)
+    if (!t || t.nearValue == null) {
+      return { label: "No Threshold", severity: "black" };
+    }
+
+    const v = Number(value);
+    const {
+      nearValue,  nearStatus,
+      firstValue, firstStatus,
+      secondValue,secondStatus,
+      thirdValue, thirdStatus,
+      maxValue,   maxStatus
+    } = t;
+
+    // Below nearValue → Normal (green)
+    if (v < nearValue) {
+      return { label: "Normal", severity: "green" };
+    }
+
+    // [nearValue, firstValue) → nearStatus (yellow)
+    if (v >= nearValue && (firstValue == null || v < firstValue)) {
+      return { label: nearStatus ?? "Near", severity: "yellow" };
+    }
+
+    // [firstValue, secondValue) → firstStatus (orange)
+    if (firstValue != null && v >= firstValue && (secondValue == null || v < secondValue)) {
+      return { label: firstStatus ?? "First", severity: "orange" };
+    }
+
+    // [secondValue, thirdValue) → secondStatus (orange)
+    if (secondValue != null && v >= secondValue && (thirdValue == null || v < thirdValue)) {
+      return { label: secondStatus ?? "Second", severity: "orange" };
+    }
+
+    // [thirdValue, maxValue) → thirdStatus (red)
+    if (thirdValue != null && v >= thirdValue && (maxValue == null || v < maxValue)) {
+      return { label: thirdStatus ?? "Third", severity: "red" };
+    }
+
+    // ≥ maxValue → maxStatus (red)
+    if (maxValue != null && v >= maxValue) {
+      return { label: maxStatus ?? "Max", severity: "red" };
+    }
+
+    // Fallback
+    return { label: nearStatus ?? "Near", severity: "yellow" };
+  }
+
+  // --- NEW getStatusInfo (severity → icon color) --------------------------
+  function getStatusInfo(severity) {
+    switch (severity) {
+      case "green":  return { icon: "🟢", cls: "" };
+      case "yellow": return { icon: "🟡", cls: "" };
+      case "orange": return { icon: "🟠", cls: "" };
+      case "red":    return { icon: "🔴", cls: "" };
+      case "black":  return { icon: "⚫", cls: "" };
+      case "out":    return { icon: "⚪", cls: "" }; // Out of Date
+      default:       return { icon: "⚫", cls: "" };
+    }
+  }
+
+  // Load GitHub workflow timestamp (unchanged)
+  let buildTimeHST = "loading...";
+  fetch("buildinfo.json?cache=" + Date.now())
+    .then(r => r.json())
+    .then(info => {
+      buildTimeHST = toHawaiiTime(info.buildTime);
+      document.getElementById("updated").textContent =
+        "Updated (HST): " + buildTimeHST;
     })
-    .join(" ");
-}
-  
-// Compute status from value + thresholds
-function computeStatus(value, minor, major) {
-  if (major !== null && value >= major) return "Major Flood";
-  if (minor !== null && value >= minor) return "Minor Flood";
-  if (minor !== null && value >= minor * 0.9) return "Near";
-  if (minor === null && major === null) return "No Threshold";
-  return "Normal";
-}
+    .catch(err => {
+      document.getElementById("updated").textContent =
+        "Updated: error loading timestamp";
+    });
 
-// Map status → emoji + class
-function getStatusInfo(status) {
-  switch (status) {
-    case "Normal":       return { icon: "🟢", cls: "" };
-    case "Near":         return { icon: "🟡", cls: "" };
-    case "Minor Flood":  return { icon: "🟠", cls: "" };
-    case "Major Flood":  return { icon: "🔴", cls: "" };
-    case "No Threshold": return { icon: "⚫", cls: "" };
-    case "Out of Date": return { icon: "⚪", cls: "" };
-    default:             return { icon: "⚫", cls: "" };
-  }
-}
+  let historyData = {};
+  let thresholdsByStation = {};
 
-// Load GitHub workflow timestamp
-let buildTimeHST = "loading...";
+  // Include the inline lookup loader
+  Promise.all([
+    fetch("history24.json?cache=" + Date.now()).then(r => r.json()),
+    fetch("latest_with_trend.json?cache=" + Date.now()).then(r => r.json()),
+    loadLookupTable()
+  ])
+  .then(([history24, data, lookup]) => {
+    historyData = history24;
+    thresholdsByStation = lookup;
 
-fetch("buildinfo.json?cache=" + Date.now())
-  .then(r => r.json())
-  .then(info => {
-    buildTimeHST = toHawaiiTime(info.buildTime);
-    document.getElementById("updated").textContent =
-      "Updated (HST): " + buildTimeHST;
+    const now = Date.now();
+    const twentyFourHours = 24 * 60 * 60 * 1000;
+
+    const tbody = document.querySelector("#gage-table tbody");
+    tbody.innerHTML = "";
+
+    // Group by island
+    const groups = {};
+    data.forEach(site => {
+      const island = getIsland(site.SiteName);
+      if (!groups[island]) groups[island] = [];
+      groups[island].push(site);
+    });
+
+    // Render each island group
+    Object.keys(groups).forEach(island => {
+      const headerRow = document.createElement("tr");
+      headerRow.innerHTML = `
+        <td colspan="12" style="
+          background:#004578;
+          color:white;
+          font-weight:bold;
+          font-size:18px;
+          text-align:left;
+        ">${island}</td>
+      `;
+      tbody.appendChild(headerRow);
+
+      groups[island].forEach(site => {
+        const siteTime = new Date(site.Timestamp).getTime();
+        const age = now - siteTime;
+
+        let statusObj;
+        let displayValue = site.Value;
+
+        if (age > twentyFourHours) {
+          // Preserve Out-of-Date behavior
+          statusObj = { label: "Out of Date", severity: "out" };
+          displayValue = "n/a";
+        } else {
+          // Ensure we match the CSV’s stationID key
+          const siteId = String(site.SiteCode ?? "");
+          statusObj = computeStatus(site.Value, siteId, thresholdsByStation);
+        }
+
+        const statusInfo = getStatusInfo(statusObj.severity);
+
+        // 24‑hour sparkline
+        const historyValues = (historyData[site.SiteCode] || []).map(v => v.Value);
+        const spark = makeSparkline(historyValues);
+
+        // Build row safely (so a single bad record doesn't kill the table)
+        try {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td style="text-align:left;">${site.SiteName}</td>
+            <td>${site.SiteCode}</td>
+            <td>${displayValue}</td>
+            <td style="white-space: pre;">${site.Trend}</td>
+            <td>
+              <svg width="100" height="20">
+                <polyline fill="none" stroke="#0074d9" stroke-width="2"
+                  points="${spark}">
+                </polyline>
+              </svg>
+            </td>
+            <td>${site.Kona1Max ?? ""}</td>
+            <td>${site.Kona2Max ?? ""}</td>
+            <td>${site.MinorFlood ?? ""}</td>
+            <td>${site.MajorFlood ?? ""}</td>
+            <td style="text-align:left;">${statusInfo.icon} ${statusObj.label}</td>
+            <td>${toHawaiiTime(site.Timestamp)}</td>
+            <td>
+              <a href="map.html?lat=${site.Latitude}&lon=${site.Longitude}&name=${encodeURIComponent(site.SiteName)}"
+          </td>
+          `;
+          tbody.appendChild(row);
+        } catch (e) {
+          console.error("Row build error for", site.SiteCode, site.SiteName, e);
+        }
+      });
+    });
   })
   .catch(err => {
+    console.error(err);
     document.getElementById("updated").textContent =
-      "Updated: error loading timestamp";
+      "Error loading data: " + err;
   });
-
-let historyData = {};
-
-Promise.all([
-  fetch("history24.json?cache=" + Date.now()).then(r => r.json()),
-  fetch("latest_with_trend.json?cache=" + Date.now()).then(r => r.json())
-])
-.then(([history24, data]) => {
-
-  historyData = history24;   // store 24‑hour history
-
-  const now = Date.now();
-  const twentyFourHours = 24 * 60 * 60 * 1000;
-
-  const tbody = document.querySelector("#gage-table tbody");
-  tbody.innerHTML = "";
-
-  // Group by island
-  const groups = {};
-  data.forEach(site => {
-    const island = getIsland(site.SiteName);
-    if (!groups[island]) groups[island] = [];
-    groups[island].push(site);
-  });
-
-  // Render each island group
-  Object.keys(groups).forEach(island => {
-    const headerRow = document.createElement("tr");
-    headerRow.innerHTML = `
-      <td colspan="12" style="
-        background:#004578;
-        color:white;
-        font-weight:bold;
-        font-size:18px;
-      ">${island}</td>
-    `;
-    tbody.appendChild(headerRow);
-
-    groups[island].forEach(site => {
-      const siteTime = new Date(site.Timestamp).getTime();
-      const age = now - siteTime;
-
-      let status;
-      let displayValue = site.Value;
-
-      if (age > twentyFourHours) {
-        status = "Out of Date";
-        displayValue = "n/a";
-      } else {
-        status = computeStatus(site.Value, site.MinorFlood, site.MajorFlood);
-      }
-
-      const statusInfo = getStatusInfo(status);
-
-      // --- 24‑HOUR SPARKLINE DATA ---
-      const historyValues = (historyData[site.SiteCode] || []).map(v => v.Value);
-      const spark = makeSparkline(historyValues);
-
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td>${site.SiteName}</td>
-        <td>${site.SiteCode}</td>
-        <td>${displayValue}</td>
-        <td style="white-space: pre;">${site.Trend}</td>
-        <td>
-          <svg width="100" height="20">
-            <polyline fill="none" stroke="#0074d9" stroke-width="2"
-              points="${spark}">
-            </polyline>
-          </svg>
-        </td>
-        <td>${site.Kona1Max ?? ""}</td>
-        <td>${site.Kona2Max ?? ""}</td>
-        <td>${site.MinorFlood ?? ""}</td>
-        <td>${site.MajorFlood ?? ""}</td>
-        <td>${statusInfo.icon} ${status}</td>
-        <td>${toHawaiiTime(site.Timestamp)}</td>
-        <td><a href="map.html?lat=${site.Latitude}&lon=${site.Longitude}&name=${encodeURIComponent(site.SiteName)}" target="_blank">View</a></td>
-      `;
-      tbody.appendChild(row);      
-    });
-  });
-
-})
-.catch(err => {
-  document.getElementById("updated").textContent =
-    "Error loading data: " + err;
-});
-</script>
+  </script>
 </body>
 </html>
