@@ -31,7 +31,7 @@
   <p id="updated">Updated: loading...</p>
 
   <div style="text-align: right; margin-bottom: 8px;">
-    <a href="allstations All Stations Map</a>
+    allstations.htmlView All Stations Map</a>
   </div>
 
   <table id="gage-table" style="border-collapse: collapse; margin-top: 20px;">
@@ -49,7 +49,6 @@
         <th>Major Flood</th>
         <th>Status</th>
         <th>Last Updated (HST)</th>
-        <th>Map</th>
       </tr>
     </thead>
     <tbody></tbody>
@@ -316,10 +315,10 @@ stationID,nearValue,nearStatus,firstValue,firstStatus,secondValue,secondStatus,t
 
     // Render each island group
     Object.keys(groups).forEach(island => {
-      // Island header (colspan 13 because we added District)
+      // Island header (colspan 12 because Map column removed)
       const headerRow = document.createElement("tr");
       headerRow.innerHTML = `
-        <td colspan="13" style="
+        <td colspan="12" style="
           background:#004578;
           color:white;
           font-weight:bold;
@@ -342,7 +341,7 @@ stationID,nearValue,nearStatus,firstValue,firstStatus,secondValue,secondStatus,t
         // District header row
         const dHeader = document.createElement("tr");
         dHeader.className = "district-header";
-        dHeader.innerHTML = `<td colspan="13">${districtName}</td>`;
+        dHeader.innerHTML = `<td colspan="12">${districtName}</td>`;
         tbody.appendChild(dHeader);
 
         // (Optional) sort stations within district by Station Name (A→Z)
@@ -371,9 +370,6 @@ stationID,nearValue,nearStatus,firstValue,firstStatus,secondValue,secondStatus,t
 
           // Build row safely
           try {
-            const nameParam = encodeURIComponent(site.SiteName ?? "");
-            const mapHref = `map.html?lat=${site.Latitude}&lon=${site.Longitude}&name=${nameParam}`;
-
             const row = document.createElement("tr");
             row.innerHTML = `
               <td>${site.SiteName}</td>
@@ -393,7 +389,6 @@ stationID,nearValue,nearStatus,firstValue,firstStatus,secondValue,secondStatus,t
               <td>${site.MajorFlood ?? ""}</td>
               <td class="status-col">${statusInfo.icon} ${statusObj.label}</td>
               <td>${toHawaiiTime(site.Timestamp)}</td>
-              <td>${mapHref}View</a></td>
             `;
             tbody.appendChild(row);
           } catch (e) {
