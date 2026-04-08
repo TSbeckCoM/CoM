@@ -11,7 +11,7 @@
     "Longitude": -156.7619722,
     "Kona1Max": 9.3,
     "Kona2Max": 9.2,
-    "Trend": "↓ 0.08"
+    "Trend": "↓ 0.07"
   },
   {
     "SiteName": "Waihanau Stream nr Kalaupapa, Molokai, HI",
@@ -95,7 +95,7 @@
     "Longitude": -156.0522222,
     "Kona1Max": 9.4,
     "Kona2Max": 6.4,
-    "Trend": "↑ 1.09"
+    "Trend": "↑ 1.03"
   },
   {
     "SiteName": "Hanawi Stream near Nahiku, Maui, HI",
@@ -172,7 +172,7 @@
     "SiteCode": "16545000",
     "VariableDescription": "Gage height, feet",
     "Value": 2.37,
-    "Timestamp": "2026-04-08T12:10:00+00:00",
+    "Timestamp": "2026-04-08T13:10:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.85263746,
@@ -214,7 +214,7 @@
     "SiteCode": "16587000",
     "VariableDescription": "Gage height, feet",
     "Value": 0.95,
-    "Timestamp": "2026-04-08T12:10:00+00:00",
+    "Timestamp": "2026-04-08T13:10:00+00:00",
     "MinorFlood": 3.5,
     "MajorFlood": 7.3,
     "Latitude": 20.88563889,
@@ -283,15 +283,15 @@
     "SiteName": "Waihee Stream blw Spreckels Ditch, Maui, HI",
     "SiteCode": "16614500",
     "VariableDescription": "Gage height, feet",
-    "Value": 2.59,
-    "Timestamp": "2026-04-08T12:20:00+00:00",
+    "Value": 2.58,
+    "Timestamp": "2026-04-08T13:20:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.94267359,
     "Longitude": -156.53263277,
     "Kona1Max": null,
     "Kona2Max": null,
-    "Trend": "-- 0.00"
+    "Trend": "-- 0.01"
   },
   {
     "SiteName": "Kahakuloa Stream near Honokohau, Maui, HI",
@@ -333,14 +333,14 @@
     "Longitude": -156.6495306,
     "Kona1Max": 1.7,
     "Kona2Max": 1.7,
-    "Trend": "↑ 0.70"
+    "Trend": "↑ 0.78"
   },
   {
     "SiteName": "Kahoma Stream at Lahaina, Maui, HI",
     "SiteCode": "16638500",
     "VariableDescription": "Gage height, feet",
     "Value": 0.4,
-    "Timestamp": "2026-04-08T13:05:00+00:00",
+    "Timestamp": "2026-04-08T13:20:00+00:00",
     "MinorFlood": 6,
     "MajorFlood": 8.61,
     "Latitude": 20.88313889,
@@ -381,22 +381,22 @@
     "SiteName": "Ukumehame Gulch nr Olowalu, Maui, HI",
     "SiteCode": "16647000",
     "VariableDescription": "Gage height, feet",
-    "Value": 9.2,
-    "Timestamp": "2026-04-08T12:15:00+00:00",
+    "Value": 9.19,
+    "Timestamp": "2026-04-08T13:15:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.81854167,
     "Longitude": -156.5833639,
     "Kona1Max": 11.7,
     "Kona2Max": null,
-    "Trend": "-- 0.01"
+    "Trend": "-- 0.00"
   },
   {
     "SiteName": "Waikapu Str US of S Waikapu Dt intake, Maui, HI",
     "SiteCode": "16647900",
     "VariableDescription": "Gage height, feet",
     "Value": 2.2,
-    "Timestamp": "2026-04-08T12:50:00+00:00",
+    "Timestamp": "2026-04-08T13:05:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.85577379,
