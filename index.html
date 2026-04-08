@@ -31,7 +31,7 @@
   <p id="updated">Updated: loading...</p>
 
   <div style="text-align: right; margin-bottom: 8px;">
-    <llstations.htmlView All Stations Map</a>
+    allstations.htmlView All Stations Map</a>
   </div>
 
   <table id="gage-table" style="border-collapse: collapse; margin-top: 20px;">
@@ -151,16 +151,6 @@ stationID,nearValue,nearStatus,firstValue,firstStatus,secondValue,secondStatus,t
       minute: "2-digit",
       second: "2-digit"
     });
-  }
-
-  // Compute gage height trend over last 3 hours (kept for possible use)
-  function getTrendArrow(trend) {
-    switch (trend) {
-      case "Rising":  return "↑";
-      case "Falling": return "↓";
-      case "Steady":  return "--";
-      default:        return "•"; // for N/A
-    }
   }
 
   // Generate sparkline chart
@@ -357,7 +347,6 @@ stationID,nearValue,nearStatus,firstValue,firstStatus,secondValue,secondStatus,t
 
         // (Optional) sort stations within district by Station Name (A→Z)
         districtsMap[districtName].sort((a, b) => a.SiteName.localeCompare(b.SiteName));
-        // To keep feed order, comment out the line above.
 
         // Render each site row
         districtsMap[districtName].forEach(site => {
