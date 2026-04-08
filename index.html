@@ -311,7 +311,7 @@ stationID,nearValue,nearStatus,firstValue,firstStatus,secondValue,secondStatus,t
         try {
           const row = document.createElement("tr");
           row.innerHTML = `
-            <td>${site.SiteName}</td>
+            <td style="text-align:left;">${site.SiteName}</td>
             <td>${site.SiteCode}</td>
             <td>${displayValue}</td>
             <td style="white-space: pre;">${site.Trend}</td>
