@@ -9,7 +9,7 @@
     "MajorFlood": 19.9,
     "Latitude": 21.1555,
     "Longitude": -156.7619722,
-    "Kona1Max": null,
+    "Kona1Max": 9.3,
     "Kona2Max": null
   },
   {
@@ -30,7 +30,7 @@
     "SiteCode": "16414200",
     "VariableDescription": "Gage height, feet",
     "Value": 4.9,
-    "Timestamp": "2026-04-08T00:55:00+00:00",
+    "Timestamp": "2026-04-08T01:55:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 21.09652778,
@@ -61,7 +61,7 @@
     "MajorFlood": null,
     "Latitude": 21.06997222,
     "Longitude": -156.9483333,
-    "Kona1Max": null,
+    "Kona1Max": 12.3,
     "Kona2Max": null
   },
   {
@@ -87,7 +87,7 @@
     "MajorFlood": 12.4,
     "Latitude": 20.6683611,
     "Longitude": -156.0522222,
-    "Kona1Max": null,
+    "Kona1Max": 9.4,
     "Kona2Max": null
   },
   {
@@ -100,7 +100,7 @@
     "MajorFlood": 12.1,
     "Latitude": 20.8068611,
     "Longitude": -156.1142222,
-    "Kona1Max": null,
+    "Kona1Max": 8.8,
     "Kona2Max": null
   },
   {
@@ -113,15 +113,15 @@
     "MajorFlood": 13.5,
     "Latitude": 20.8143611,
     "Longitude": -156.1429722,
-    "Kona1Max": null,
+    "Kona1Max": 9.0,
     "Kona2Max": null
   },
   {
     "SiteName": "Honomanu Stream near Keanae, Maui, HI",
     "SiteCode": "16527000",
     "VariableDescription": "Gage height, feet",
-    "Value": 3.39,
-    "Timestamp": "2026-04-08T00:55:00+00:00",
+    "Value": 3.38,
+    "Timestamp": "2026-04-08T01:55:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.831325,
@@ -178,7 +178,7 @@
     "MajorFlood": 8.2,
     "Latitude": 20.80538889,
     "Longitude": -156.2312222,
-    "Kona1Max": null,
+    "Kona1Max": 6.5,
     "Kona2Max": null
   },
   {
@@ -204,7 +204,7 @@
     "MajorFlood": 7.3,
     "Latitude": 20.88563889,
     "Longitude": -156.2525556,
-    "Kona1Max": null,
+    "Kona1Max": 2.5,
     "Kona2Max": null
   },
   {
@@ -212,7 +212,7 @@
     "SiteCode": "16604500",
     "VariableDescription": "Gage height, feet",
     "Value": 0.7,
-    "Timestamp": "2026-04-08T01:35:00+00:00",
+    "Timestamp": "2026-04-08T02:05:00+00:00",
     "MinorFlood": 8.5,
     "MajorFlood": null,
     "Latitude": 20.88238889,
@@ -224,8 +224,8 @@
     "SiteName": "Wailuku River at Iao Valley Road, Maui, HI",
     "SiteCode": "16605500",
     "VariableDescription": "Gage height, feet",
-    "Value": 8.63,
-    "Timestamp": "2026-04-08T01:50:00+00:00",
+    "Value": 8.65,
+    "Timestamp": "2026-04-08T02:05:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.88297222,
@@ -256,7 +256,7 @@
     "MajorFlood": 11,
     "Latitude": 20.9358611,
     "Longitude": -156.5468333,
-    "Kona1Max": null,
+    "Kona1Max": 6.7,
     "Kona2Max": null
   },
   {
@@ -282,7 +282,7 @@
     "MajorFlood": 12.4,
     "Latitude": 20.97869444,
     "Longitude": -156.5545,
-    "Kona1Max": null,
+    "Kona1Max": 5.3,
     "Kona2Max": null
   },
   {
@@ -295,7 +295,7 @@
     "MajorFlood": 7.9,
     "Latitude": 20.95969444,
     "Longitude": -156.5870556,
-    "Kona1Max": null,
+    "Kona1Max": 6.1,
     "Kona2Max": null
   },
   {
@@ -315,13 +315,13 @@
     "SiteName": "Kahoma Stream at Lahaina, Maui, HI",
     "SiteCode": "16638500",
     "VariableDescription": "Gage height, feet",
-    "Value": 0.4,
-    "Timestamp": "2026-04-08T01:50:00+00:00",
+    "Value": 0.41,
+    "Timestamp": "2026-04-08T02:05:00+00:00",
     "MinorFlood": 6,
     "MajorFlood": 8.61,
     "Latitude": 20.88313889,
     "Longitude": -156.6770833,
-    "Kona1Max": null,
+    "Kona1Max": 3.5,
     "Kona2Max": null
   },
   {
