@@ -32,14 +32,14 @@
     "SiteCode": "16414200",
     "VariableDescription": "Gage height, feet",
     "Value": 5.98,
-    "Timestamp": "2026-04-11T20:45:00+00:00",
+    "Timestamp": "2026-04-11T20:55:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 21.09652778,
     "Longitude": -157.017861,
     "Kona1Max": 5.8,
     "Kona2Max": 9.3,
-    "Trend": "↓ 0.04"
+    "Trend": "↓ 0.03"
   },
   {
     "SiteName": "EF Kawela Gulch nr Kamalo, Molokai, HI",
@@ -59,15 +59,15 @@
     "SiteName": "Kawela Gulch near Moku, Molokai, HI",
     "SiteCode": "16415600",
     "VariableDescription": "Gage height, feet",
-    "Value": 9.74,
-    "Timestamp": "2026-04-11T20:50:00+00:00",
+    "Value": 9.73,
+    "Timestamp": "2026-04-11T20:55:00+00:00",
     "MinorFlood": 10,
     "MajorFlood": null,
     "Latitude": 21.06997222,
     "Longitude": -156.9483333,
     "Kona1Max": 12.3,
     "Kona2Max": 13.4,
-    "Trend": "↓ 0.07"
+    "Trend": "↓ 0.08"
   },
   {
     "SiteName": "LB Honoulimaloo Str US diversion, Molokai, HI",
@@ -129,15 +129,15 @@
     "SiteName": "Honomanu Stream near Keanae, Maui, HI",
     "SiteCode": "16527000",
     "VariableDescription": "Gage height, feet",
-    "Value": 3.47,
-    "Timestamp": "2026-04-11T19:55:00+00:00",
+    "Value": 3.46,
+    "Timestamp": "2026-04-11T20:55:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.831325,
     "Longitude": -156.1872889,
     "Kona1Max": 8.2,
     "Kona2Max": 9.8,
-    "Trend": "-- 0.01"
+    "Trend": "-- 0.02"
   },
   {
     "SiteName": "Honomanu Stream near Hana Hwy, Maui, HI",
