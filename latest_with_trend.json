@@ -3,15 +3,15 @@
     "SiteName": "Halawa Stream near Halawa, Molokai, HI",
     "SiteCode": "16400000",
     "VariableDescription": "Gage height, feet",
-    "Value": 2.61,
-    "Timestamp": "2026-04-12T22:35:00+00:00",
+    "Value": 2.65,
+    "Timestamp": "2026-04-12T22:50:00+00:00",
     "MinorFlood": 9.5,
     "MajorFlood": 19.9,
     "Latitude": 21.1555,
     "Longitude": -156.7619722,
     "Kona1Max": 9.3,
     "Kona2Max": 9.2,
-    "Trend": "↑ 0.12"
+    "Trend": "↑ 0.14"
   },
   {
     "SiteName": "Waihanau Stream nr Kalaupapa, Molokai, HI",
@@ -31,15 +31,15 @@
     "SiteName": "Kaunakakai Gulch at altitude 75 feet, Molokai, HI",
     "SiteCode": "16414200",
     "VariableDescription": "Gage height, feet",
-    "Value": 5.11,
-    "Timestamp": "2026-04-12T21:55:00+00:00",
+    "Value": 5.18,
+    "Timestamp": "2026-04-12T22:50:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 21.09652778,
     "Longitude": -157.017861,
     "Kona1Max": 5.8,
     "Kona2Max": 9.3,
-    "Trend": "-- 0.00"
+    "Trend": "↑ 0.07"
   },
   {
     "SiteName": "EF Kawela Gulch nr Kamalo, Molokai, HI",
@@ -95,7 +95,7 @@
     "Longitude": -156.0522222,
     "Kona1Max": 9.4,
     "Kona2Max": 6.4,
-    "Trend": "-- 0.02"
+    "Trend": "-- 0.01"
   },
   {
     "SiteName": "Hanawi Stream near Nahiku, Maui, HI",
@@ -115,15 +115,15 @@
     "SiteName": "West Wailuaiki Stream near Keanae, Maui, HI",
     "SiteCode": "16518000",
     "VariableDescription": "Gage height, feet",
-    "Value": 1.6,
-    "Timestamp": "2026-04-12T22:35:00+00:00",
+    "Value": 1.59,
+    "Timestamp": "2026-04-12T22:50:00+00:00",
     "MinorFlood": 10,
     "MajorFlood": 13.5,
     "Latitude": 20.8143611,
     "Longitude": -156.1429722,
     "Kona1Max": 9.0,
     "Kona2Max": 11.8,
-    "Trend": "-- 0.01"
+    "Trend": "-- 0.00"
   },
   {
     "SiteName": "Honomanu Stream near Keanae, Maui, HI",
@@ -158,7 +158,7 @@
     "SiteCode": "16536000",
     "VariableDescription": "Gage height, feet",
     "Value": 1.75,
-    "Timestamp": "2026-04-12T21:45:00+00:00",
+    "Timestamp": "2026-04-12T22:45:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.84808333,
@@ -200,7 +200,7 @@
     "SiteCode": "16570000",
     "VariableDescription": "Gage height, feet",
     "Value": 2.12,
-    "Timestamp": "2026-04-12T21:45:00+00:00",
+    "Timestamp": "2026-04-12T22:45:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.8711111,
@@ -235,28 +235,28 @@
     "Longitude": -156.5392778,
     "Kona1Max": 8.3,
     "Kona2Max": 4.0,
-    "Trend": "-- 0.01"
+    "Trend": "-- 0.00"
   },
   {
     "SiteName": "Wailuku River at Iao Valley Road, Maui, HI",
     "SiteCode": "16605500",
     "VariableDescription": "Gage height, feet",
     "Value": 9.64,
-    "Timestamp": "2026-04-12T22:35:00+00:00",
+    "Timestamp": "2026-04-12T22:50:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.88297222,
     "Longitude": -156.5338333,
     "Kona1Max": 13.4,
     "Kona2Max": 13.5,
-    "Trend": "↑ 750006.48"
+    "Trend": "↑ 656255.67"
   },
   {
     "SiteName": "S Waiehu Str US of ditch at alt. 315 ft, Maui, HI",
     "SiteCode": "16611500",
     "VariableDescription": "Gage height, feet",
     "Value": 2.85,
-    "Timestamp": "2026-04-12T21:40:00+00:00",
+    "Timestamp": "2026-04-12T22:40:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.91071944,
@@ -312,7 +312,7 @@
     "SiteCode": "16620000",
     "VariableDescription": "Gage height, feet",
     "Value": 2.26,
-    "Timestamp": "2026-04-12T21:45:00+00:00",
+    "Timestamp": "2026-04-12T22:45:00+00:00",
     "MinorFlood": 6,
     "MajorFlood": 7.9,
     "Latitude": 20.95969444,
@@ -339,8 +339,8 @@
     "SiteName": "Kahoma Stream at Lahaina, Maui, HI",
     "SiteCode": "16638500",
     "VariableDescription": "Gage height, feet",
-    "Value": 0.42,
-    "Timestamp": "2026-04-12T22:35:00+00:00",
+    "Value": 0.41,
+    "Timestamp": "2026-04-12T22:50:00+00:00",
     "MinorFlood": 6,
     "MajorFlood": 8.61,
     "Latitude": 20.88313889,
