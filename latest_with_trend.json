@@ -59,15 +59,15 @@
     "SiteName": "Kawela Gulch near Moku, Molokai, HI",
     "SiteCode": "16415600",
     "VariableDescription": "Gage height, feet",
-    "Value": 8.75,
-    "Timestamp": "2026-04-12T11:35:00+00:00",
+    "Value": 8.71,
+    "Timestamp": "2026-04-12T12:35:00+00:00",
     "MinorFlood": 10,
     "MajorFlood": null,
     "Latitude": 21.06997222,
     "Longitude": -156.9483333,
     "Kona1Max": 12.3,
     "Kona2Max": 13.4,
-    "Trend": "↓ 0.05"
+    "Trend": "↓ 0.06"
   },
   {
     "SiteName": "LB Honoulimaloo Str US diversion, Molokai, HI",
@@ -228,7 +228,7 @@
     "SiteCode": "16604500",
     "VariableDescription": "Gage height, feet",
     "Value": 1.24,
-    "Timestamp": "2026-04-12T12:20:00+00:00",
+    "Timestamp": "2026-04-12T12:35:00+00:00",
     "MinorFlood": 8.5,
     "MajorFlood": null,
     "Latitude": 20.88238889,
