@@ -67,7 +67,7 @@
     "Longitude": -156.9483333,
     "Kona1Max": 12.3,
     "Kona2Max": 13.4,
-    "Trend": "↓ 0.03"
+    "Trend": "↓ 0.02"
   },
   {
     "SiteName": "LB Honoulimaloo Str US diversion, Molokai, HI",
@@ -227,22 +227,22 @@
     "SiteName": "Wailuku River at Kepaniwai Park, Maui, HI",
     "SiteCode": "16604500",
     "VariableDescription": "Gage height, feet",
-    "Value": 1.19,
-    "Timestamp": "2026-04-12T21:05:00+00:00",
+    "Value": 1.18,
+    "Timestamp": "2026-04-12T21:20:00+00:00",
     "MinorFlood": 8.5,
     "MajorFlood": null,
     "Latitude": 20.88238889,
     "Longitude": -156.5392778,
     "Kona1Max": 8.3,
     "Kona2Max": 4.0,
-    "Trend": "-- 0.00"
+    "Trend": "-- 0.01"
   },
   {
     "SiteName": "Wailuku River at Iao Valley Road, Maui, HI",
     "SiteCode": "16605500",
     "VariableDescription": "Gage height, feet",
     "Value": 8.99,
-    "Timestamp": "2026-04-12T21:05:00+00:00",
+    "Timestamp": "2026-04-12T21:20:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.88297222,
@@ -284,7 +284,7 @@
     "SiteCode": "16614500",
     "VariableDescription": "Gage height, feet",
     "Value": 2.58,
-    "Timestamp": "2026-04-12T20:20:00+00:00",
+    "Timestamp": "2026-04-12T21:20:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.94267359,
@@ -340,7 +340,7 @@
     "SiteCode": "16638500",
     "VariableDescription": "Gage height, feet",
     "Value": 0.45,
-    "Timestamp": "2026-04-12T21:05:00+00:00",
+    "Timestamp": "2026-04-12T21:20:00+00:00",
     "MinorFlood": 6,
     "MajorFlood": 8.61,
     "Latitude": 20.88313889,
