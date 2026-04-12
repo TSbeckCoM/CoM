@@ -11,7 +11,7 @@
     "Longitude": -156.7619722,
     "Kona1Max": 9.3,
     "Kona2Max": 9.2,
-    "Trend": "↓ 0.06"
+    "Trend": "↓ 0.05"
   },
   {
     "SiteName": "Waihanau Stream nr Kalaupapa, Molokai, HI",
@@ -186,14 +186,14 @@
     "SiteCode": "16552800",
     "VariableDescription": "Gage height, feet",
     "Value": 0.6,
-    "Timestamp": "2026-04-12T15:25:00+00:00",
+    "Timestamp": "2026-04-12T16:25:00+00:00",
     "MinorFlood": 5.4,
     "MajorFlood": 8.2,
     "Latitude": 20.80538889,
     "Longitude": -156.2312222,
     "Kona1Max": 6.5,
     "Kona2Max": 3.0,
-    "Trend": "-- 0.01"
+    "Trend": "-- 0.00"
   },
   {
     "SiteName": "Nailiilihaele Stream near Huelo, Maui, HI",
