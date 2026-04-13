@@ -11,7 +11,7 @@
     "Longitude": -156.7619722,
     "Kona1Max": 9.3,
     "Kona2Max": 9.2,
-    "Trend": "↓ 0.31"
+    "Trend": "↓ 0.29"
   },
   {
     "SiteName": "Waihanau Stream nr Kalaupapa, Molokai, HI",
@@ -207,7 +207,7 @@
     "Longitude": -156.2155556,
     "Kona1Max": 4.8,
     "Kona2Max": 6.8,
-    "Trend": "↓ 0.13"
+    "Trend": "↓ 0.12"
   },
   {
     "SiteName": "Honopou Stream near Huelo, Maui, HI",
@@ -221,7 +221,7 @@
     "Longitude": -156.2525556,
     "Kona1Max": 2.5,
     "Kona2Max": 3.1,
-    "Trend": "↓ 0.11"
+    "Trend": "↓ 0.10"
   },
   {
     "SiteName": "Wailuku River at Kepaniwai Park, Maui, HI",
@@ -235,7 +235,7 @@
     "Longitude": -156.5392778,
     "Kona1Max": 8.3,
     "Kona2Max": 4.0,
-    "Trend": "↓ 0.06"
+    "Trend": "↓ 0.05"
   },
   {
     "SiteName": "Wailuku River at Iao Valley Road, Maui, HI",
@@ -249,7 +249,7 @@
     "Longitude": -156.5338333,
     "Kona1Max": 13.4,
     "Kona2Max": 13.5,
-    "Trend": "↓ 0.16"
+    "Trend": "↓ 0.15"
   },
   {
     "SiteName": "S Waiehu Str US of ditch at alt. 315 ft, Maui, HI",
@@ -263,7 +263,7 @@
     "Longitude": -156.5094417,
     "Kona1Max": 6.1,
     "Kona2Max": 5.4,
-    "Trend": "↓ 0.18"
+    "Trend": "↓ 0.17"
   },
   {
     "SiteName": "Waihee Rv abv Waihee Dtch intk nr Waihee, Maui, HI",
@@ -277,7 +277,7 @@
     "Longitude": -156.5468333,
     "Kona1Max": 6.7,
     "Kona2Max": 5.6,
-    "Trend": "↓ 0.18"
+    "Trend": "↓ 0.17"
   },
   {
     "SiteName": "Waihee Stream blw Spreckels Ditch, Maui, HI",
@@ -291,7 +291,7 @@
     "Longitude": -156.53263277,
     "Kona1Max": null,
     "Kona2Max": null,
-    "Trend": "↓ 0.21"
+    "Trend": "↓ 0.19"
   },
   {
     "SiteName": "Kahakuloa Stream near Honokohau, Maui, HI",
@@ -305,7 +305,7 @@
     "Longitude": -156.5545,
     "Kona1Max": 5.3,
     "Kona2Max": 5.7,
-    "Trend": "↓ 0.30"
+    "Trend": "↓ 0.29"
   },
   {
     "SiteName": "Honokohau Stream near Honokohau, Maui, HI",
@@ -319,7 +319,7 @@
     "Longitude": -156.5870556,
     "Kona1Max": 6.1,
     "Kona2Max": 5.8,
-    "Trend": "↓ 0.24"
+    "Trend": "↓ 0.23"
   },
   {
     "SiteName": "Honokahua Stream at Honoapiilani Highway, Maui, HI",
@@ -347,7 +347,7 @@
     "Longitude": -156.6770833,
     "Kona1Max": 3.5,
     "Kona2Max": 3.2,
-    "Trend": "↓ 0.27"
+    "Trend": "↓ 0.26"
   },
   {
     "SiteName": "Kauaula Stream US of ditch diversion, Maui, HI",
@@ -403,6 +403,6 @@
     "Longitude": -156.53647699,
     "Kona1Max": 6.5,
     "Kona2Max": 5.7,
-    "Trend": "↓ 0.06"
+    "Trend": "↓ 0.05"
   }
 ]
