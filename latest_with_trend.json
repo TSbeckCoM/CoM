@@ -60,7 +60,7 @@
     "SiteCode": "16415600",
     "VariableDescription": "Gage height, feet",
     "Value": 7.82,
-    "Timestamp": "2026-04-16T18:35:00+00:00",
+    "Timestamp": "2026-04-16T19:35:00+00:00",
     "MinorFlood": 10,
     "MajorFlood": null,
     "Latitude": 21.06997222,
@@ -333,7 +333,7 @@
     "Longitude": -156.6495306,
     "Kona1Max": 1.7,
     "Kona2Max": 1.7,
-    "Trend": "↑ 0.41"
+    "Trend": "↑ 0.42"
   },
   {
     "SiteName": "Kahoma Stream at Lahaina, Maui, HI",
