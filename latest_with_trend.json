@@ -186,7 +186,7 @@
     "SiteCode": "16552800",
     "VariableDescription": "Gage height, feet",
     "Value": 0.57,
-    "Timestamp": "2026-04-19T13:25:00+00:00",
+    "Timestamp": "2026-04-19T14:25:00+00:00",
     "MinorFlood": 5.4,
     "MajorFlood": 8.2,
     "Latitude": 20.80538889,
@@ -305,7 +305,7 @@
     "Longitude": -156.5545,
     "Kona1Max": 5.3,
     "Kona2Max": 5.7,
-    "Trend": "-- 0.01"
+    "Trend": "-- 0.00"
   },
   {
     "SiteName": "Honokohau Stream near Honokohau, Maui, HI",
@@ -326,7 +326,7 @@
     "SiteCode": "16623300",
     "VariableDescription": "Gage height, feet",
     "Value": -0.54,
-    "Timestamp": "2026-04-19T13:25:00+00:00",
+    "Timestamp": "2026-04-19T14:25:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.9998111,
