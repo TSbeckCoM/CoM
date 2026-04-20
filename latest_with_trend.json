@@ -87,15 +87,15 @@
     "SiteName": "Oheo Gulch at dam near Kipahulu, Maui, HI",
     "SiteCode": "16501200",
     "VariableDescription": "Gage height, feet",
-    "Value": 0.74,
-    "Timestamp": "2026-04-20T13:30:00+00:00",
+    "Value": 0.76,
+    "Timestamp": "2026-04-20T14:05:00+00:00",
     "MinorFlood": 7,
     "MajorFlood": 12.4,
     "Latitude": 20.6683611,
     "Longitude": -156.0522222,
     "Kona1Max": 9.4,
     "Kona2Max": 6.4,
-    "Trend": "↑ 0.02"
+    "Trend": "↑ 0.04"
   },
   {
     "SiteName": "Hanawi Stream near Nahiku, Maui, HI",
@@ -172,14 +172,14 @@
     "SiteCode": "16545000",
     "VariableDescription": "Gage height, feet",
     "Value": 2.13,
-    "Timestamp": "2026-04-20T13:10:00+00:00",
+    "Timestamp": "2026-04-20T14:10:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.85263746,
     "Longitude": -156.18858547,
     "Kona1Max": 5.4,
     "Kona2Max": 7.4,
-    "Trend": "-- 0.01"
+    "Trend": "-- 0.00"
   },
   {
     "SiteName": "Waikamoi Str abv Kula PL intake nr Olinda, Maui,HI",
