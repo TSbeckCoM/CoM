@@ -123,7 +123,7 @@
     "Longitude": -156.1429722,
     "Kona1Max": 9.0,
     "Kona2Max": 11.8,
-    "Trend": "-- 0.01"
+    "Trend": "-- 0.00"
   },
   {
     "SiteName": "Honomanu Stream near Keanae, Maui, HI",
@@ -186,7 +186,7 @@
     "SiteCode": "16552800",
     "VariableDescription": "Gage height, feet",
     "Value": 0.54,
-    "Timestamp": "2026-04-21T10:25:00+00:00",
+    "Timestamp": "2026-04-21T11:25:00+00:00",
     "MinorFlood": 5.4,
     "MajorFlood": 8.2,
     "Latitude": 20.80538889,
