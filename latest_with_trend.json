@@ -171,15 +171,15 @@
     "SiteName": "Puohokamoa Str ab Spreckels Ditch, Maui, HI",
     "SiteCode": "16545000",
     "VariableDescription": "Gage height, feet",
-    "Value": 2.03,
-    "Timestamp": "2026-04-22T07:10:00+00:00",
+    "Value": 2.02,
+    "Timestamp": "2026-04-22T08:10:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.85263746,
     "Longitude": -156.18858547,
     "Kona1Max": 5.4,
     "Kona2Max": 7.4,
-    "Trend": "-- 0.00"
+    "Trend": "-- 0.01"
   },
   {
     "SiteName": "Waikamoi Str abv Kula PL intake nr Olinda, Maui,HI",
@@ -235,7 +235,7 @@
     "Longitude": -156.5392778,
     "Kona1Max": 8.3,
     "Kona2Max": 4.0,
-    "Trend": "-- 0.01"
+    "Trend": "-- 0.00"
   },
   {
     "SiteName": "Wailuku River at Iao Valley Road, Maui, HI",
@@ -347,7 +347,7 @@
     "Longitude": -156.6770833,
     "Kona1Max": 3.5,
     "Kona2Max": 3.2,
-    "Trend": "-- 0.00"
+    "Trend": "-- 0.01"
   },
   {
     "SiteName": "Kauaula Stream US of ditch diversion, Maui, HI",
