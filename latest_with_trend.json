@@ -32,7 +32,7 @@
     "SiteCode": "16414200",
     "VariableDescription": "Gage height, feet",
     "Value": 4.9,
-    "Timestamp": "2026-04-23T11:55:00+00:00",
+    "Timestamp": "2026-04-23T12:55:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 21.09652778,
@@ -130,7 +130,7 @@
     "SiteCode": "16527000",
     "VariableDescription": "Gage height, feet",
     "Value": 3.11,
-    "Timestamp": "2026-04-23T11:55:00+00:00",
+    "Timestamp": "2026-04-23T12:55:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.831325,
@@ -291,7 +291,7 @@
     "Longitude": -156.53263277,
     "Kona1Max": null,
     "Kona2Max": null,
-    "Trend": "-- 0.00"
+    "Trend": "-- 0.01"
   },
   {
     "SiteName": "Kahakuloa Stream near Honokohau, Maui, HI",
