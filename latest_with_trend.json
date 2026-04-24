@@ -4,7 +4,7 @@
     "SiteCode": "16400000",
     "VariableDescription": "Gage height, feet",
     "Value": 2.18,
-    "Timestamp": "2026-04-24T17:05:00+00:00",
+    "Timestamp": "2026-04-24T17:20:00+00:00",
     "MinorFlood": 9.5,
     "MajorFlood": 19.9,
     "Latitude": 21.1555,
@@ -186,7 +186,7 @@
     "SiteCode": "16552800",
     "VariableDescription": "Gage height, feet",
     "Value": 0.51,
-    "Timestamp": "2026-04-24T16:25:00+00:00",
+    "Timestamp": "2026-04-24T17:25:00+00:00",
     "MinorFlood": 5.4,
     "MajorFlood": 8.2,
     "Latitude": 20.80538889,
@@ -227,15 +227,15 @@
     "SiteName": "Wailuku River at Kepaniwai Park, Maui, HI",
     "SiteCode": "16604500",
     "VariableDescription": "Gage height, feet",
-    "Value": 0.9,
-    "Timestamp": "2026-04-24T17:05:00+00:00",
+    "Value": 0.91,
+    "Timestamp": "2026-04-24T17:20:00+00:00",
     "MinorFlood": 8.5,
     "MajorFlood": null,
     "Latitude": 20.88238889,
     "Longitude": -156.5392778,
     "Kona1Max": 8.3,
     "Kona2Max": 4.0,
-    "Trend": "-- 0.00"
+    "Trend": "-- 0.01"
   },
   {
     "SiteName": "Wailuku River at Iao Valley Road, Maui, HI",
@@ -354,7 +354,7 @@
     "SiteCode": "16641000",
     "VariableDescription": "Gage height, feet",
     "Value": 4.53,
-    "Timestamp": "2026-04-24T17:05:00+00:00",
+    "Timestamp": "2026-04-24T17:20:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.87763889,
@@ -395,14 +395,14 @@
     "SiteName": "Waikapu Str US of S Waikapu Dt intake, Maui, HI",
     "SiteCode": "16647900",
     "VariableDescription": "Gage height, feet",
-    "Value": 2.1,
-    "Timestamp": "2026-04-24T17:05:00+00:00",
+    "Value": 2.09,
+    "Timestamp": "2026-04-24T17:20:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.85577379,
     "Longitude": -156.53647699,
     "Kona1Max": 6.5,
     "Kona2Max": 5.7,
-    "Trend": "-- 0.01"
+    "Trend": "-- 0.00"
   }
 ]
