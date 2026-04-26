@@ -4,7 +4,7 @@
     "SiteCode": "16400000",
     "VariableDescription": "Gage height, feet",
     "Value": 1.84,
-    "Timestamp": "2026-04-26T06:35:00+00:00",
+    "Timestamp": "2026-04-26T06:50:00+00:00",
     "MinorFlood": 9.5,
     "MajorFlood": 19.9,
     "Latitude": 21.1555,
@@ -179,7 +179,7 @@
     "Longitude": -156.18858547,
     "Kona1Max": 5.4,
     "Kona2Max": 7.4,
-    "Trend": "↑ 0.20"
+    "Trend": "↑ 0.19"
   },
   {
     "SiteName": "Waikamoi Str abv Kula PL intake nr Olinda, Maui,HI",
@@ -228,7 +228,7 @@
     "SiteCode": "16604500",
     "VariableDescription": "Gage height, feet",
     "Value": 1.03,
-    "Timestamp": "2026-04-26T06:35:00+00:00",
+    "Timestamp": "2026-04-26T06:50:00+00:00",
     "MinorFlood": 8.5,
     "MajorFlood": null,
     "Latitude": 20.88238889,
@@ -242,7 +242,7 @@
     "SiteCode": "16605500",
     "VariableDescription": "Gage height, feet",
     "Value": 10.09,
-    "Timestamp": "2026-04-26T06:30:00+00:00",
+    "Timestamp": "2026-04-26T06:45:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.88297222,
@@ -263,21 +263,21 @@
     "Longitude": -156.5094417,
     "Kona1Max": 6.1,
     "Kona2Max": 5.4,
-    "Trend": "↓ 0.04"
+    "Trend": "↓ 0.05"
   },
   {
     "SiteName": "Waihee Rv abv Waihee Dtch intk nr Waihee, Maui, HI",
     "SiteCode": "16614000",
     "VariableDescription": "Gage height, feet",
-    "Value": 1.73,
-    "Timestamp": "2026-04-26T06:35:00+00:00",
+    "Value": 1.72,
+    "Timestamp": "2026-04-26T06:50:00+00:00",
     "MinorFlood": 6,
     "MajorFlood": 11,
     "Latitude": 20.9358611,
     "Longitude": -156.5468333,
     "Kona1Max": 6.7,
     "Kona2Max": 5.6,
-    "Trend": "↓ 0.03"
+    "Trend": "↓ 0.04"
   },
   {
     "SiteName": "Waihee River blw Spreckels Ditch, Maui, HI",
@@ -340,7 +340,7 @@
     "SiteCode": "16638500",
     "VariableDescription": "Gage height, feet",
     "Value": 0.36,
-    "Timestamp": "2026-04-26T06:35:00+00:00",
+    "Timestamp": "2026-04-26T06:50:00+00:00",
     "MinorFlood": 6,
     "MajorFlood": 8.61,
     "Latitude": 20.88313889,
@@ -354,7 +354,7 @@
     "SiteCode": "16641000",
     "VariableDescription": "Gage height, feet",
     "Value": 4.52,
-    "Timestamp": "2026-04-26T06:35:00+00:00",
+    "Timestamp": "2026-04-26T06:50:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.87763889,
@@ -395,14 +395,14 @@
     "SiteName": "Waikapu Str US of S Waikapu Dt intake, Maui, HI",
     "SiteCode": "16647900",
     "VariableDescription": "Gage height, feet",
-    "Value": 2.09,
-    "Timestamp": "2026-04-26T06:35:00+00:00",
+    "Value": 2.1,
+    "Timestamp": "2026-04-26T06:50:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.85577379,
     "Longitude": -156.53647699,
     "Kona1Max": 6.5,
     "Kona2Max": 5.7,
-    "Trend": "-- 0.01"
+    "Trend": "-- 0.00"
   }
 ]
