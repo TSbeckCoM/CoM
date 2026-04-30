@@ -228,7 +228,7 @@
     "SiteCode": "16604500",
     "VariableDescription": "Gage height, feet",
     "Value": 1.12,
-    "Timestamp": "2026-04-30T09:05:00+00:00",
+    "Timestamp": "2026-04-30T09:20:00+00:00",
     "MinorFlood": 8.5,
     "MajorFlood": null,
     "Latitude": 20.88238889,
@@ -325,15 +325,15 @@
     "SiteName": "Honokahua Stream at Honoapiilani Highway, Maui, HI",
     "SiteCode": "16623300",
     "VariableDescription": "Gage height, feet",
-    "Value": -0.52,
-    "Timestamp": "2026-04-30T08:25:00+00:00",
+    "Value": -0.31,
+    "Timestamp": "2026-04-30T09:25:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.9998111,
     "Longitude": -156.6495306,
     "Kona1Max": 1.7,
     "Kona2Max": 1.7,
-    "Trend": "↓ 0.38"
+    "Trend": "↓ 0.07"
   },
   {
     "SiteName": "Kahoma Stream at Lahaina, Maui, HI",
@@ -354,14 +354,14 @@
     "SiteCode": "16641000",
     "VariableDescription": "Gage height, feet",
     "Value": 4.58,
-    "Timestamp": "2026-04-30T09:05:00+00:00",
+    "Timestamp": "2026-04-30T09:20:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.87763889,
     "Longitude": -156.6224167,
     "Kona1Max": 15.2,
     "Kona2Max": null,
-    "Trend": "↓ 0.03"
+    "Trend": "↓ 0.02"
   },
   {
     "SiteName": "Kauaula Stream DS of ditch diversion, Maui, HI",
@@ -396,7 +396,7 @@
     "SiteCode": "16647900",
     "VariableDescription": "Gage height, feet",
     "Value": 2.06,
-    "Timestamp": "2026-04-30T09:05:00+00:00",
+    "Timestamp": "2026-04-30T09:20:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.85577379,
