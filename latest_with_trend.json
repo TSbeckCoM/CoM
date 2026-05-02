@@ -179,14 +179,14 @@
     "Longitude": -156.18858547,
     "Kona1Max": 5.4,
     "Kona2Max": 7.4,
-    "Trend": "↑ 0.02"
+    "Trend": "↑ 0.03"
   },
   {
     "SiteName": "Waikamoi Str abv Kula PL intake nr Olinda, Maui,HI",
     "SiteCode": "16552800",
     "VariableDescription": "Gage height, feet",
-    "Value": 0.75,
-    "Timestamp": "2026-05-02T16:25:00+00:00",
+    "Value": 0.74,
+    "Timestamp": "2026-05-02T17:25:00+00:00",
     "MinorFlood": 5.4,
     "MajorFlood": 8.2,
     "Latitude": 20.80538889,
@@ -263,7 +263,7 @@
     "Longitude": -156.5094417,
     "Kona1Max": 6.1,
     "Kona2Max": 5.4,
-    "Trend": "↓ 0.04"
+    "Trend": "↓ 0.05"
   },
   {
     "SiteName": "Waihee Rv abv Waihee Dtch intk nr Waihee, Maui, HI",
@@ -305,7 +305,7 @@
     "Longitude": -156.5545,
     "Kona1Max": 5.3,
     "Kona2Max": 5.7,
-    "Trend": "↑ 0.19"
+    "Trend": "↑ 0.18"
   },
   {
     "SiteName": "Honokohau Stream near Honokohau, Maui, HI",
@@ -333,7 +333,7 @@
     "Longitude": -156.6495306,
     "Kona1Max": 1.7,
     "Kona2Max": 1.7,
-    "Trend": "↓ 0.76"
+    "Trend": "↓ 0.77"
   },
   {
     "SiteName": "Kahoma Stream at Lahaina, Maui, HI",
