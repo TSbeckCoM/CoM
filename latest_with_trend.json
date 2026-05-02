@@ -186,7 +186,7 @@
     "SiteCode": "16552800",
     "VariableDescription": "Gage height, feet",
     "Value": 0.74,
-    "Timestamp": "2026-05-02T17:25:00+00:00",
+    "Timestamp": "2026-05-02T18:25:00+00:00",
     "MinorFlood": 5.4,
     "MajorFlood": 8.2,
     "Latitude": 20.80538889,
@@ -325,15 +325,15 @@
     "SiteName": "Honokahua Stream at Honoapiilani Highway, Maui, HI",
     "SiteCode": "16623300",
     "VariableDescription": "Gage height, feet",
-    "Value": -0.51,
-    "Timestamp": "2026-05-02T17:25:00+00:00",
+    "Value": 0.22,
+    "Timestamp": "2026-05-02T18:25:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.9998111,
     "Longitude": -156.6495306,
     "Kona1Max": 1.7,
     "Kona2Max": 1.7,
-    "Trend": "↓ 0.74"
+    "Trend": "-- 0.02"
   },
   {
     "SiteName": "Kahoma Stream at Lahaina, Maui, HI",
