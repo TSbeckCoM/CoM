@@ -3,15 +3,15 @@
     "SiteName": "Halawa Stream near Halawa, Molokai, HI",
     "SiteCode": "16400000",
     "VariableDescription": "Gage height, feet",
-    "Value": 4.65,
-    "Timestamp": "2026-05-06T02:35:00+00:00",
+    "Value": 4.3,
+    "Timestamp": "2026-05-06T03:05:00+00:00",
     "MinorFlood": 9.5,
     "MajorFlood": 19.9,
     "Latitude": 21.1555,
     "Longitude": -156.7619722,
     "Kona1Max": 9.3,
     "Kona2Max": 9.2,
-    "Trend": "-- 0.01"
+    "Trend": "↓ 0.32"
   },
   {
     "SiteName": "Waihanau Stream nr Kalaupapa, Molokai, HI",
@@ -32,7 +32,7 @@
     "SiteCode": "16414200",
     "VariableDescription": "Gage height, feet",
     "Value": 4.9,
-    "Timestamp": "2026-05-06T01:55:00+00:00",
+    "Timestamp": "2026-05-06T02:55:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 21.09652778,
@@ -53,7 +53,7 @@
     "Longitude": -156.9033278,
     "Kona1Max": 6.4,
     "Kona2Max": 6.6,
-    "Trend": "↑ 0.59"
+    "Trend": "↑ 0.60"
   },
   {
     "SiteName": "Kawela Gulch near Moku, Molokai, HI",
@@ -95,7 +95,7 @@
     "Longitude": -156.0522222,
     "Kona1Max": 9.4,
     "Kona2Max": 6.4,
-    "Trend": "↑ 0.12"
+    "Trend": "↑ 0.11"
   },
   {
     "SiteName": "Hanawi Stream near Nahiku, Maui, HI",
@@ -115,29 +115,29 @@
     "SiteName": "West Wailuaiki Stream near Keanae, Maui, HI",
     "SiteCode": "16518000",
     "VariableDescription": "Gage height, feet",
-    "Value": 1.88,
-    "Timestamp": "2026-05-06T02:50:00+00:00",
+    "Value": 1.9,
+    "Timestamp": "2026-05-06T03:05:00+00:00",
     "MinorFlood": 10,
     "MajorFlood": 13.5,
     "Latitude": 20.8143611,
     "Longitude": -156.1429722,
     "Kona1Max": 9.0,
     "Kona2Max": 11.8,
-    "Trend": "↑ 0.03"
+    "Trend": "↑ 0.05"
   },
   {
     "SiteName": "Honomanu Stream near Keanae, Maui, HI",
     "SiteCode": "16527000",
     "VariableDescription": "Gage height, feet",
-    "Value": 3.94,
-    "Timestamp": "2026-05-06T01:55:00+00:00",
+    "Value": 3.95,
+    "Timestamp": "2026-05-06T02:55:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.831325,
     "Longitude": -156.1872889,
     "Kona1Max": 8.2,
     "Kona2Max": 9.8,
-    "Trend": "↓ 0.09"
+    "Trend": "↓ 0.04"
   },
   {
     "SiteName": "Honomanu Stream near Hana Hwy, Maui, HI",
@@ -165,7 +165,7 @@
     "Longitude": -156.1885556,
     "Kona1Max": 4.0,
     "Kona2Max": 5.2,
-    "Trend": "↓ 0.12"
+    "Trend": "↓ 0.11"
   },
   {
     "SiteName": "Puohokamoa Str ab Spreckels Ditch, Maui, HI",
@@ -207,7 +207,7 @@
     "Longitude": -156.2155556,
     "Kona1Max": 4.8,
     "Kona2Max": 6.8,
-    "Trend": "↓ 0.17"
+    "Trend": "↓ 0.15"
   },
   {
     "SiteName": "Honopou Stream near Huelo, Maui, HI",
@@ -228,7 +228,7 @@
     "SiteCode": "16604500",
     "VariableDescription": "Gage height, feet",
     "Value": 1.29,
-    "Timestamp": "2026-05-06T02:35:00+00:00",
+    "Timestamp": "2026-05-06T03:05:00+00:00",
     "MinorFlood": 8.5,
     "MajorFlood": null,
     "Latitude": 20.88238889,
@@ -241,15 +241,15 @@
     "SiteName": "Wailuku River at Iao Valley Road, Maui, HI",
     "SiteCode": "16605500",
     "VariableDescription": "Gage height, feet",
-    "Value": 10.33,
-    "Timestamp": "2026-05-06T02:35:00+00:00",
+    "Value": 10.32,
+    "Timestamp": "2026-05-06T03:05:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.88297222,
     "Longitude": -156.5338333,
     "Kona1Max": 13.4,
     "Kona2Max": 13.5,
-    "Trend": "-- 0.01"
+    "Trend": "-- 0.02"
   },
   {
     "SiteName": "S Waiehu Str US of ditch at alt. 315 ft, Maui, HI",
@@ -270,14 +270,14 @@
     "SiteCode": "16614000",
     "VariableDescription": "Gage height, feet",
     "Value": 1.8,
-    "Timestamp": "2026-05-06T02:35:00+00:00",
+    "Timestamp": "2026-05-06T03:05:00+00:00",
     "MinorFlood": 6,
     "MajorFlood": 11,
     "Latitude": 20.9358611,
     "Longitude": -156.5468333,
     "Kona1Max": 6.7,
     "Kona2Max": 5.6,
-    "Trend": "↓ 0.02"
+    "Trend": "-- 0.02"
   },
   {
     "SiteName": "Waihee River blw Spreckels Ditch, Maui, HI",
@@ -297,15 +297,15 @@
     "SiteName": "Kahakuloa Stream near Honokohau, Maui, HI",
     "SiteCode": "16618000",
     "VariableDescription": "Gage height, feet",
-    "Value": 0.85,
-    "Timestamp": "2026-05-06T02:35:00+00:00",
+    "Value": 0.82,
+    "Timestamp": "2026-05-06T03:05:00+00:00",
     "MinorFlood": 6,
     "MajorFlood": 12.4,
     "Latitude": 20.97869444,
     "Longitude": -156.5545,
     "Kona1Max": 5.3,
     "Kona2Max": 5.7,
-    "Trend": "-- 0.00"
+    "Trend": "↓ 0.02"
   },
   {
     "SiteName": "Honokohau Stream near Honokohau, Maui, HI",
@@ -333,28 +333,28 @@
     "Longitude": -156.6495306,
     "Kona1Max": 1.7,
     "Kona2Max": 1.7,
-    "Trend": "-- 0.02"
+    "Trend": "↓ 0.02"
   },
   {
     "SiteName": "Kahoma Stream at Lahaina, Maui, HI",
     "SiteCode": "16638500",
     "VariableDescription": "Gage height, feet",
-    "Value": 0.46,
-    "Timestamp": "2026-05-06T02:50:00+00:00",
+    "Value": 0.45,
+    "Timestamp": "2026-05-06T03:05:00+00:00",
     "MinorFlood": 6,
     "MajorFlood": 8.61,
     "Latitude": 20.88313889,
     "Longitude": -156.6770833,
     "Kona1Max": 3.5,
     "Kona2Max": 3.2,
-    "Trend": "-- 0.01"
+    "Trend": "-- 0.02"
   },
   {
     "SiteName": "Kauaula Stream US of ditch diversion, Maui, HI",
     "SiteCode": "16641000",
     "VariableDescription": "Gage height, feet",
     "Value": 4.57,
-    "Timestamp": "2026-05-06T02:35:00+00:00",
+    "Timestamp": "2026-05-06T03:05:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.87763889,
@@ -395,14 +395,14 @@
     "SiteName": "Waikapu Str US of S Waikapu Dt intake, Maui, HI",
     "SiteCode": "16647900",
     "VariableDescription": "Gage height, feet",
-    "Value": 2.2,
-    "Timestamp": "2026-05-06T02:35:00+00:00",
+    "Value": 2.21,
+    "Timestamp": "2026-05-06T03:05:00+00:00",
     "MinorFlood": null,
     "MajorFlood": null,
     "Latitude": 20.85577379,
     "Longitude": -156.53647699,
     "Kona1Max": 6.5,
     "Kona2Max": 5.7,
-    "Trend": "-- 0.01"
+    "Trend": "-- 0.00"
   }
 ]
